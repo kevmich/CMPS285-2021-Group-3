@@ -12,6 +12,7 @@ using SmartSub.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace SmartSub
@@ -28,8 +29,23 @@ namespace SmartSub
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
+            
+            //connection string config for OS
+            string connection = String.Empty;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                // MSSQL running locally
+                connection = Configuration.GetConnectionString("Server=(localdb)\\mssqllocaldb;Database=SmartSub;Trusted_Connection=True");
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                // MSSQL running in Docker container
+                connection = Configuration.GetConnectionString("Server=localhost,1433;Database=Chinook;User=sa;Password=<UpdatePassword>;Trusted_Connection=False;");
+            }
+            services.AddDbContextPool<DataContext>(options => options.UseSqlServer(connection));
+
+            
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DataContext")));
 
