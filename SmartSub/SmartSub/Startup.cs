@@ -43,12 +43,8 @@ namespace SmartSub
                 // MSSQL running in Docker container
                 connection = Configuration.GetConnectionString("Server=localhost,1433;Database=Chinook;User=sa;Password=<UpdatePassword>;Trusted_Connection=False;");
             }
-            services.AddDbContextPool<DataContext>(options => options.UseSqlServer(connection));
-
+            services.AddDbContext<DataContext>(options => options.UseSqlServer(connection));
             
-            services.AddDbContext<DataContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DataContext")));
-
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartSub", Version = "v1" });
