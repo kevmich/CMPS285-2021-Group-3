@@ -32,18 +32,16 @@ namespace SmartSub
             services.AddControllers();
             
             //connection string config for OS
-            string connection = String.Empty;
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 // MSSQL running locally
-                connection = Configuration.GetConnectionString("Server=(localdb)\\mssqllocaldb;Database=SmartSub;Trusted_Connection=True");
+                services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MSDataContext")));
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
                 // MSSQL running in Docker container
-                connection = Configuration.GetConnectionString("Server=localhost,1433;Database=Chinook;User=sa;Password=<UpdatePassword>;Trusted_Connection=False;");
+                services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("OSXDataContext")));            
             }
-            services.AddDbContext<DataContext>(options => options.UseSqlServer(connection));
             
             services.AddSwaggerGen(c =>
             {
