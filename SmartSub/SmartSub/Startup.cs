@@ -12,6 +12,7 @@ using SmartSub.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace SmartSub
@@ -28,11 +29,20 @@ namespace SmartSub
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
-            services.AddDbContext<DataContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DataContext")));
-
+            
+            //connection string config for OS
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                // MSSQL running locally
+                services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MSDataContext")));
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                // MSSQL running in Docker container
+                services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("OSXDataContext")));            
+            }
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartSub", Version = "v1" });

@@ -943,3 +943,5 @@ dist
 .dynamodb/
 
 # TernJS port file
+SmartSub/.idea/.idea.SmartSub/.idea
+SmartSub/.idea
