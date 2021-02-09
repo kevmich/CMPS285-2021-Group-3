@@ -31,5 +31,6 @@ namespace SmartSub.Data
                 .WithMany(x => x.Roles)
                 .HasForeignKey(x => x.UserId);
         }
+        public DbSet<TierTable> TierTables { get; set; }
     }
 }
