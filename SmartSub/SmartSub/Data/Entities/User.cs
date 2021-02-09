@@ -9,6 +9,8 @@ namespace SmartSub.Data.Entities
     public class User : IdentityUser<int>
     {
         public virtual ICollection<UserRole> Roles { get; set; } = new List<UserRole>();
+        public ICollection<TierTable> TierTables { get; set; }
+        public int TierTableId { get; set; }
 
     }
 }
