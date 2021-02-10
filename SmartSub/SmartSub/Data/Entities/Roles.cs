@@ -8,7 +8,8 @@ namespace SmartSub.Data.Entities
 {
     internal static class Roles
     {
-      private static bool HasAnyRole(ClaimsPrincipal user, string target)
+        public const string User = nameof(User);
+        private static bool HasAnyRole(ClaimsPrincipal user, string target)
         {
             foreach (var role in target.Split(","))
             {

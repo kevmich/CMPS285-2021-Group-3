@@ -16,6 +16,7 @@ namespace SmartSub.Data
         {
         }
         DbSet<Subscription> Subscriptions { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -31,5 +32,6 @@ namespace SmartSub.Data
                 .WithMany(x => x.Roles)
                 .HasForeignKey(x => x.UserId);
         }
+        
     }
 }

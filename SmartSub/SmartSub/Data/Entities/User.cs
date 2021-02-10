@@ -10,5 +10,7 @@ namespace SmartSub.Data.Entities
     {
         public virtual ICollection<UserRole> Roles { get; set; } = new List<UserRole>();
 
+        public ICollection<Subscription> Subscription { get; set; } = new List<Subscription>();
+
     }
 }

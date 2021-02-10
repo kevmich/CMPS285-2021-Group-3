@@ -141,10 +141,27 @@ namespace SmartSub.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Name")
+                    b.Property<int>("Frequency")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Provider")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("RenewDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("userId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("userId");
 
                     b.ToTable("Subscriptions");
                 });
@@ -267,6 +284,17 @@ namespace SmartSub.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SmartSub.Data.Entities.Subscription", b =>
+                {
+                    b.HasOne("SmartSub.Data.Entities.User", "User")
+                        .WithMany("Subscription")
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("SmartSub.Data.Entities.UserRole", b =>
                 {
                     b.HasOne("SmartSub.Data.Entities.Role", "Role")
@@ -294,6 +322,8 @@ namespace SmartSub.Migrations
             modelBuilder.Entity("SmartSub.Data.Entities.User", b =>
                 {
                     b.Navigation("Roles");
+
+                    b.Navigation("Subscription");
                 });
 #pragma warning restore 612, 618
         }
