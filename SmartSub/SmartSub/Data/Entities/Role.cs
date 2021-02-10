@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SmartSub.Data.Entities
 {
-    public class Role : IdentityRole<int> 
+    public class Role : IdentityRole<int> // amount of access to website 
     {
         public virtual ICollection<UserRole> Users { get; set; } = new List<UserRole>();
     }

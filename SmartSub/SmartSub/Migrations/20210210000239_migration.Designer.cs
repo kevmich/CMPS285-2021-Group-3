@@ -10,8 +10,8 @@ using SmartSub.Data;
 namespace SmartSub.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210205174944_identity")]
-    partial class identity
+    [Migration("20210210000239_migration")]
+    partial class migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -136,6 +136,38 @@ namespace SmartSub.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
+            modelBuilder.Entity("SmartSub.Data.Entities.Subscription", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("Frequency")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Provider")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("RenewDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("userId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("Subscriptions");
+                });
+
             modelBuilder.Entity("SmartSub.Data.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -254,6 +286,17 @@ namespace SmartSub.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SmartSub.Data.Entities.Subscription", b =>
+                {
+                    b.HasOne("SmartSub.Data.Entities.User", "User")
+                        .WithMany("Subscription")
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("SmartSub.Data.Entities.UserRole", b =>
                 {
                     b.HasOne("SmartSub.Data.Entities.Role", "Role")
@@ -281,6 +324,8 @@ namespace SmartSub.Migrations
             modelBuilder.Entity("SmartSub.Data.Entities.User", b =>
                 {
                     b.Navigation("Roles");
+
+                    b.Navigation("Subscription");
                 });
 #pragma warning restore 612, 618
         }

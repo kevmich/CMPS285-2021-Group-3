@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SmartSub.Migrations
 {
-    public partial class identity : Migration
+    public partial class migration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -154,6 +154,30 @@ namespace SmartSub.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Subscriptions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Provider = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RenewDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    userId = table.Column<int>(type: "int", nullable: false),
+                    Frequency = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subscriptions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Subscriptions_AspNetUsers_userId",
+                        column: x => x.userId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -192,6 +216,11 @@ namespace SmartSub.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Subscriptions_userId",
+                table: "Subscriptions",
+                column: "userId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -210,6 +239,9 @@ namespace SmartSub.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Subscriptions");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
