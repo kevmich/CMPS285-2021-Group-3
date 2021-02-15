@@ -65,23 +65,19 @@ namespace SmartSub.Controllers
         [HttpPost("create")]
         public async Task<ActionResult> Create(CreateUserDto dto)
         {
-
-            var user = new User
-            {
-                UserName = dto.Username
-                
-            };
-
+            var user = new User {UserName = dto.Username};
             var result = await userManager.CreateAsync(user, dto.Password);
 
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                result = await userManager.AddToRoleAsync(user, "User");
-
-                // User added successfully, you can safely use the Id now.
-                var id = user.Id;
-
+                return BadRequest();
             }
+            
+            result = await userManager.AddToRoleAsync(user, "User");
+
+            // User added successfully, you can safely use the Id now.
+            var id = user.Id;
+            
             return Ok();
         }
 

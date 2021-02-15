@@ -9,7 +9,7 @@ namespace SmartSub.Data.Entities
     internal static class Roles
     {
 
-        public const string user = nameof(User);
+        public const string User = nameof(User);
 
 
       private static bool HasAnyRole(ClaimsPrincipal user, string target)
