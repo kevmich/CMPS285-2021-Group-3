@@ -134,33 +134,36 @@ namespace SmartSub.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("SmartSub.Data.Entities.TierTable", b =>
+            modelBuilder.Entity("SmartSub.Data.Entities.Subscription", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Function")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Price")
+                    b.Property<int>("Frequency")
                         .HasColumnType("int");
 
-                    b.Property<string>("ServiceName")
+                    b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TierName")
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Provider")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
+                    b.Property<DateTimeOffset>("RenewDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("userId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("userId");
 
-                    b.ToTable("TierTables");
+                    b.ToTable("Subscriptions");
                 });
 
             modelBuilder.Entity("SmartSub.Data.Entities.User", b =>
@@ -209,9 +212,6 @@ namespace SmartSub.Migrations
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TierTableId")
-                        .HasColumnType("int");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -284,11 +284,11 @@ namespace SmartSub.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SmartSub.Data.Entities.TierTable", b =>
+            modelBuilder.Entity("SmartSub.Data.Entities.Subscription", b =>
                 {
                     b.HasOne("SmartSub.Data.Entities.User", "User")
-                        .WithMany("TierTables")
-                        .HasForeignKey("UserId")
+                        .WithMany("Subscription")
+                        .HasForeignKey("userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -323,7 +323,7 @@ namespace SmartSub.Migrations
                 {
                     b.Navigation("Roles");
 
-                    b.Navigation("TierTables");
+                    b.Navigation("Subscription");
                 });
 #pragma warning restore 612, 618
         }
