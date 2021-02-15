@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using SmartSub.Data;
 using SmartSub.Data.Entities;
 using SmartSub.Features;
+using SmartSub.Features.User;
 
 namespace SmartSub.Controllers
 {
@@ -33,7 +34,7 @@ namespace SmartSub.Controllers
 
 
         [HttpPost("login")]
-        public async Task<ActionResult> LoginAsync(loginDto dto)
+        public async Task<ActionResult> LoginAsync(LoginDto dto)
         {
             var user = await userManager.FindByNameAsync(dto.userName);
             if (user == null)
@@ -51,21 +52,36 @@ namespace SmartSub.Controllers
 
             var roles = await userManager.GetRolesAsync(user);
 
-            return Ok(new UserRole
+            return Ok(new UserRoleDto
             {
                 Id = user.Id,
-                Username = user.UserName,
-                UserRoles = roles
+                UserName = user.UserName,
+                Roles = roles
             }); ;
         }
 
 
 
         [HttpPost("create")]
-        public async Task<ActionResult> Create(createUserDTO dto)
+        public async Task<ActionResult> Create(CreateUserDto dto)
         {
-            var user = new User { UserName = dto.Username };
-            await userManager.CreateAsync(user, dto.Password);
+
+            var user = new User
+            {
+                UserName = dto.Username
+                
+            };
+
+            var result = await userManager.CreateAsync(user, dto.Password);
+
+            if (result.Succeeded)
+            {
+                result = await userManager.AddToRoleAsync(user, "User");
+
+                // User added successfully, you can safely use the Id now.
+                var id = user.Id;
+
+            }
             return Ok();
         }
 
