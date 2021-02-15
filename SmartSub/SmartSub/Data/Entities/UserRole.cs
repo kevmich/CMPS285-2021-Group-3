@@ -1,8 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SmartSub.Data.Entities
 {
@@ -11,5 +7,8 @@ namespace SmartSub.Data.Entities
         public virtual User User { get; set; }
 
         public virtual Role Role { get; set; }
+        public object Id { get; internal set; }
+        public object Username { get; internal set; }
+        public object UserRoles { get; internal set; }
     }
 }
