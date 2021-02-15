@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SmartSub.Data;
 using SmartSub.Data.Entities;
+using SmartSub.Features;
 
 namespace SmartSub.Controllers
 {
@@ -61,10 +62,10 @@ namespace SmartSub.Controllers
 
 
         [HttpPost("create")]
-        public async Task<ActionResult> Create(loginDto dto)
+        public async Task<ActionResult> Create(createUserDTO dto)
         {
-            var user = new User { UserName = dto.userName };
-            await userManager.CreateAsync(user, dto.passWord);
+            var user = new User { UserName = dto.Username };
+            await userManager.CreateAsync(user, dto.Password);
             return Ok();
         }
 
