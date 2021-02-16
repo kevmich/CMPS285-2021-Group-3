@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SmartSub.Features// make namespace reflect folder structure. ex. SmartSub.Features.User-- fix coresponding imports
+namespace SmartSub.Features.User
 {
     public class CreateUserDto
     { 

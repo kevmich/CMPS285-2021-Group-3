@@ -95,7 +95,7 @@ namespace SmartSub
                 }
                 
                 var role = new Role();
-                role.Name = Roles.User;
+                role.Name = Roles.user;
                 await roleManager.CreateAsync(role);
             }
         }
