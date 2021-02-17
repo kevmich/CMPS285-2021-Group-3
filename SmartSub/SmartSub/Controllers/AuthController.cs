@@ -19,14 +19,14 @@ namespace SmartSub.Controllers
         private readonly SignInManager<User> signInManager;
 
 
-        public AuthController(DataContext dataContext, UserManager<User> userManager, RoleManager<Role> roleManager, SignInManager<User> signInManager)
+        public AuthController(DataContext dataContext, UserManager<User> userManager, RoleManager<Role> roleManager, SignInManager<User> signInManager)// get rid of unused constructor params
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
 
 
-        [Authorize]
+        [Authorize]// remove this after testing
         [HttpPost("Create")]
         public async Task<ActionResult> Create(CreateUserDto dto)
         {
@@ -76,7 +76,7 @@ namespace SmartSub.Controllers
 
 
         [HttpPost("Logout")]
-        public  async Task<ActionResult> Logout()
+        public async Task<ActionResult> Logout()
         {
             await signInManager.SignOutAsync();
 
