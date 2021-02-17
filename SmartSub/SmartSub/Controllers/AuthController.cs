@@ -26,7 +26,7 @@ namespace SmartSub.Controllers
         }
 
 
-
+        [Authorize]
         [HttpPost("Create")]
         public async Task<ActionResult> Create(CreateUserDto dto)
         {
@@ -75,10 +75,12 @@ namespace SmartSub.Controllers
 
 
 
-     [HttpPost("Logout")]
-       public async Task<ActionResult> Logout()
+        [HttpPost("Logout")]
+        public  async Task<ActionResult> Logout()
         {
-            return Ok();
+            await signInManager.SignOutAsync();
+
+           return Ok();
         }
     }
 }
