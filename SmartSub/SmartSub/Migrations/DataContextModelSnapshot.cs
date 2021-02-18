@@ -141,9 +141,6 @@ namespace SmartSub.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int>("Frequency")
-                        .HasColumnType("int");
-
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
@@ -155,6 +152,9 @@ namespace SmartSub.Migrations
 
                     b.Property<DateTimeOffset>("RenewDate")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("paymentFrequency")
+                        .HasColumnType("int");
 
                     b.Property<int>("userId")
                         .HasColumnType("int");

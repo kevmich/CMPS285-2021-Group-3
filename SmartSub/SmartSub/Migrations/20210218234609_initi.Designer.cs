@@ -10,8 +10,8 @@ using SmartSub.Data;
 namespace SmartSub.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210218233451_SubsController")]
-    partial class SubsController
+    [Migration("20210218234609_initi")]
+    partial class initi
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -143,9 +143,6 @@ namespace SmartSub.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int>("Frequency")
-                        .HasColumnType("int");
-
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
@@ -157,6 +154,9 @@ namespace SmartSub.Migrations
 
                     b.Property<DateTimeOffset>("RenewDate")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("paymentFrequency")
+                        .HasColumnType("int");
 
                     b.Property<int>("userId")
                         .HasColumnType("int");
