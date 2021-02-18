@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using SmartSub.Data.Entities;
+﻿using System.Collections.Generic;
 
 namespace SmartSub.Features.User
 {

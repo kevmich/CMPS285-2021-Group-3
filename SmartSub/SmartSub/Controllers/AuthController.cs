@@ -1,10 +1,6 @@
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using SmartSub.Data;
 using SmartSub.Data.Entities;
 using SmartSub.Features.User;
 
@@ -19,14 +15,14 @@ namespace SmartSub.Controllers
         private readonly SignInManager<User> signInManager;
 
 
-        public AuthController(DataContext dataContext, UserManager<User> userManager, RoleManager<Role> roleManager, SignInManager<User> signInManager)// get rid of unused constructor params
+        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
 
 
-        [Authorize]// remove this after testing
+        
         [HttpPost("Create")]
         public async Task<ActionResult> Create(CreateUserDto dto)
         {
