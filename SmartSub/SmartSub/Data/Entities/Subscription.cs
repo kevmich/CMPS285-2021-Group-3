@@ -20,7 +20,7 @@ namespace SmartSub.Data.Entities
         public int userId { get; set; }
         public User User { get; set; }  //reference to owner
 
-        public Frequency Frequency { get; set; } //get set annually, monthly, etc
+        public Frequency paymentFrequency { get; set; } //get set annually, monthly, etc
 
 
     }
