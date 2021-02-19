@@ -16,11 +16,9 @@ namespace SmartSub.Controllers
         [HttpPost("CreateSub")]
         public ActionResult<CreateSubDto> CreateSub(CreateSubDto dto)
         {
-
-
+            
             var sub = dataContext.Set<Subscription>().Add(new Subscription
             {
-
                 userId = dto.userId,
                 Provider = dto.Provider,
                 Price = dto.Price,
@@ -28,12 +26,11 @@ namespace SmartSub.Controllers
                 RenewDate = dto.RenewDate,
                 paymentFrequency = dto.paymentFrequency
                 
-
             }) ;
             dataContext.SaveChanges();
 
 
-            return Created($"api/post/{sub.Entity.Id}", dto);
+            return Created($"api/Subs/{sub.Entity.Id}", dto);
         }
     }
         

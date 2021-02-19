@@ -153,8 +153,8 @@ namespace SmartSub.Migrations
                     b.Property<DateTimeOffset>("RenewDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<int>("paymentFrequency")
-                        .HasColumnType("int");
+                    b.Property<string>("paymentFrequency")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("userId")
                         .HasColumnType("int");

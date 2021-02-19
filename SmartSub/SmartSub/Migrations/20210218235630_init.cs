@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SmartSub.Migrations
 {
-    public partial class initi : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -165,7 +165,7 @@ namespace SmartSub.Migrations
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<double>(type: "float", nullable: false),
                     userId = table.Column<int>(type: "int", nullable: false),
-                    paymentFrequency = table.Column<int>(type: "int", nullable: false)
+                    paymentFrequency = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

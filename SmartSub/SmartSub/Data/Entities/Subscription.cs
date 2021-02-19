@@ -20,12 +20,8 @@ namespace SmartSub.Data.Entities
         public int userId { get; set; }
         public User User { get; set; }  //reference to owner
 
-        public Frequency paymentFrequency { get; set; } //get set annually, monthly, etc
+        public string paymentFrequency { get; set; } //Weekly, Monthly, Annually
 
 
-    }
-    public enum Frequency //(weekly, monthly annually) list that cannot be changed
-    {
-        Weekly, Monthly, Annually
     }
 }

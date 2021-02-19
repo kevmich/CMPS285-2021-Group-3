@@ -14,7 +14,7 @@ namespace SmartSub.Features.User
 
         public double Price { get; set; }
         
-        public Frequency paymentFrequency { get; set; }
+        public string paymentFrequency { get; set; }
 
         public string Note { get; set; } // notes description
         public int userId { get; set; }
