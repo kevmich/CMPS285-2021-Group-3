@@ -3,21 +3,24 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
+    Link, BrowserRouter
 } from "react-router-dom";
-import HomePage from './Pages/HomePage';
-import UserPage from './Pages/UserPage';
+import HomePage from './Pages/HomePage/HomePage';
+import UserPage from './Pages/UserPage/UserPage';
+import NavBar from "./Components/NavBar/NavBar";
 
 
 function App() {
   return (
-    <main>
-        <Switch>
-            <Route path='/' component={HomePage} />
-            <Route path='/UserPage' component={UserPage} />
-            <Route component={Error} />
-        </Switch>
-    </main>
+      <BrowserRouter>
+          <NavBar />
+          <Switch>
+              <Route exact path='/' component={HomePage} />
+              <Route exact path='/UserPage' component={UserPage} />
+              <Route component={Error} />
+          </Switch>
+      </BrowserRouter>
+
   );
 }
 

@@ -1,9 +1,8 @@
-import NavBar from "../Components/NavBar/NavBar";
+import NavBar from "../../Components/NavBar/NavBar";
 
 function HomePage(){
     return(
         <div>
-            <NavBar />
                <p style={{fontSize: "29px"}}> Smartsub is a website designed to help people manage their subscriptions. The average number of
                 services people are subscribed to is becoming far too cumbersome for any one person to reasonably manage.
                 Smartsub allows for a very simple user interface that creates and easy, streamlined experience for any user
