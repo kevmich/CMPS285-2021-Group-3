@@ -1,11 +1,26 @@
-import HomePage from "./Pages/HomePage";
 import React from 'react';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link, BrowserRouter
+} from "react-router-dom";
+import HomePage from './Pages/HomePage/HomePage';
+import UserPage from './Pages/UserPage/UserPage';
+import NavBar from "./Components/NavBar/NavBar";
+
 
 function App() {
   return (
-    <div>
-      <HomePage/>
-    </div>
+      <BrowserRouter>
+          <NavBar />
+          <Switch>
+              <Route exact path='/' component={HomePage} />
+              <Route exact path='/UserPage' component={UserPage} />
+              <Route component={Error} />
+          </Switch>
+      </BrowserRouter>
+
   );
 }
 
