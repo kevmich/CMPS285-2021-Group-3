@@ -74,7 +74,7 @@ namespace SmartSub.Controllers
         [HttpPost("Logout")]
         public async Task<ActionResult> Logout()
         {
-            await signInManager.SignOutAsync();
+           await signInManager.SignOutAsync();
 
            return Ok();
         }
