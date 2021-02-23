@@ -35,9 +35,9 @@ namespace SmartSub.Controllers
         }
 
         [HttpDelete("DeleteSub")]
-        public ActionResult<GetSubDto> DeleteSub(string provider)
+        public ActionResult DeleteSub(int id)
         {
-            var data = dataContext.Set<Subscription>().FirstOrDefault(x => x.Provider == id);
+            var data = dataContext.Set<Subscription>().FirstOrDefault(x => x.Id == id);
             if (data == null)
             {
                 return BadRequest();
