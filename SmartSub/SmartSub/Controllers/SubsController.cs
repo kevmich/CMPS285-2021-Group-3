@@ -2,6 +2,7 @@
 using SmartSub.Data;
 using SmartSub.Data.Entities;
 using SmartSub.Features.User;
+using System.Linq;
 
 namespace SmartSub.Controllers
 {
@@ -31,6 +32,19 @@ namespace SmartSub.Controllers
 
 
             return Created($"api/Subs/{sub.Entity.Id}", dto);
+        }
+
+        [HttpDelete("DeleteSub")]
+        public ActionResult<GetSubDto> DeleteSub(string provider)
+        {
+            var data = dataContext.Set<Subscription>().FirstOrDefault(x => x.Provider == id);
+            if (data == null)
+            {
+                return BadRequest();
+            }
+            dataContext.Set<Subscription>().Remove(data);
+            dataContext.SaveChanges();
+            return Ok();
         }
     }
         
