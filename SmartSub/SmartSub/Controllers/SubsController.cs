@@ -12,9 +12,11 @@ namespace SmartSub.Controllers
     public class SubsController : ControllerBase
     {
 
-        private readonly DataContext dataContext;
+        private readonly DataContext dataContext; // need to dependency inject the dataContext
 
-        [HttpPost("CreateSub")]
+        
+        // Endpoint returns 500 when passed correct data
+        [HttpPost("CreateSub")] // add authorized tag, shouldnt be able to create a sub without being logged in.
         public ActionResult<CreateSubDto> CreateSub(CreateSubDto dto)
         {
             

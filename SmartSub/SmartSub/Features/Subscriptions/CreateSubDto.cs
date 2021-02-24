@@ -5,6 +5,7 @@ namespace SmartSub.Features.User
 {
     public class CreateSubDto
     {
+        //TODO: Remove comments. Your code should be clean enough where you can understand what is going on without comments. Transparent Variable and Method Names help with this.
         public DateTimeOffset RenewDate { get; set; } // renew date
         
         // Trying to just get these three working before adding anymore.
