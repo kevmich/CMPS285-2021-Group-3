@@ -47,5 +47,18 @@ namespace SmartSub.Controllers
             return Ok();
         }
     }
-        
+        [HttpPut("UpdateSub")]
+        public ActionResult<GetSubDto> Edit(int id, GetSubDto dto)
+        {
+            var data = dataContext.Set<Subscription>().FirstOrDefault(x => x.Id == id);
+            if (data == null)
+            {
+                return BadRequest();
+            }
+            data.Provider = dto.Provider;
+            data.Price = dto.Price;
+            data.Note = dto.Note;
+            dataContext.SaveChanges();
+            return Ok();
+    }
     }
