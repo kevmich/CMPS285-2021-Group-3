@@ -17,7 +17,7 @@ namespace SmartSub.Controllers
         [HttpPost("CreateSub")]
         public ActionResult<CreateSubDto> CreateSub(CreateSubDto dto)
         {
-            
+
             var sub = dataContext.Set<Subscription>().Add(new Subscription
             {
                 userId = dto.userId,
@@ -26,8 +26,8 @@ namespace SmartSub.Controllers
                 Note = dto.Note,
                 RenewDate = dto.RenewDate,
                 paymentFrequency = dto.paymentFrequency
-                
-            }) ;
+
+            });
             dataContext.SaveChanges();
 
 
@@ -46,19 +46,23 @@ namespace SmartSub.Controllers
             dataContext.SaveChanges();
             return Ok();
         }
-    }
+
         [HttpPut("UpdateSub")]
-        public ActionResult<GetSubDto> Edit(int id, GetSubDto dto)
+        public ActionResult<EditSubDto> Edit(int id, EditSubDto dto)
         {
             var data = dataContext.Set<Subscription>().FirstOrDefault(x => x.Id == id);
             if (data == null)
             {
                 return BadRequest();
             }
+            data.RenewDate = dto.RenewDate;
             data.Provider = dto.Provider;
             data.Price = dto.Price;
             data.Note = dto.Note;
             dataContext.SaveChanges();
             return Ok();
+        }
     }
-    }
+}
+
+
