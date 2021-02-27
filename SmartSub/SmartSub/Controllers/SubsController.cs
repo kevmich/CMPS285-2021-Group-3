@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using SmartSub.Data;
 using SmartSub.Data.Entities;
-using SmartSub.Features.User;
 using System.Linq;
+using SmartSub.Features.Subscriptions;
 
 namespace SmartSub.Controllers
 {
@@ -27,12 +27,12 @@ namespace SmartSub.Controllers
 
             var sub = dataContext.Set<Subscription>().Add(new Subscription
             {
-                userId = dto.userId,
+                userId = dto.UserId,
                 Provider = dto.Provider,
                 Price = dto.Price,
                 Note = dto.Note,
                 RenewDate = dto.RenewDate,
-                paymentFrequency = dto.paymentFrequency
+                paymentFrequency = dto.PaymentFrequency
 
             });
             dataContext.SaveChanges();
@@ -67,7 +67,7 @@ namespace SmartSub.Controllers
             data.RenewDate = dto.RenewDate;
             data.Provider = dto.Provider;
             data.Price = dto.Price;
-            data.paymentFrequency = dto.paymentFrequency;
+            data.paymentFrequency = dto.PaymentFrequency;
             data.Note = dto.Note;
             dataContext.SaveChanges();
             return Ok();
