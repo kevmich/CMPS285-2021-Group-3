@@ -55,14 +55,12 @@ namespace SmartSub.Controllers
             {
                 return BadRequest();
             }
-            
             data.RenewDate = dto.RenewDate;
             data.Provider = dto.Provider;
             data.Price = dto.Price;
             data.paymentFrequency = dto.paymentFrequency;
             data.Note = dto.Note;
             dataContext.SaveChanges();
-
             return Ok();
         }
     }
