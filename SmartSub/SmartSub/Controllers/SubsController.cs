@@ -41,6 +41,7 @@ namespace SmartSub.Controllers
             return Created($"api/Subs/{sub.Entity.Id}", dto);
         }
 
+        [Authorize]
         [HttpDelete("DeleteSub")]
         public ActionResult DeleteSub(int id)
         {
@@ -54,6 +55,7 @@ namespace SmartSub.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpPut("UpdateSub")]
         public ActionResult<EditSubDto> Edit(int id, EditSubDto dto)
         {
