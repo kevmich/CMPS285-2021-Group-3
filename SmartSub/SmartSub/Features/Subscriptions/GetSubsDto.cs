@@ -7,11 +7,9 @@ namespace SmartSub.Features.User
     {
 
 
-        public string Provider { get; set; } // amazon, hulu, etc.
-
+        public string Provider { get; set; }
         public double Price { get; set; }
-
-        public string Note { get; set; } // notes description
+        public string Note { get; set; }
 
     }
 }

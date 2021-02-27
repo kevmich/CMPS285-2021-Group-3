@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SmartSub.Data;
 using SmartSub.Data.Entities;
 using SmartSub.Features.User;
@@ -14,6 +15,12 @@ namespace SmartSub.Controllers
 
         private readonly DataContext dataContext;
 
+        public SubsController(DataContext dataContext)
+        {
+            this.dataContext = dataContext;
+        }
+
+        [Authorize]
         [HttpPost("CreateSub")]
         public ActionResult<CreateSubDto> CreateSub(CreateSubDto dto)
         {
