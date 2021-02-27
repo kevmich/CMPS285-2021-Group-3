@@ -24,6 +24,7 @@ namespace SmartSub.Controllers
         [HttpPost("CreateSub")]
         public ActionResult<CreateSubDto> CreateSub(CreateSubDto dto)
         {
+            //returns a 500 if any of the fields are incorrect. need to wrap this in a transaction, and have it return a 400 if any field has bad input
 
             var sub = dataContext.Set<Subscription>().Add(new Subscription
             {
@@ -59,6 +60,7 @@ namespace SmartSub.Controllers
         [HttpPut("UpdateSub")]
         public ActionResult<EditSubDto> Edit(int id, EditSubDto dto)
         {
+            //TODO: wrap this inside of a transaction and return bad request should any of the fields be bad.
             var data = dataContext.Set<Subscription>().FirstOrDefault(x => x.Id == id);
             if (data == null)
             {
