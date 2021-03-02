@@ -7,6 +7,7 @@ using SmartSub.Features.Subscriptions;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System;
+using Microsoft.AspNetCore.Identity;
 
 namespace SmartSub.Controllers
 {
@@ -16,6 +17,13 @@ namespace SmartSub.Controllers
     public class SubsController : ControllerBase
     {
 
+        private readonly UserManager<User> userManager;
+
+        public SubsController(UserManager<User> userManager)
+        {
+            this.userManager = userManager;
+        }
+
         private readonly DataContext dataContext;
 
         public SubsController(DataContext dataContext)
@@ -24,23 +32,6 @@ namespace SmartSub.Controllers
         }
 
 
-        private static Expression<Func<Subscription, CreateSubDto>> MapEntityToDto()// delete this. while it is really helpful, i want yall to go through the pain of hydrating your dto -> entities manually.
-        {
-
-            return x => new CreateSubDto
-            {
-                RenewDate = x.RenewDate,
-                Provider = x.Provider,
-                Price = x.Price,
-                PaymentFrequency = x.paymentFrequency,
-                Note = x.Note,
-                UserId = x.userId
-            };
-
-            
-
-            
-        }
 
         [Authorize]
         [HttpPost("CreateSub")]
@@ -96,7 +87,7 @@ namespace SmartSub.Controllers
 
                 if (dto.Price < 0)
                 {
-                    return BadRequest();// give error message as to why we are returning a bad request.
+                    return BadRequest("Price must be non negative");
                 }
 
                 var data = dataContext.Set<Subscription>().FirstOrDefault(x => x.Id == id);
@@ -117,9 +108,11 @@ namespace SmartSub.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<GetSubDto> GetAll()// Meeds to be all subscriptions by a user.
+        public IEnumerable<GetSubDto> GetAll(int id)
         {
-            return (IEnumerable<GetSubDto>)dataContext.Set<Subscription>().Select(MapEntityToDto()).ToList();
+            userManager.FindByIdAsync(id)
+
+            return (IEnumerable<GetSubDto>)dataContext.Set<Subscription>().Select().ToList();
         }
     }
 }
