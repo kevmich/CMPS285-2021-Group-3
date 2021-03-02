@@ -46,28 +46,30 @@ namespace SmartSub.Controllers
         [HttpPost("CreateSub")]
         public ActionResult<CreateSubDto> CreateSub(CreateSubDto dto)
         {
-            var transaction = dataContext.Database.BeginTransaction();
-
-            if (dto.Price < 0)
+            using (var transaction = dataContext.Database.BeginTransaction())
             {
-                return BadRequest("Price must be non negative");
+
+                if (dto.Price < 0)
+                {
+                    return BadRequest("Price must be non negative");
+                }
+
+                var sub = dataContext.Set<Subscription>().Add(new Subscription
+                {
+                    userId = dto.UserId,
+                    Provider = dto.Provider,
+                    Price = dto.Price,
+                    Note = dto.Note,
+                    RenewDate = dto.RenewDate,
+                    paymentFrequency = dto.PaymentFrequency
+
+                });
+
+                dataContext.SaveChanges();
+
+                transaction.Commit();
+                return Created($"api/Subs/{sub.Entity.Id}", dto);
             }
-
-            var sub = dataContext.Set<Subscription>().Add(new Subscription
-            {
-                userId = dto.UserId,
-                Provider = dto.Provider,
-                Price = dto.Price,
-                Note = dto.Note,
-                RenewDate = dto.RenewDate,
-                paymentFrequency = dto.PaymentFrequency
-
-            });
-
-            dataContext.SaveChanges();
-
-            transaction.Commit();
-            return Created($"api/Subs/{sub.Entity.Id}", dto);
         }
 
         [Authorize]
@@ -89,28 +91,30 @@ namespace SmartSub.Controllers
         public ActionResult<EditSubDto> Edit(int id, EditSubDto dto)
         {
 
-            var transaction = dataContext.Database.BeginTransaction();
-
-            var data = dataContext.Set<Subscription>().FirstOrDefault(x => x.Id == id);
-            if (data == null)
+            using (var transaction = dataContext.Database.BeginTransaction())
             {
-                return BadRequest();
+
+                var data = dataContext.Set<Subscription>().FirstOrDefault(x => x.Id == id);
+                if (data == null)
+                {
+                    return BadRequest();
+                }
+                data.RenewDate = dto.RenewDate;
+                data.Provider = dto.Provider;
+                data.Price = dto.Price;
+
+                if (data.Price < 0)
+                {
+                    return BadRequest();
+                }
+
+                data.paymentFrequency = dto.PaymentFrequency;
+                data.Note = dto.Note;
+                dataContext.SaveChanges();
+
+                transaction.Commit();
+                return Ok();
             }
-            data.RenewDate = dto.RenewDate;
-            data.Provider = dto.Provider;
-            data.Price = dto.Price;
-
-            if (data.Price < 0)
-            {
-                return BadRequest();
-            }
-
-            data.paymentFrequency = dto.PaymentFrequency;
-            data.Note = dto.Note;
-            dataContext.SaveChanges();
-
-            transaction.Commit();
-            return Ok();
         }
 
         [HttpGet]
