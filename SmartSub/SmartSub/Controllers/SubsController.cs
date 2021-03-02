@@ -110,13 +110,20 @@ namespace SmartSub.Controllers
         [HttpGet("GetAllSubs")]
         public ActionResult<GetSubDto> GetAll(int id)
         {
-            if (userManager.FindByIdAsync(""+id) == null)
+            if (userManager.FindByIdAsync("" + id) == null)
             {
                 return BadRequest("User does not exist");
             }
 
             return Ok();
         }
+
+        [HttpGet("GetSubById")]
+        public ActionResult<GetSubDto> GetByUserId(int id)
+        {
+            return Ok();
+        }
+
     }
 }
 
