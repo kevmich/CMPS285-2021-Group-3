@@ -104,7 +104,7 @@ namespace SmartSub.Controllers
             [HttpGet("{id}")]
             IEnumerable<GetSubDto> GetByUserId(int id)
             {
-                return dataContext.Set<GetSubDto>().Where(x => x.Id == id).Select(MapEntityToDto()).ToList();
+                return (IEnumerable<GetSubDto>)dataContext.Set<Subscription>().Where(x => x.Id == id).Select(MapEntityToDto()).ToList();
             }
         }
     }
