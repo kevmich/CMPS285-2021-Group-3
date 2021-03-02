@@ -24,7 +24,7 @@ namespace SmartSub.Controllers
         }
 
 
-        private static Expression<Func<Subscription, CreateSubDto>> MapEntityToDto()
+        private static Expression<Func<Subscription, CreateSubDto>> MapEntityToDto()// delete this. while it is really helpful, i want yall to go through the pain of hydrating your dto -> entities manually.
         {
 
             return x => new CreateSubDto
@@ -96,7 +96,7 @@ namespace SmartSub.Controllers
 
                 if (dto.Price < 0)
                 {
-                    return BadRequest();
+                    return BadRequest();// give error message as to why we are returning a bad request.
                 }
 
                 var data = dataContext.Set<Subscription>().FirstOrDefault(x => x.Id == id);
@@ -117,7 +117,7 @@ namespace SmartSub.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<GetSubDto> GetAll()
+        public IEnumerable<GetSubDto> GetAll()// Meeds to be all subscriptions by a user.
         {
             return (IEnumerable<GetSubDto>)dataContext.Set<Subscription>().Select(MapEntityToDto()).ToList();
         }
