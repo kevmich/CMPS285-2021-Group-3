@@ -107,7 +107,7 @@ namespace SmartSub.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("GetAllSubs")]
         public ActionResult<GetSubDto> GetAll(int id)
         {
             if (userManager.FindByIdAsync(""+id) == null)
