@@ -23,7 +23,6 @@ namespace SmartSub.Controllers
             this.dataContext = dataContext;
         }
 
-
         private static Expression<Func<Subscription, CreateSubDto>> MapEntityToDto()
         {
             return x => new CreateSubDto
