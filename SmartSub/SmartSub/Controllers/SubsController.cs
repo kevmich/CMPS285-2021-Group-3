@@ -67,6 +67,12 @@ namespace SmartSub.Controllers
             data.RenewDate = dto.RenewDate;
             data.Provider = dto.Provider;
             data.Price = dto.Price;
+
+            if (data.Price < 0)
+            {
+                return BadRequest();
+            }
+
             data.paymentFrequency = dto.PaymentFrequency;
             data.Note = dto.Note;
             dataContext.SaveChanges();
