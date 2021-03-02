@@ -26,6 +26,7 @@ namespace SmartSub.Controllers
 
         private static Expression<Func<Subscription, CreateSubDto>> MapEntityToDto()
         {
+
             return x => new CreateSubDto
             {
                 RenewDate = x.RenewDate,
@@ -35,6 +36,10 @@ namespace SmartSub.Controllers
                 Note = x.Note,
                 UserId = x.userId
             };
+
+            
+
+            
         }
 
         [Authorize]
@@ -42,6 +47,11 @@ namespace SmartSub.Controllers
         public ActionResult<CreateSubDto> CreateSub(CreateSubDto dto)
         {
             var transaction = dataContext.Database.BeginTransaction();
+
+            if (dto.Price < 0)
+            {
+                return BadRequest("Price must be non negative");
+            }
 
             var sub = dataContext.Set<Subscription>().Add(new Subscription
             {
@@ -53,9 +63,10 @@ namespace SmartSub.Controllers
                 paymentFrequency = dto.PaymentFrequency
 
             });
+
             dataContext.SaveChanges();
 
-
+            transaction.Commit();
             return Created($"api/Subs/{sub.Entity.Id}", dto);
         }
 
@@ -77,6 +88,9 @@ namespace SmartSub.Controllers
         [HttpPut("UpdateSub")]
         public ActionResult<EditSubDto> Edit(int id, EditSubDto dto)
         {
+
+            var transaction = dataContext.Database.BeginTransaction();
+
             var data = dataContext.Set<Subscription>().FirstOrDefault(x => x.Id == id);
             if (data == null)
             {
@@ -94,14 +108,15 @@ namespace SmartSub.Controllers
             data.paymentFrequency = dto.PaymentFrequency;
             data.Note = dto.Note;
             dataContext.SaveChanges();
+
+            transaction.Commit();
             return Ok();
+        }
 
-
-            [HttpGet]
-            IEnumerable<GetSubDto> GetAll()
-            {
-                return (IEnumerable<GetSubDto>)dataContext.Set<Subscription>().Select(MapEntityToDto()).ToList();
-            }
+        [HttpGet]
+        public IEnumerable<GetSubDto> GetAll()
+        {
+            return (IEnumerable<GetSubDto>)dataContext.Set<Subscription>().Select(MapEntityToDto()).ToList();
         }
     }
 }
