@@ -96,11 +96,16 @@ namespace SmartSub.Controllers
             dataContext.SaveChanges();
             return Ok();
 
-
             [HttpGet]
             IEnumerable<GetSubDto> GetAll()
             {
                 return (IEnumerable<GetSubDto>)dataContext.Set<Subscription>().Select(MapEntityToDto()).ToList();
+            }
+
+            [HttpGet("{id}")]
+            IEnumerable<GetSubDto> GetByUserId(int id)
+            {
+                return dataContext.Set<GetSubDto>().Where(x => x.Id == id).Select(Subscription()).ToList();
             }
         }
     }
