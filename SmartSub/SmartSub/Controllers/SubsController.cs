@@ -108,11 +108,14 @@ namespace SmartSub.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<GetSubDto> GetAll(int id)
+        public ActionResult<GetSubDto> GetAll(int id)
         {
-            userManager.FindByIdAsync(id)
+            if (userManager.FindByIdAsync(""+id) == null)
+            {
+                return BadRequest("User does not exist");
+            }
 
-            return (IEnumerable<GetSubDto>)dataContext.Set<Subscription>().Select().ToList();
+            return Ok();
         }
     }
 }
