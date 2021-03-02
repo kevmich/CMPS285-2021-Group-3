@@ -4,6 +4,9 @@ using SmartSub.Data;
 using SmartSub.Data.Entities;
 using System.Linq;
 using SmartSub.Features.Subscriptions;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System;
 
 namespace SmartSub.Controllers
 {
@@ -20,10 +23,25 @@ namespace SmartSub.Controllers
             this.dataContext = dataContext;
         }
 
+
+        private static Expression<Func<Subscription, CreateSubDto>> MapEntityToDto()
+        {
+            return x => new CreateSubDto
+            {
+                RenewDate = x.RenewDate,
+                Provider = x.Provider,
+                Price = x.Price,
+                PaymentFrequency = x.paymentFrequency,
+                Note = x.Note,
+                UserId = x.userId
+            };
+        }
+
         [Authorize]
         [HttpPost("CreateSub")]
         public ActionResult<CreateSubDto> CreateSub(CreateSubDto dto)
         {
+            var transaction = dataContext.Database.BeginTransaction();
 
             var sub = dataContext.Set<Subscription>().Add(new Subscription
             {
@@ -77,6 +95,13 @@ namespace SmartSub.Controllers
             data.Note = dto.Note;
             dataContext.SaveChanges();
             return Ok();
+
+
+            [HttpGet]
+            IEnumerable<GetSubDto> GetAll()
+            {
+                return (IEnumerable<GetSubDto>)dataContext.Set<Subscription>().Select(MapEntityToDto()).ToList();
+            }
         }
     }
 }
