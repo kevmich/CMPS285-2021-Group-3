@@ -94,6 +94,11 @@ namespace SmartSub.Controllers
             using (var transaction = dataContext.Database.BeginTransaction())
             {
 
+                if (dto.Price < 0)
+                {
+                    return BadRequest();
+                }
+
                 var data = dataContext.Set<Subscription>().FirstOrDefault(x => x.Id == id);
                 if (data == null)
                 {
@@ -102,12 +107,6 @@ namespace SmartSub.Controllers
                 data.RenewDate = dto.RenewDate;
                 data.Provider = dto.Provider;
                 data.Price = dto.Price;
-
-                if (data.Price < 0)
-                {
-                    return BadRequest();
-                }
-
                 data.paymentFrequency = dto.PaymentFrequency;
                 data.Note = dto.Note;
                 dataContext.SaveChanges();
