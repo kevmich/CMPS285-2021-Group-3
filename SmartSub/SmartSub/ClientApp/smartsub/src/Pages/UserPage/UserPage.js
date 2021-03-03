@@ -15,6 +15,7 @@ const useStyles =makeStyles({
     }
 });
 
+
 function createData(Provider, RenewDate, Note, Price, paymentFreq){
     return { Provider, RenewDate, Note, Price, paymentFreq}
 }
@@ -24,10 +25,11 @@ const rows = [
     createData("Hulu", "Jan 1st, 2021", "commercials", '$5.99', "Monthly"),
 ];
 
-export default function BasicTable() {
+export default function UserPage() {
     const classes = useStyles();
 
     return (
+        <div>
         <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
                 <TableHead>
@@ -54,17 +56,10 @@ export default function BasicTable() {
                 </TableBody>
             </Table>
         </TableContainer>
+            </div>
     );
 }
 
-function UserPage(){
-    return(
-        <div>
-            <NavBar />
 
 
-
-        </div>
-    )
-}
 
