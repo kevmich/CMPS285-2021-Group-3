@@ -35,6 +35,7 @@ namespace SmartSub.Controllers
             using (var transaction = dataContext.Database.BeginTransaction())
             {
 
+                //Check for invalid PaymentFrequency---- i.e. Compare strings against the predetermined values- Weekly, Monthly, Annually, etc.
                 if (dto.Price < 0)
                 {
                     return BadRequest("Price must be non negative");
@@ -79,6 +80,8 @@ namespace SmartSub.Controllers
 
             using (var transaction = dataContext.Database.BeginTransaction())
             {
+                
+                // Verify PaymentFrequency
 
                 if (dto.Price < 0)
                 {
@@ -102,20 +105,28 @@ namespace SmartSub.Controllers
             }
         }
 
-        [HttpGet("GetAllSubs")]
+        [HttpGet("GetAllSubs")]// Make the route more indicitve of what it is doing. For example - GetAllSubsByUserId
         public ActionResult<GetSubDto> GetAll(int id)
         {
-            if (userManager.FindByIdAsync("" + id) == null)
+            if (userManager.FindByIdAsync("" + id) == null)// use .toString() method. Not this wiere 
             {
                 return BadRequest("User does not exist");
             }
 
+            
+            // return something like the following.
+            // List<GetSubDto> subsToReturn = dataContext.set<Subscriptions>().where(x => x.userId == id);
+            
+            //return empty list if no items
             return Ok();
         }
 
         [HttpGet("GetSubById")]
         public ActionResult<GetSubDto> GetByUserId(int id)
         {
+            //need to return something like the following
+            // GetSubDto getSubDto = dataContext.set<Subscriptions>().FirstOrDefault(x => x.id == id);
+            //then return dto inside of ok statement. return bad request if nothing is found 
             return Ok();
         }
 
