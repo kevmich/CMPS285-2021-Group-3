@@ -6,9 +6,12 @@ import {
     Link, BrowserRouter
 } from "react-router-dom";
 
+import NavBar from "./Components/NavBar/NavBar";
 import HomePage from './Pages/HomePage/HomePage';
 import UserPage from './Pages/UserPage/UserPage';
-import NavBar from "./Components/NavBar/NavBar";
+import LoginPage from './Pages/LoginSignupPage/LoginPage';
+import SignupPage from './Pages/LoginSignupPage/SignupPage';
+
 
 
 function App() {
@@ -18,6 +21,9 @@ function App() {
           <Switch>
               <Route exact path='/'> <HomePage/> </Route>
               <Route exact path='/UserPage/'> <UserPage/> </Route>
+              <Route exact path='/LoginPage/'> <LoginPage/> </Route>
+              <Route exact path='/SignupPage/'> <SignupPage/> </Route>
+
           </Switch>
       </BrowserRouter>
 

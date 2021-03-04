@@ -24,8 +24,12 @@ function NavBar(){
                 </Link>
             </Button>
 
-            <Button style={{color: "white"}}> Login </Button>
-            <Button style={{color: "white"}}> Sign Up </Button>
+            <Button>
+                <Link style={{color: "white", textDecoration: 'none' }} to="/LoginPage/">
+                    Login
+                </Link>
+            </Button>
+
 
         </div>
 
