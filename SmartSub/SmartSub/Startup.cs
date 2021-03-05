@@ -38,13 +38,13 @@ namespace SmartSub
             {
                 // MSSQL running locally
                 services.AddDbContext<DataContext>(options => 
-                    options.UseSqlServer(Configuration.GetConnectionString("MSDataContext")));
+                    options.UseSqlServer(Configuration.GetConnectionString("MSDataContext")), ServiceLifetime.Transient);
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
                 // MSSQL running in Docker container
                 services.AddDbContext<DataContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("OSXDataContext")));            
+                    options.UseSqlServer(Configuration.GetConnectionString("OSXDataContext")), ServiceLifetime.Transient);            
             }
 
 

@@ -4,10 +4,9 @@ using SmartSub.Data;
 using SmartSub.Data.Entities;
 using System.Linq;
 using SmartSub.Features.Subscriptions;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System;
 using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SmartSub.Controllers
 {
@@ -30,7 +29,7 @@ namespace SmartSub.Controllers
 
         [Authorize]
         [HttpPost("CreateSub")]
-        public ActionResult<CreateSubDto> CreateSub(CreateSubDto dto)
+        public async Task<ActionResult<CreateSubDto>> CreateSub(CreateSubDto dto)
         {
             using (var transaction = dataContext.Database.BeginTransaction())
             {
@@ -40,7 +39,19 @@ namespace SmartSub.Controllers
                     return BadRequest("Price must be non negative");
                 }
 
-                var sub = dataContext.Set<Subscription>().Add(new Subscription
+                if (dto.PaymentFrequency.ToLower() != "weekly")
+                {
+                    if (dto.PaymentFrequency.ToLower() != "monthly")
+                    {
+                        if (dto.PaymentFrequency.ToLower() != "annually")
+                        {
+                            return BadRequest("Payment frequency must be either: Weekly, Monthly, or Annually.");
+                        }
+                    }
+                }
+
+
+                var sub = await dataContext.Set<Subscription>().AddAsync(new Subscription
                 {
                     userId = dto.UserId,
                     Provider = dto.Provider,
@@ -51,25 +62,30 @@ namespace SmartSub.Controllers
 
                 });
 
-                dataContext.SaveChanges();
-
+                
                 transaction.Commit();
-                return Created($"api/Subs/{sub.Entity.Id}", dto);
+                dataContext.SaveChanges();
+                return Ok(dto);
             }
         }
 
         [Authorize]
         [HttpDelete("DeleteSub")]
-        public ActionResult DeleteSub(int id)
+        public async Task<ActionResult> DeleteSub(int id)
         {
-            var data = dataContext.Set<Subscription>().FirstOrDefault(x => x.Id == id);
-            if (data == null)
+            using (var transaction = dataContext.Database.BeginTransaction())
             {
-                return BadRequest();
+                var data = await dataContext.Set<Subscription>().FirstOrDefaultAsync(x => x.Id == id);
+                if (data == null)
+                {
+                    return BadRequest();
+                }
+                dataContext.Set<Subscription>().Remove(data);
+                
+                transaction.Commit();
+                dataContext.SaveChanges();
+                return Ok();
             }
-            dataContext.Set<Subscription>().Remove(data);
-            dataContext.SaveChanges();
-            return Ok();
         }
 
         [Authorize]
@@ -79,10 +95,22 @@ namespace SmartSub.Controllers
 
             using (var transaction = dataContext.Database.BeginTransaction())
             {
+                
 
                 if (dto.Price < 0)
                 {
                     return BadRequest("Price must be non negative");
+                }
+
+                if (dto.PaymentFrequency.ToLower() != "weekly")
+                {
+                    if (dto.PaymentFrequency.ToLower() != "monthly")
+                    {
+                        if (dto.PaymentFrequency.ToLower() != "annually")
+                        {
+                            return BadRequest("Payment frequency must be either: Weekly, Monthly, or Annually.");
+                        }
+                    }
                 }
 
                 var data = dataContext.Set<Subscription>().FirstOrDefault(x => x.Id == id);
@@ -95,27 +123,42 @@ namespace SmartSub.Controllers
                 data.Price = dto.Price;
                 data.paymentFrequency = dto.PaymentFrequency;
                 data.Note = dto.Note;
-                dataContext.SaveChanges();
 
                 transaction.Commit();
+                dataContext.SaveChanges();
                 return Ok();
             }
         }
 
-        [HttpGet("GetAllSubs")]
-        public ActionResult<GetSubDto> GetAll(int id)
+        [HttpGet("GetAllSubsByUserId")]
+        public async Task<ActionResult<GetSubDto>> GetAll(int id)
         {
-            if (userManager.FindByIdAsync("" + id) == null)
+            if (userManager.FindByIdAsync(id.ToString()) == null)
             {
                 return BadRequest("User does not exist");
             }
 
-            return Ok();
+
+            var subscriptions = await dataContext.Set<Subscription>().Where(x => x.userId == id).Select(x =>
+                new GetSubDto{
+                    Id = x.Id,
+                    RenewDate = x.RenewDate,
+                    Price = x.Price,
+                    Provider = x.Provider,
+                    PaymentFrequency = x.paymentFrequency,
+                    Note = x.Note}
+                ).ToListAsync();
+
+            return Ok(subscriptions);
+            
         }
 
         [HttpGet("GetSubById")]
         public ActionResult<GetSubDto> GetByUserId(int id)
         {
+            //need to return something like the following
+            // GetSubDto getSubDto = dataContext.set<Subscriptions>().FirstOrDefault(x => x.id == id);
+            //then return dto inside of ok statement. return bad request if nothing is found 
             return Ok();
         }
 
