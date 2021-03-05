@@ -18,20 +18,15 @@ namespace SmartSub.Controllers
     {
 
         private readonly UserManager<User> userManager;
-
-        public SubsController(UserManager<User> userManager)
-        {
-            this.userManager = userManager;
-        }
-
         private readonly DataContext dataContext;
 
-        public SubsController(DataContext dataContext)
+        public SubsController(UserManager<User> userManager, DataContext dataContext)
         {
+            this.userManager = userManager;
             this.dataContext = dataContext;
         }
 
-
+       
 
         [Authorize]
         [HttpPost("CreateSub")]
