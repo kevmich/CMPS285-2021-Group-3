@@ -6,6 +6,7 @@ import {
     Link, BrowserRouter
 } from "react-router-dom";
 
+
 import NavBar from "./Components/NavBar/NavBar";
 import HomePage from './Pages/HomePage/HomePage';
 import UserPage from './Pages/UserPage/UserPage';

@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SignIn() {
+export default function Login() {
     const classes = useStyles();
 
     return (
@@ -61,6 +61,9 @@ export default function SignIn() {
                         id="password"
                         autoComplete="current-password"
                     />
+                    <Typography component="h1" variant="subtitle2">
+                        * Denotes required field
+                    </Typography>
                     <Button
                         type="submit"
                         fullWidth

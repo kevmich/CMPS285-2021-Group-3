@@ -1,7 +1,7 @@
 import './NavBar.css';
 import React, { Component } from 'react';
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
-import {NavLink} from "reactstrap";
+
 
 import Button from '@material-ui/core/Button';
 
@@ -11,7 +11,7 @@ let x = "SmartSub";
 function NavBar(){
 
             return(
-        <div style={{background: "darkslateblue"}}>
+        <div style={{background: "darkslateblue", display: "flex"}} >
             <Button>
                 <Link style={{color: "white", textDecoration: 'none' }} to="/">
                     SmartSub
@@ -24,13 +24,11 @@ function NavBar(){
                 </Link>
             </Button>
 
-            <Button>
+            <Button style={{ marginLeft: "auto" }}>
                 <Link style={{color: "white", textDecoration: 'none' }} to="/LoginPage">
                     Login
                 </Link>
             </Button>
-
-
         </div>
 
     )

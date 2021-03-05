@@ -70,6 +70,9 @@ export default function SignUp() {
                         type="password"
                         id="password"
                     />
+                    <Typography component="h1" variant="subtitle2">
+                        * Denotes required field
+                    </Typography>
                     <Button
                         type="submit"
                         fullWidth
