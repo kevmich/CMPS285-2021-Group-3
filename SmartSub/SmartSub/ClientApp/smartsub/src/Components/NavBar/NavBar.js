@@ -19,13 +19,13 @@ function NavBar(){
             </Button>
 
             <Button>
-                <Link style={{color: "white", textDecoration: 'none' }} to="/UserPage/">
+                <Link style={{color: "white", textDecoration: 'none' }} to="/UserPage">
                     UserPage
                 </Link>
             </Button>
 
             <Button>
-                <Link style={{color: "white", textDecoration: 'none' }} to="/LoginPage/">
+                <Link style={{color: "white", textDecoration: 'none' }} to="/LoginPage">
                     Login
                 </Link>
             </Button>
