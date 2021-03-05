@@ -138,7 +138,6 @@ namespace SmartSub.Controllers
                 return BadRequest("User does not exist");
             }
 
-
             var subscriptions = await dataContext.Set<Subscription>().Where(x => x.userId == id).Select(x =>
                 new GetSubDto{
                     Id = x.Id,
@@ -156,6 +155,11 @@ namespace SmartSub.Controllers
         [HttpGet("GetSubById")]
         public async Task<ActionResult<Subscription>> GetById(int id)
         {
+            if (userManager.FindByIdAsync(id.ToString()) == null)
+            {
+                return BadRequest("User does not exist");
+            }
+
             var data = await dataContext.Set<Subscription>().FirstOrDefaultAsync(x => x.Id == id);
             if (data == null)
             {
