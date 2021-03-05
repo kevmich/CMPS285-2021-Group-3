@@ -154,15 +154,30 @@ namespace SmartSub.Controllers
         }
 
         [HttpGet("GetSubById")]
-        public ActionResult<GetSubDto> GetByUserId(int id)
+        public async Task<ActionResult<Subscription>> GetById(int id)
         {
-            //need to return something like the following
-            // GetSubDto getSubDto = dataContext.set<Subscriptions>().FirstOrDefault(x => x.id == id);
-            //then return dto inside of ok statement. return bad request if nothing is found 
-            return Ok();
-        }
+            var data = await dataContext.Set<Subscription>().FirstOrDefaultAsync(x => x.Id == id);
+            if (data == null)
+            {
+                return BadRequest();
+            }
 
+            var sub = await dataContext.Set<Subscription>().Where(x => x.Id == id).Select(x =>
+                new GetSubDto
+                {
+                    Id = x.Id,
+                    RenewDate = x.RenewDate,
+                    Price = x.Price,
+                    Provider = x.Provider,
+                    PaymentFrequency = x.paymentFrequency,
+                    Note = x.Note
+                }
+                ).ToListAsync();
+            return Ok(sub);
+        }
     }
+
 }
+
 
 
