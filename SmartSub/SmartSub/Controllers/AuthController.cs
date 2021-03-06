@@ -29,7 +29,6 @@ namespace SmartSub.Controllers
             var user = new User { UserName = dto.Username, emailOptIn = dto.emailOptIn};
             var result = await userManager.CreateAsync(user, dto.Password);
 
-
             if (!result.Succeeded)
             {
                 return BadRequest();
