@@ -1,6 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import axios from "axios";
+import {setState} from 'react';
 import {Grid, Box, Typography, Container, Avatar, Button,
-    FormControlLabel, CssBaseline, TextField, Checkbox, makeStyles} from '@material-ui/core';
+    FormControlLabel, CssBaseline, TextField, makeStyles,
+    FormControl, Checkbox, Input, InputLabel, Paper} from '@material-ui/core';
 import {Link} from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
@@ -25,76 +29,81 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SignUp() {
+function SignUp() {
+    axios.post("/Auth/Create", this.user)
+        .then((response) => {
+            console.log(response);
+        }, (error) => {
+            console.log(error);
+        });
+}
+
+export default function SignUpPage() {
     const classes = useStyles();
+    const [user, setUser] = setState({username:"", password:""})
 
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
-            <div className={classes.paper}>
+            <Paper className={classes.paper}>
                 <Avatar className={classes.avatar} style={{background: "darkslateblue"}}>
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Sign Up
                 </Typography>
-                <form className={classes.form} noValidate>
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="username"
-                        label="Username"
-                        name="username"
-                        autoComplete="username"
-                        autoFocus
-                    />
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                    />
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Confirm Password"
-                        type="password"
-                        id="password"
-                    />
+                    <form className={classes.form} noValidate>
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="username"
+                            label="Username"
+                            name="username"
+                            autoComplete="username"
+                            autoFocus
+                        />
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Password"
+                            type="password"
+                            id="password"
+                        />
+
                     <Typography component="h1" variant="subtitle2">
                         * Denotes required field
                     </Typography>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                        style={{background: "darkslateblue"}}
-                    >
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            className={classes.submit}
+                            style={{background: "darkslateblue"}}
+                            onClick={SignUp}
+                        >
                         Sign Up
-                    </Button>
-                    <Grid container>
+                        </Button>
+                    </form>
+                <Grid container>
                         <Grid item>
                             <Link to="/LoginPage" variant="body2">
                                 {"Already have an account? Login"}
                             </Link>
                         </Grid>
                     </Grid>
-                </form>
-            </div>
+            </Paper>
             <Box mt={8}>
 
             </Box>
         </Container>
+
     );
 }
+SignUp.propTypes ={
+    classes: PropTypes.object.isRequired,
+};

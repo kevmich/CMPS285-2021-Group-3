@@ -88,7 +88,7 @@ export default function UserPage() {
         info: []
     });
     useEffect(() => {
-        axios.get('')
+        axios.get('/Subs/GetAllSubs')
             .then((response) => {
                 setTableInfo((table) => {
                     const infoCall = {...table};
