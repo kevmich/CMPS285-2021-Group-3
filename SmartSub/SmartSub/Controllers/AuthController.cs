@@ -26,8 +26,9 @@ namespace SmartSub.Controllers
         [HttpPost("Create")]
         public async Task<ActionResult> Create(CreateUserDto dto)
         {
-            var user = new User { UserName = dto.Username };
+            var user = new User { UserName = dto.Username, emailOptIn = dto.emailOptIn};
             var result = await userManager.CreateAsync(user, dto.Password);
+
 
             if (!result.Succeeded)
             {

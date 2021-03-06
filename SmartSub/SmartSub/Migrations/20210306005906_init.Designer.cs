@@ -10,8 +10,8 @@ using SmartSub.Data;
 namespace SmartSub.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210228002609_Init")]
-    partial class Init
+    [Migration("20210306005906_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

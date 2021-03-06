@@ -12,7 +12,7 @@ namespace SmartSub.Data.Entities
 
         public ICollection<Subscription> Subscription { get; set; } = new List<Subscription>();
 
-        // create a bool for if opt in for emails
+        public bool emailOptIn { get; set; }
 
     }
 }
