@@ -130,6 +130,7 @@ namespace SmartSub.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("GetAllSubsByUserId")]
         public async Task<ActionResult<GetSubDto>> GetAll(int id)
         {
@@ -152,6 +153,7 @@ namespace SmartSub.Controllers
             
         }
 
+        [Authorize]
         [HttpGet("GetSubById")]
         public async Task<ActionResult<Subscription>> GetById(int id)
         {
