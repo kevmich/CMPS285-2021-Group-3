@@ -14,6 +14,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using SmartSub.Data.Entities;
 
 namespace SmartSub
 {
@@ -35,13 +37,19 @@ namespace SmartSub
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 // MSSQL running locally
-                services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MSDataContext")));
+                services.AddDbContext<DataContext>(options => 
+                    options.UseSqlServer(Configuration.GetConnectionString("MSDataContext")), ServiceLifetime.Transient);
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
                 // MSSQL running in Docker container
-                services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("OSXDataContext")));            
+                services.AddDbContext<DataContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("OSXDataContext")), ServiceLifetime.Transient);            
             }
+
+
+            services.AddIdentity<User, Role>()
+                .AddEntityFrameworkStores<DataContext>();
             
             services.AddSwaggerGen(c =>
             {
@@ -53,6 +61,9 @@ namespace SmartSub
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            
+            AddRoles(app).GetAwaiter().GetResult();
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -64,12 +75,29 @@ namespace SmartSub
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private static async Task AddRoles(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<Role>>();
+                if (roleManager.Roles.Any())
+                {
+                    return;
+                }
+                
+                var role = new Role();
+                role.Name = Roles.user;
+                await roleManager.CreateAsync(role);
+            }
         }
     }
 }
