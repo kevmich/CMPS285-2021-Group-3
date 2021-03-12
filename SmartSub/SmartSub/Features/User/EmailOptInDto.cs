@@ -3,8 +3,6 @@ namespace SmartSub.Features.User
 {
     public class EmailOptInDto
     {
-        public EmailOptInDto()
-        {
-        }
+        public string Email { get; set; }
     }
 }

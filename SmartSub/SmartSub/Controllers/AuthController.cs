@@ -23,8 +23,8 @@ namespace SmartSub.Controllers
             this.signInManager = signInManager;
         }
 
+        private Task<User> GetCurrentUserAsync() => userManager.GetUserAsync(HttpContext.User);
 
-        
         [HttpPost("Create")]
         public async Task<ActionResult> Create(CreateUserDto dto)
         {
@@ -94,13 +94,40 @@ namespace SmartSub.Controllers
 
         [Authorize]
         [HttpPut("EmailOptIn")]
-        public async Task<ActionResult> OptIn(string email)
+        public async Task<ActionResult> OptIn(EmailOptInDto dto)
         {
 
-            
+            if (dto.Email.Length > 0)
+            {
+                if (!new EmailAddressAttribute().IsValid(dto.Email))
+                {
+                    return BadRequest("Email not valid");
+                }
+            }
+
+            if (dto.Email.Length == 0)
+            {
+                return BadRequest("Failed to populate Email field");
+            }
+
+            User user = await GetCurrentUserAsync();
+
+            var result = await userManager.SetEmailAsync(user, dto.Email);
 
             return Ok();
         }
-        
+
+        [Authorize]
+        [HttpPut("EmailOptOut")]
+        public async Task<ActionResult> OptOut()
+        {
+
+            User user = await GetCurrentUserAsync();
+
+            var result = await userManager.SetEmailAsync(user, null);
+
+            return Ok();
+        }
+
     }
 }
