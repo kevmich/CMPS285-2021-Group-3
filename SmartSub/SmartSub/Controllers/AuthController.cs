@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SmartSub.Data.Entities;
@@ -90,5 +91,16 @@ namespace SmartSub.Controllers
 
            return Ok();
         }
+
+        [Authorize]
+        [HttpPut("EmailOptIn")]
+        public async Task<ActionResult> OptIn(string email)
+        {
+
+            
+
+            return Ok();
+        }
+        
     }
 }
