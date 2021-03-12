@@ -25,7 +25,9 @@ namespace SmartSub.Controllers
             this.dataContext = dataContext;
         }
 
-       
+        private Task<User> GetCurrentUserAsync() => userManager.GetUserAsync(HttpContext.User);
+
+
 
         [Authorize]
         [HttpPost("CreateSub")]
@@ -33,6 +35,8 @@ namespace SmartSub.Controllers
         {
             using (var transaction = dataContext.Database.BeginTransaction())
             {
+
+                User user = await GetCurrentUserAsync();
 
                 if (dto.Price < 0)
                 {
@@ -53,7 +57,7 @@ namespace SmartSub.Controllers
 
                 var sub = await dataContext.Set<Subscription>().AddAsync(new Subscription
                 {
-                    userId = dto.UserId,
+                    userId = user.Id,
                     Provider = dto.Provider,
                     Price = dto.Price,
                     Note = dto.Note,
@@ -130,15 +134,19 @@ namespace SmartSub.Controllers
             }
         }
 
-        [HttpGet("GetAllSubsByUserId")]
-        public async Task<ActionResult<GetSubDto>> GetAll(int id)
+        [Authorize]
+        [HttpGet("GetAllSubsForCurrentUser")]
+        public async Task<ActionResult<GetSubDto>> GetAll()
         {
-            if (userManager.FindByIdAsync(id.ToString()) == null)
+
+            User user = await GetCurrentUserAsync();
+
+            if (userManager.FindByIdAsync(user.Id.ToString()) == null)
             {
                 return BadRequest("User does not exist");
             }
 
-            var subscriptions = await dataContext.Set<Subscription>().Where(x => x.userId == id).Select(x =>
+            var subscriptions = await dataContext.Set<Subscription>().Where(x => x.userId == user.Id).Select(x =>
                 new GetSubDto{
                     Id = x.Id,
                     RenewDate = x.RenewDate,
@@ -152,6 +160,7 @@ namespace SmartSub.Controllers
             
         }
 
+        [Authorize]
         [HttpGet("GetSubById")]
         public async Task<ActionResult<Subscription>> GetById(int id)
         {
