@@ -63,7 +63,6 @@ namespace SmartSub.Controllers
 
             return Ok(new GetUserDto
             {
-                Id = user.Id,
                 UserName = user.UserName,
                 Roles = roles
             });
