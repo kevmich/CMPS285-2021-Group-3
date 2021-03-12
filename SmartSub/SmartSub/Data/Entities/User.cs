@@ -12,7 +12,6 @@ namespace SmartSub.Data.Entities
 
         public ICollection<Subscription> Subscription { get; set; } = new List<Subscription>();
 
-        public bool emailOptIn { get; set; }
 
     }
 }

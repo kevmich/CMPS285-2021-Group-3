@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -26,19 +27,31 @@ namespace SmartSub.Controllers
         [HttpPost("Create")]
         public async Task<ActionResult> Create(CreateUserDto dto)
         {
-            var user = new User { UserName = dto.Username, emailOptIn = dto.emailOptIn};
-            var result = await userManager.CreateAsync(user, dto.Password);
 
-            if (!result.Succeeded)
+            if (dto.Email.Length > 0) {
+                if (!new EmailAddressAttribute().IsValid(dto.Email))
+                {
+                    return BadRequest("Email not valid");
+                }
+            }
+            
+            if (dto.Email.Length == 0)
             {
-                return BadRequest();
+                dto.Email = null;
             }
 
-            await userManager.AddToRoleAsync(user, "User");
 
-            // User added successfully, you can safely use the Id now.
+                var user = new User { UserName = dto.Username, Email = dto.Email };
+                var result = await userManager.CreateAsync(user, dto.Password);
 
-            return Ok();
+                if (!result.Succeeded)
+                {
+                    return BadRequest();
+                }
+
+                await userManager.AddToRoleAsync(user, "User");
+
+                return Ok();
         }
 
 
