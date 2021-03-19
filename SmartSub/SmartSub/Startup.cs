@@ -16,6 +16,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using SmartSub.Data.Entities;
+using Hangfire;
 
 namespace SmartSub
 {
@@ -98,6 +99,18 @@ namespace SmartSub
                 role.Name = Roles.user;
                 await roleManager.CreateAsync(role);
             }
+        }
+
+            // attempting to configure hangfire hangfire
+        public void ConfigureHangfire(IServiceCollection services)
+        {
+            services.AddHangfire(x => x.UseSqlServerStorage("Server=localhost,1433;User=sa;Password=!@#123QWEqwe;Database=SmartSub;Trusted_Connection=False;"));
+            services.AddHangfireServer();
+        }
+
+        public void Configure(IApplicationBuilder app)
+        {
+            app.UseHangfireDashboard();
         }
     }
 }
