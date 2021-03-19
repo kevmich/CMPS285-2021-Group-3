@@ -104,7 +104,7 @@ namespace SmartSub
             // attempting to configure hangfire hangfire
         public void ConfigureHangfire(IServiceCollection services)
         {
-            services.AddHangfire(x => x.UseSqlServerStorage("Server=localhost,1433;User=sa;Password=!@#123QWEqwe;Database=SmartSub;Trusted_Connection=False;"));
+            services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("OSXDataContext")));
             services.AddHangfireServer();
         }
 
