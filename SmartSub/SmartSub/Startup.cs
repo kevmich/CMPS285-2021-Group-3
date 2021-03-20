@@ -40,12 +40,18 @@ namespace SmartSub
                 // MSSQL running locally
                 services.AddDbContext<DataContext>(options => 
                     options.UseSqlServer(Configuration.GetConnectionString("MSDataContext")), ServiceLifetime.Transient);
+
+                services.AddHangfire(configuration => configuration.UseSqlServerStorage(Configuration.GetConnectionString("MSDataContext")));
+                services.AddHangfireServer();
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
                 // MSSQL running in Docker container
                 services.AddDbContext<DataContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("OSXDataContext")), ServiceLifetime.Transient);            
+                    options.UseSqlServer(Configuration.GetConnectionString("OSXDataContext")), ServiceLifetime.Transient);
+
+                services.AddHangfire(configuration => configuration.UseSqlServerStorage(Configuration.GetConnectionString("OSXDataContext")));
+                services.AddHangfireServer();
             }
 
 
@@ -57,6 +63,7 @@ namespace SmartSub
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartSub", Version = "v1" });
             });
 
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,6 +78,13 @@ namespace SmartSub
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartSub v1"));
             }
+
+            app.UseHangfireDashboard();
+
+            RecurringJob.AddOrUpdate(
+                () => Console.WriteLine("Recurring!"),
+                Cron.Minutely);
+
 
             app.UseHttpsRedirection();
 
@@ -101,16 +115,6 @@ namespace SmartSub
             }
         }
 
-            // attempting to configure hangfire hangfire
-        public void ConfigureHangfire(IServiceCollection services)
-        {
-            services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("OSXDataContext")));
-            services.AddHangfireServer();
-        }
-
-        public void Configure(IApplicationBuilder app)
-        {
-            app.UseHangfireDashboard();
-        }
+         
     }
 }
