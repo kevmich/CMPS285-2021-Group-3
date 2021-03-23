@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using SmartSub.Data.Entities;
 using Hangfire;
+using SmartSub.Services.EmailRequest;
 
 namespace SmartSub
 {
@@ -63,7 +64,13 @@ namespace SmartSub
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartSub", Version = "v1" });
             });
 
-           
+            var emailConfig = Configuration
+            .GetSection("EmailConfiguration")
+            .Get<SmtpSettings>();
+            services.AddSingleton(emailConfig);
+            services.AddControllers();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,6 +88,7 @@ namespace SmartSub
 
             app.UseHangfireDashboard();
 
+                // THIS IS THE JOB 
             RecurringJob.AddOrUpdate(
                 () => Console.WriteLine("Recurring!"),
                 Cron.Minutely);
@@ -115,6 +123,8 @@ namespace SmartSub
             }
         }
 
-         
+
+       
+
     }
 }
