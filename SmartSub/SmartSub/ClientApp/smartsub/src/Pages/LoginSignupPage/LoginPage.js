@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
     const classes = useStyles();
-
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -84,7 +83,6 @@ export default function Login() {
                 </form>
             </div>
             <Box mt={8}>
-
             </Box>
         </Container>
     );

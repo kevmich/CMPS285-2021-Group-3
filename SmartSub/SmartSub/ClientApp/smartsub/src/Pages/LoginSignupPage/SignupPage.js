@@ -4,11 +4,8 @@ import {Grid, Box, Typography, Container, Avatar, Button,
 import {Link} from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import axios from "axios";
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import { Alert, AlertTitle } from '@material-ui/lab';
+
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -41,45 +38,33 @@ let AxiosCall = () => {
             }
         });
     } else {
-        let PasswordAlert = () => {
-            const [open, setOpen] = React.useState(false);
-            const isOpen = () => {
-                setOpen(true);
-            };
-            const isClosed = () => {
-                setOpen(false);
-            };
+        const useStyles = makeStyles((theme) => ({
+            root: {
+                width: '100%',
+                '& > * + *': {
+                    marginTop: theme.spacing(2),
+                },
+            },
+        }));
+
+        let Alert = () => {
+            const classes = useStyles();
+
             return (
-                <div>
-                    <Dialog
-                        open={isOpen}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
-                    >
-                        <DialogTitle id="alert-dialog-title">{"Incorrect Password Submission"}</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText id="alert-dialog-description">
-                                Passwords do not match. Please try again.
-                            </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={isClosed} color="primary" autoFocus>
-                                Continue
-                            </Button>
-                        </DialogActions>
-                    </Dialog>
+                <div className={classes.root}>
+                    <Alert severity="error">This is an error alert — check it out!</Alert>
                 </div>
             );
         }
-    }
+        }
 }
 
-const SignUp = () =>  {
-    const classes = useStyles();
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [password2, setPassword2] = useState("");
-    const [email, setEmail] = useState("");
+    const SignUp = () => {
+        const classes = useStyles();
+        const [username, setUsername] = useState("");
+        const [password, setPassword] = useState("");
+        const [password2, setPassword2] = useState("");
+        const [email, setEmail] = useState("");
         return (
             <Container component="main" maxWidth="xs">
                 <CssBaseline/>
