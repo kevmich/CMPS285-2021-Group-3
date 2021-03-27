@@ -18,6 +18,8 @@ using Microsoft.AspNetCore.Identity;
 using SmartSub.Data.Entities;
 using Hangfire;
 using SmartSub.Services.EmailRequest;
+using SmartSub.Services;
+using MimeKit;
 
 namespace SmartSub
 {
@@ -74,7 +76,7 @@ namespace SmartSub
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IEmailSender emailSender)
         {
             
             AddRoles(app).GetAwaiter().GetResult();
@@ -90,8 +92,7 @@ namespace SmartSub
 
                 // THIS IS THE JOB 
             RecurringJob.AddOrUpdate(
-                () => Console.WriteLine("Recurring!"),
-                Cron.Minutely);
+                () => emailSender.send(new MimeMessage()), Cron.Minutely);
 
 
             app.UseHttpsRedirection();

@@ -1,25 +1,35 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using MimeKit;
+using SmartSub.Data;
 using SmartSub.Services.EmailRequest;
 
 namespace SmartSub.Services
 {
+    public interface IEmailSender
+    {
+       void send(MimeMessage message);
+    }
 
-    public class EmailSender : EmailService
+    public class EmailSender : IEmailSender
     {
         private readonly SmtpSettings _emailConfig;
+        private readonly DataContext dataContext;
 
-        public EmailSender(SmtpSettings emailConfig)
+        public EmailSender(SmtpSettings emailConfig, DataContext dataContext)
         {
             _emailConfig = emailConfig;
+            this.dataContext = dataContext;
         }
 
         public void SendEmail(Message message)
         {
             var emailMessage = CreateEmailMessage(message);
-            Send(emailMessage);
+            send(emailMessage);
         }
 
         private MimeMessage CreateEmailMessage(Message message)
@@ -33,13 +43,34 @@ namespace SmartSub.Services
             return emailMessage;
         }
 
-        private void send(Message message)
+        public void send(MimeMessage message)
         {
-            var client = new SmtpSettings()
+            var client = new SmtpClient
             {
-                client.Server = _emailConfig.Server;
-            }
+                Host = "smtp.gmail.com",
+                Port = _emailConfig.Port
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
 
+            };
+
+        }
+
+        public class Message
+        {
+
+            public List<MailboxAddress> To { get; set; }
+            public string Subject { get; set; }
+            public string Content { get; set; }
+            public Message(IEnumerable<string> to, string subject, string content)
+            {
+                To = new List<MailboxAddress>();
+                To.AddRange(to.Select(x => new MailboxAddress(x)));
+                Subject = subject;
+                Content = content;
+            }
         }
     }
 }

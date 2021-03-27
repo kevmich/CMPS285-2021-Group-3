@@ -9,9 +9,15 @@ using SmartSub.Data.Entities;
 
 namespace SmartSub.Services
 {
-    public class EmailService
+
+    public interface IEmailService
     {
-        
+
+    }
+
+    public class EmailService : IEmailService
+    {
+
         public class Message
         {
 
