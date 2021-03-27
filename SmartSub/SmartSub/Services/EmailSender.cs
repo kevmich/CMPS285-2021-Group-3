@@ -48,12 +48,11 @@ namespace SmartSub.Services
             var client = new SmtpClient
             {
                 Host = "smtp.gmail.com",
-                Port = _emailConfig.Port
+                Port = _emailConfig.Port,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
-
+                Credentials = new NetworkCredential(message.From.ToString(), message.To.ToString())
             };
 
         }
