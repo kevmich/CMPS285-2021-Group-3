@@ -4,7 +4,11 @@ import {Grid, Box, Typography, Container, Avatar, Button,
 import {Link} from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import axios from "axios";
-
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -27,8 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 let AxiosCall = () => {
-    if(this.password === this.password2)
-    {
+    if (this.password === this.password2) {
         axios({
             method: 'post',
             url: '/Auth/Create',
@@ -37,20 +40,46 @@ let AxiosCall = () => {
                 password: this.password,
             }
         });
-    }
-    else {
-        console.log("Passwords do not match.")
+    } else {
+        let PasswordAlert = () => {
+            const [open, setOpen] = React.useState(false);
+            const isOpen = () => {
+                setOpen(true);
+            };
+            const isClosed = () => {
+                setOpen(false);
+            };
+            return (
+                <div>
+                    <Dialog
+                        open={isOpen}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title">{"Incorrect Password Submission"}</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                                Passwords do not match. Please try again.
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={isClosed} color="primary" autoFocus>
+                                Continue
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+                </div>
+            );
+        }
     }
 }
 
 const SignUp = () =>  {
-
     const classes = useStyles();
-
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
-
+    const [email, setEmail] = useState("");
         return (
             <Container component="main" maxWidth="xs">
                 <CssBaseline/>
@@ -79,6 +108,17 @@ const SignUp = () =>  {
                             margin="normal"
                             required
                             fullWidth
+                            name="email"
+                            label="Email"
+                            type="email"
+                            id="email"
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
                             name="password"
                             label="Password"
                             type="password"
@@ -94,10 +134,7 @@ const SignUp = () =>  {
                             label="Confirm Password"
                             type="password"
                             id="password"
-                            onChange=
-                                {
-                                    (e) => setPassword2(e.target.value)
-                                }
+                            onChange={(e) => setPassword2(e.target.value)}
                         />
                         <Typography component="h1" variant="subtitle2">
                             * Denotes required field
