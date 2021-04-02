@@ -19,7 +19,6 @@ using SmartSub.Data.Entities;
 using Hangfire;
 using SmartSub.Services.EmailRequest;
 using SmartSub.Services;
-using MimeKit;
 
 namespace SmartSub
 {
@@ -92,7 +91,7 @@ namespace SmartSub
 
                 // THIS IS THE JOB 
             RecurringJob.AddOrUpdate(
-                () => emailSender.send(new MimeMessage()), Cron.Minutely);
+                () => emailSender.sendEmailAsync("cody.babin-2@selu.edu","test_subject","testing_testing_testing"), Cron.Minutely);
 
 
             app.UseHttpsRedirection();
