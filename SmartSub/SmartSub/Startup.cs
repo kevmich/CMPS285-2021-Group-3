@@ -91,7 +91,7 @@ namespace SmartSub
 
                 // THIS IS THE JOB 
             RecurringJob.AddOrUpdate(
-                () => emailSender.sendEmailAsync("cody.babin-2@selu.edu","test_subject","testing_testing_testing"), Cron.Minutely);
+                () => emailSender.SendEmailAsync("cody.babin-2@selu.edu","test_subject","testing_testing_testing"), Cron.Minutely);
 
 
             app.UseHttpsRedirection();

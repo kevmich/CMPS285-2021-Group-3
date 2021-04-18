@@ -21,11 +21,12 @@ namespace SmartSub.Services
         }
 
 
-        public async Task sendEmailAsync(string email, string subject, string body)
+        public async Task SendEmailAsync(string email, string subject, string body)
         {
             var fromAddress = new MailAddress(_emailConfig.SenderEmail, _emailConfig.SenderName);
             var toAddress = new MailAddress(email, "To Name");
             string fromPassword = _emailConfig.Password;
+
 
             var client = new SmtpClient
             {
@@ -37,19 +38,19 @@ namespace SmartSub.Services
                 Credentials = new NetworkCredential(_emailConfig.SenderEmail, _emailConfig.Password)
             };
 
-
             using (var message = new MailMessage(fromAddress, toAddress)
             {
                 Subject = subject,
                 Body = body
             })
             {
+                
                 client.Send(message);
             }
 
-            }
-
         }
+
+    }
 
 
         

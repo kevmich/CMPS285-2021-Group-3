@@ -1,11 +1,13 @@
-﻿using System;
+﻿
 using System.Threading.Tasks;
+using SmartSub.Services.EmailRequest;
 
 namespace SmartSub.Services
 {
     public interface IEmailSender
     {
-        Task sendEmailAsync(string email, string subject, string body);
+
+        Task SendEmailAsync(string email, string subject, string body);
        
     }
 }
