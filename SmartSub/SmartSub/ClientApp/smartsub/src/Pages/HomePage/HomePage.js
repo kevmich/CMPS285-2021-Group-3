@@ -9,21 +9,27 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
     root: {
-        minWidth: 275,
+        marginLeft: 200,
+        marginRight: 200,
+        backgroundColor: "#000000"
     },
     bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
+        display: 'inline-flex',
     },
     title: {
-        fontSize: 26,
-        textAlign: "center"
+        fontSize: 32,
+        textAlign: "center",
+        textTransform: "uppercase",
+        letterSpacing: '8px',
+        color: 'white',
+        fontWeight: "bolder",
     },
     pos: {
         marginBottom: 12,
     },
 });
+
+document.body.style.backgroundColor = "white";
 
 export default function HomeCard() {
     const classes = useStyles();
@@ -32,16 +38,16 @@ export default function HomeCard() {
     return (
         <Card className={classes.root} variant="outlined">
             <CardContent>
-                <Typography className={classes.title} color="black" gutterBottom>
-                    SmartSub
+                <Typography className={classes.title}>
+                    Smart Sub
                 </Typography>
-                <Typography variant="h6" component="h6">
+                <Typography variant="h6" component="h6" style={{color:'white'}}>
                     About Us
                 </Typography>
-                <Typography className={classes.pos} color="textSecondary">
-                    Smart Subscription Tracker
+                <Typography className={classes.pos} style={{color:'white'}}>
+                    <i>Smart Subscription Tracker</i>
                 </Typography>
-                <Typography variant="body1" component="p">
+                <Typography variant="body1" component="p" style={{color:'white'}}>
                     SmartSub is a website designed to help people manage their subscriptions. The average number of
                     services people are subscribed to is becoming far too cumbersome for any one person to reasonably manage.
                     SmartSub allows for a very simple user interface that creates and easy, streamlined experience for any user
@@ -51,7 +57,7 @@ export default function HomeCard() {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button variant="outlined">
+                <Button variant="outlined" style={{color:'white', background:'linear-gradient(45deg, #8e00be 30%, #3100cd 90%)',}}>
                     Learn More
                 </Button>
             </CardActions>

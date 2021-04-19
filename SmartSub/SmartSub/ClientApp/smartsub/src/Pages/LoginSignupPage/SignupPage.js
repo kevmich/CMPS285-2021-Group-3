@@ -69,8 +69,8 @@ let AxiosCall = () => {
             <Container component="main" maxWidth="xs">
                 <CssBaseline/>
                 <div className={classes.paper}>
-                    <Avatar className={classes.avatar} style={{background: "darkslateblue"}}>
-                        <LockOutlinedIcon/>
+                    <Avatar className={classes.avatar} style={{backgroundColor: "black"}}>
+                        <LockOutlinedIcon style={{color: "white"}}/>
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign Up
@@ -132,7 +132,7 @@ let AxiosCall = () => {
                             variant="contained"
                             color="primary"
                             className={classes.submit}
-                            style={{background: "darkslateblue"}}
+                            style={{backgroundColor: "black"}}
                         >
                             Sign Up
                         </Button>

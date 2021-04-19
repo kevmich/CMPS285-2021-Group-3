@@ -10,21 +10,23 @@ import {
 } from "@material-ui/core";
 import { Home } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
     navbarDisplayFlex: {
-        display: `flex`,
-        justifyContent: `space-between`
+        display: `inline-flex`,
+        justifyContent: `space-between`,
     },
     navDisplayFlex: {
-        display: `flex`,
-        justifyContent: `space-between`
+        display: `inline-flex`,
+        justifyContent: `space-between`,
     },
     linkText: {
         textDecoration: `none`,
         textTransform: `uppercase`,
         color: `white`,
     }
+
 });
 
 const navLinks = [
@@ -36,10 +38,10 @@ const navLinks = [
 const NavBar = () => {
     const classes = useStyles();
     return (
-        <AppBar position="static">
+        <AppBar position="static" style={{background:'linear-gradient(45deg, #8e00be 30%, #3100cd 90%)',}}>
             <Toolbar>
                 <Container className={classes.navbarDisplayFlex}>
-                    <IconButton edge="start" color="inherit" aria-label="home">
+                    <IconButton component={Link} to='/' edge="start" color="inherit" aria-label="home">
                         <Home fontSize="md" />
                     </IconButton>
                     <List
