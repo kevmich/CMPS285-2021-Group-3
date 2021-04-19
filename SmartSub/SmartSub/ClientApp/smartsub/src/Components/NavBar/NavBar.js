@@ -42,7 +42,7 @@ const NavBar = () => {
             <Toolbar>
                 <Container className={classes.navbarDisplayFlex}>
                     <IconButton component={Link} to='/' edge="start" color="inherit" aria-label="home">
-                        <Home fontSize="md" />
+                        <Home fontSize="default" />
                     </IconButton>
                     <List
                         component="nav"

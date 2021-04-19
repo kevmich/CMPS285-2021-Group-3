@@ -29,30 +29,35 @@ namespace SmartSub.Controllers
         public async Task<ActionResult> Create(CreateUserDto dto)
         {
 
-            if (dto.Email.Length > 0) {
-                if (!new EmailAddressAttribute().IsValid(dto.Email))
-                {
-                    return BadRequest("Email not valid");
-                }
-            }
-            
-            if (dto.Email.Length == 0)
+            if (dto.Email != null)
             {
-                dto.Email = null;
+                if (dto.Email.Length > 0)
+                {
+                    if (!new EmailAddressAttribute().IsValid(dto.Email))
+                    {
+                        return BadRequest("Email not valid");
+                    }
+                }
+
+                if (dto.Email.Length == 0)
+                {
+                    dto.Email = null;
+                }
             }
 
 
-                var user = new User { UserName = dto.Username, Email = dto.Email };
-                var result = await userManager.CreateAsync(user, dto.Password);
 
-                if (!result.Succeeded)
-                {
-                    return BadRequest();
-                }
+            var user = new User { UserName = dto.Username, Email = dto.Email };
+            var result = await userManager.CreateAsync(user, dto.Password);
 
-                await userManager.AddToRoleAsync(user, "User");
+            if (!result.Succeeded)
+            {
+                return BadRequest();
+            }
 
-                return Ok();
+            await userManager.AddToRoleAsync(user, "User");
+
+            return Ok();
         }
 
 

@@ -27,16 +27,38 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-let AxiosCall = () => {
-    if (this.password === this.password2) {
+let AxiosCall = (username, password, password2, email) => {
+    console.log(username, password, password2, email);
+    if (password === password2) {
         axios({
             method: 'post',
             url: '/Auth/Create',
             data: {
-                username: this.username,
-                password: this.password,
+                username: username,
+                password: password,
+                email: email,
             }
-        });
+        })
+        .catch(function (error) {
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+            } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                // http.ClientRequest in node.js
+                console.log(error.request);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+            }
+            console.log(error.config);
+        })
+
+
     } else {
         const useStyles = makeStyles((theme) => ({
             root: {
@@ -75,7 +97,8 @@ let AxiosCall = () => {
                     <Typography component="h1" variant="h5">
                         Sign Up
                     </Typography>
-                    <form className={classes.form} noValidate>
+                    <form className={classes.form} noValidate
+                            onSubmit={e=>e.preventDefault()}>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -125,7 +148,7 @@ let AxiosCall = () => {
                             * Denotes required field
                         </Typography>
                         <Button
-                            onClick={AxiosCall}
+                            onClick={()=>AxiosCall(username, password, password2, email)}
                             onSubmit={e => e.preventDefault()}
                             type="submit"
                             fullWidth
