@@ -1,37 +1,65 @@
-import './NavBar.css';
-import React, { Component } from 'react';
-import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
+import * as React from "react";
+import {
+    AppBar,
+    Toolbar,
+    IconButton,
+    List,
+    ListItem,
+    ListItemText,
+    Container
+} from "@material-ui/core";
+import { Home } from "@material-ui/icons";
+import { makeStyles } from "@material-ui/core/styles";
+import { Link } from 'react-router-dom';
 
+const useStyles = makeStyles({
+    navbarDisplayFlex: {
+        display: `inline-flex`,
+        justifyContent: `space-between`,
+    },
+    navDisplayFlex: {
+        display: `inline-flex`,
+        justifyContent: `space-between`,
+    },
+    linkText: {
+        textDecoration: `none`,
+        textTransform: `uppercase`,
+        color: `white`,
+    }
 
-import Button from '@material-ui/core/Button';
+});
 
-let x = "SmartSub";
+const navLinks = [
+    { title: `user page`, path: `/UserPage` },
+    { title: `login`, path: `/LoginPage` },
+    { title: `sign up`, path: `/SignupPage` },
+];
 
-
-function NavBar(){
-
-            return(
-        <div style={{background: "darkslateblue", display: "flex"}} >
-            <Button>
-                <Link style={{color: "white", textDecoration: 'none' }} to="/">
-                    SmartSub
-                </Link>
-            </Button>
-
-            <Button>
-                <Link style={{color: "white", textDecoration: 'none' }} to="/UserPage">
-                    UserPage
-                </Link>
-            </Button>
-
-            <Button style={{ marginLeft: "auto" }}>
-                <Link style={{color: "white", textDecoration: 'none' }} to="/LoginPage">
-                    Login
-                </Link>
-            </Button>
-        </div>
-
-    )
-}
-
+const NavBar = () => {
+    const classes = useStyles();
+    return (
+        <AppBar position="static" style={{background:'linear-gradient(45deg, #8e00be 30%, #3100cd 90%)',}}>
+            <Toolbar>
+                <Container className={classes.navbarDisplayFlex}>
+                    <IconButton component={Link} to='/' edge="start" color="inherit" aria-label="home">
+                        <Home fontSize="md" />
+                    </IconButton>
+                    <List
+                        component="nav"
+                        aria-labelledby="main navigation"
+                        className={classes.navDisplayFlex}
+                    >
+                        {navLinks.map(({ title, path }) => (
+                            <a href={path} key={title} className={classes.linkText}>
+                                <ListItem button>
+                                    <ListItemText primary={title}/>
+                                </ListItem>
+                            </a>
+                        ))}
+                    </List>
+                </Container>
+            </Toolbar>
+        </AppBar>
+    );
+};
 export default NavBar;

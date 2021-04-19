@@ -1,4 +1,6 @@
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SmartSub.Data.Entities;
@@ -21,24 +23,36 @@ namespace SmartSub.Controllers
             this.signInManager = signInManager;
         }
 
+        private Task<User> GetCurrentUserAsync() => userManager.GetUserAsync(HttpContext.User);
 
-        
         [HttpPost("Create")]
         public async Task<ActionResult> Create(CreateUserDto dto)
         {
-            var user = new User { UserName = dto.Username };
-            var result = await userManager.CreateAsync(user, dto.Password);
 
-            if (!result.Succeeded)
+            if (dto.Email.Length > 0) {
+                if (!new EmailAddressAttribute().IsValid(dto.Email))
+                {
+                    return BadRequest("Email not valid");
+                }
+            }
+            
+            if (dto.Email.Length == 0)
             {
-                return BadRequest();
+                dto.Email = null;
             }
 
-            await userManager.AddToRoleAsync(user, "User");
 
-            // User added successfully, you can safely use the Id now.
+                var user = new User { UserName = dto.Username, Email = dto.Email };
+                var result = await userManager.CreateAsync(user, dto.Password);
 
-            return Ok();
+                if (!result.Succeeded)
+                {
+                    return BadRequest();
+                }
+
+                await userManager.AddToRoleAsync(user, "User");
+
+                return Ok();
         }
 
 
@@ -63,7 +77,6 @@ namespace SmartSub.Controllers
 
             return Ok(new GetUserDto
             {
-                Id = user.Id,
                 UserName = user.UserName,
                 Roles = roles
             });
@@ -78,5 +91,43 @@ namespace SmartSub.Controllers
 
            return Ok();
         }
+
+        [Authorize]
+        [HttpPut("EmailOptIn")]
+        public async Task<ActionResult> OptIn(EmailOptInDto dto)
+        {
+
+            if (dto.Email.Length > 0)
+            {
+                if (!new EmailAddressAttribute().IsValid(dto.Email))
+                {
+                    return BadRequest("Email not valid");
+                }
+            }
+
+            if (dto.Email.Length == 0)
+            {
+                return BadRequest("Failed to populate Email field");
+            }
+
+            User user = await GetCurrentUserAsync();
+
+            var result = await userManager.SetEmailAsync(user, dto.Email);
+
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpPut("EmailOptOut")]
+        public async Task<ActionResult> OptOut()
+        {
+
+            User user = await GetCurrentUserAsync();
+
+            var result = await userManager.SetEmailAsync(user, null);
+
+            return Ok();
+        }
+
     }
 }

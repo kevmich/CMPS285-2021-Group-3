@@ -16,6 +16,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using SmartSub.Data.Entities;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 
 namespace SmartSub
 {
@@ -32,19 +33,24 @@ namespace SmartSub
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/smartsub/build";
+            });
             
             //connection string config for OS
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 // MSSQL running locally
                 services.AddDbContext<DataContext>(options => 
-                    options.UseSqlServer(Configuration.GetConnectionString("MSDataContext")));
+                    options.UseSqlServer(Configuration.GetConnectionString("MSDataContext")), ServiceLifetime.Transient);
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
                 // MSSQL running in Docker container
                 services.AddDbContext<DataContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("OSXDataContext")));            
+                    options.UseSqlServer(Configuration.GetConnectionString("OSXDataContext")), ServiceLifetime.Transient);            
             }
 
 
@@ -81,6 +87,15 @@ namespace SmartSub
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp/smartsub";
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                }
             });
         }
 
