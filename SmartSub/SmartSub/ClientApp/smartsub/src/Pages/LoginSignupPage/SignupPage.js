@@ -68,17 +68,9 @@ let AxiosCall = (username, password, password2, email) => {
                 },
             },
         }));
-
-        let Alert = () => {
-            const classes = useStyles();
-
-            return (
-                <div className={classes.root}>
-                    <Alert severity="error">This is an error alert — check it out!</Alert>
-                </div>
-            );
-        }
-        }
+        alert("Your passwords dont match")
+        
+    }
 }
 
     const SignUp = () => {
