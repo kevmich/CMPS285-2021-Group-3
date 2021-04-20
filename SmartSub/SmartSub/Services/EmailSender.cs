@@ -6,18 +6,22 @@ using SmartSub.Services.EmailRequest;
 
 namespace SmartSub.Services
 {
+    public interface IEmailSender
+    {
+
+        Task SendEmailAsync(string email, string subject, string body);
+
+    }
 
     public class EmailSender : IEmailSender
     {
 
 
         private readonly SmtpSettings _emailConfig;
-        private readonly DataContext dataContext;
 
-        public EmailSender(SmtpSettings emailConfig, DataContext dataContext)
+        public EmailSender(SmtpSettings emailConfig)
         {
             _emailConfig = emailConfig;
-            this.dataContext = dataContext;
         }
 
 

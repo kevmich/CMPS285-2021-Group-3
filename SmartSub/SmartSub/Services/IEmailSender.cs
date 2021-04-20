@@ -4,10 +4,10 @@ using SmartSub.Services.EmailRequest;
 
 namespace SmartSub.Services
 {
-    public interface IEmailSender
-    {
+    //Servicespublic interface IEmailSender
+    //{
 
-        Task SendEmailAsync(string email, string subject, string body);
+    //    Task SendEmailAsync(string email, string subject, string body);
        
-    }
+    //}
 }

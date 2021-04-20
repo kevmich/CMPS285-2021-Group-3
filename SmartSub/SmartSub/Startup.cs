@@ -65,11 +65,12 @@ namespace SmartSub
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartSub", Version = "v1" });
             });
 
+
             
-
             services.Configure<SmtpSettings>(Configuration.GetSection("EmailConfiguration"));
+            services.AddScoped<SmtpSettings>();
 
-            services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddScoped<IEmailSender, EmailSender>();
 
 
         }
