@@ -9,26 +9,29 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import Typography from "@material-ui/core/Typography";
+
 
 const columns = [
     {
         id: 'sub',
         label: 'Subscription',
-        minWidth: 170 },
+        minWidth: 150 },
     {
         id: 'price',
         label: 'Price',
-        minWidth: 100 },
+        align: 'center',
+        minWidth: 300 },
     {
         id: 'freq',
-        label: 'PaymentFrequency',
-        minWidth: 170,
-        align: 'right',
+        label: 'Payment Frequency',
+        minWidth: 300,
+        align: 'center',
     },
     {
         id: 'reDate',
-        label: 'RenewDate',
-        minWidth: 170,
+        label: 'Renew Date',
+        minWidth: 150,
         align: 'right',
 
     },
@@ -39,6 +42,26 @@ function createData(sub, price, freq, reDate) {
 }
 
 const rows = [
+    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
+    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
+    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
+    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
+    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
+    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
+    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
+    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
+    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
+    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
+    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
+    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
+    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
+    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
+    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
+    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
+    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
+    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
+    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
+    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
 
 ];
 
@@ -47,7 +70,7 @@ const useStyles = makeStyles({
         width: '100%',
     },
     container: {
-        maxHeight: 440,
+        maxHeight: 470,
     },
 });
 
@@ -65,6 +88,7 @@ export default function StickyHeadTable() {
         setPage(0);
     };
 
+
     return (
         <Paper className={classes.root}>
             <TableContainer className={classes.container}>
@@ -75,7 +99,11 @@ export default function StickyHeadTable() {
                                 <TableCell
                                     key={column.id}
                                     align={column.align}
-                                    style={{ minWidth: column.minWidth }}
+                                    style={{ minWidth: column.minWidth,
+                                        fontWeight: "Bold",
+                                        fontSize: 16,
+                                        background: "black",
+                                        color: "white" }}
                                 >
                                     {column.label}
                                 </TableCell>
@@ -85,7 +113,8 @@ export default function StickyHeadTable() {
                     <TableBody>
                         {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                             return (
-                                <TableRow hover role="checkbox" tabIndex={-1} key={row.price}>
+                                <TableRow
+                                    hover role="checkbox" tabIndex={-1} key={row.price}>
                                     {columns.map((column) => {
                                         const value = row[column.id];
                                         return (
