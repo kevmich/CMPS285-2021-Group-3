@@ -56,7 +56,21 @@ namespace SmartSub
 
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<DataContext>();
-            
+
+            services.ConfigureApplicationCookie(options =>   // configures cookies
+            {
+                options.Events.OnRedirectToAccessDenied = context =>
+                {
+                    context.Response.StatusCode = 403;
+                    return Task.CompletedTask;
+                };
+                options.Events.OnRedirectToLogin = context =>
+                {
+                    context.Response.StatusCode = 401;
+                    return Task.CompletedTask;
+                };
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartSub", Version = "v1" });

@@ -36,7 +36,7 @@ let AxiosCall = (username, password, password2, email) => {
             data: {
                 username: username,
                 password: password,
-                email: email,
+                email: email
             }
         })
         .catch(function (error) {
@@ -69,7 +69,7 @@ let AxiosCall = (username, password, password2, email) => {
             },
         }));
         alert("Your passwords dont match")
-        
+
     }
 }
 
@@ -106,7 +106,6 @@ let AxiosCall = (username, password, password2, email) => {
                         <TextField
                             variant="outlined"
                             margin="normal"
-                            required
                             fullWidth
                             name="email"
                             label="Email"
