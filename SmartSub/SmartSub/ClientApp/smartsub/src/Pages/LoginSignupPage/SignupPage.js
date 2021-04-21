@@ -36,7 +36,7 @@ let AxiosCall = (username, password, password2, email) => {
             data: {
                 username: username,
                 password: password,
-                email: email,
+                email: email
             }
         })
         .catch(function (error) {

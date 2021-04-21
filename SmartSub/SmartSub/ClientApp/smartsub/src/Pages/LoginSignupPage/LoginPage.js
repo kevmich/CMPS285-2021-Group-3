@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     Grid, Box, Typography, Container, Avatar, Button,
     FormControlLabel, CssBaseline, TextField, Checkbox, makeStyles, createMuiTheme,
 } from '@material-ui/core';
 import {Link} from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import axios from 'axios';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -23,7 +24,39 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+let LoginAxiosCall = (username, password) => {
+    console.log(username, password);
+        axios({
+            method: 'post',
+            url: '/Auth/Login',
+            data: {
+                userName: username,
+                passWord: password
+            }
+        })
+        .catch(function (error) {
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+            } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                // http.ClientRequest in node.js
+                console.log(error.request);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+            }
+            console.log(error.config);
+        })
+    }
+
 export default function Login() {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
     const classes = useStyles();
     return (
         <Container component="main" maxWidth="xs">
@@ -35,7 +68,8 @@ export default function Login() {
                 <Typography component="h1" variant="h5">
                     Login
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} noValidate
+                        onSubmit={e=>e.preventDefault()}>
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -45,6 +79,7 @@ export default function Login() {
                         label="Username"
                         name="username"
                         autoComplete="username"
+                        onChange={(e) => setUsername(e.target.value)}
                     />
                     <TextField
                         variant="outlined"
@@ -56,11 +91,14 @@ export default function Login() {
                         type="password"
                         id="password"
                         autoComplete="current-password"
+                        onChange={(e) => setPassword(e.target.value)}
                     />
                     <Typography component="h1" variant="subtitle2">
                         * Denotes required field
                     </Typography>
-                    <Button style={{backgroundColor: "black"}}
+                    <Button 
+                        onClick={()=>LoginAxiosCall(username, password)}
+                        style={{backgroundColor: "black"}}
                         type="submit"
                         fullWidth
                         variant="contained"
