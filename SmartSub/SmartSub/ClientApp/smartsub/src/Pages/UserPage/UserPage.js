@@ -1,178 +1,114 @@
 import NavBar from "../../Components/NavBar/NavBar";
-import React from "react";
-import ReactDOM from "react-dom";
-import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Input from "@material-ui/core/Input";
-import Paper from "@material-ui/core/Paper";
-import IconButton from "@material-ui/core/IconButton";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TablePagination from '@material-ui/core/TablePagination';
+import TableRow from '@material-ui/core/TableRow';
 
-import EditIcon from "@material-ui/icons/EditOutlined";
-import DoneIcon from "@material-ui/icons/DoneAllTwoTone";
-import RevertIcon from "@material-ui/icons/NotInterestedOutlined";
+const columns = [
+    {
+        id: 'sub',
+        label: 'Subscription',
+        minWidth: 170 },
+    {
+        id: 'price',
+        label: 'Price',
+        minWidth: 100 },
+    {
+        id: 'freq',
+        label: 'PaymentFrequency',
+        minWidth: 170,
+        align: 'right',
+    },
+    {
+        id: 'reDate',
+        label: 'RenewDate',
+        minWidth: 170,
+        align: 'right',
 
-const useStyles = makeStyles(theme => ({
+    },
+];
+
+function createData(sub, price, freq, reDate) {
+    return { sub, price, freq, reDate};
+}
+
+const rows = [
+
+];
+
+const useStyles = makeStyles({
     root: {
-        width: "100%",
-        marginTop: theme.spacing(3),
-        overflowX: "auto"
+        width: '100%',
     },
-    table: {
-        minWidth: 650
+    container: {
+        maxHeight: 440,
     },
-    selectTableCell: {
-        width: 60
-    },
-    tableCell: {
-        width: 130,
-        height: 40
-    },
-    input: {
-        width: 130,
-        height: 40
-    }
-}));
-
-const createData = (name, renewDate, price, paymentFrequency) => ({
-    id: name.replace(" ", "_"),
-    name,
-    renewDate,
-    price,
-    paymentFrequency,
-    isEditMode: false
 });
 
-const CustomTableCell = ({ row, name, onChange }) => {
+export default function StickyHeadTable() {
     const classes = useStyles();
-    const { isEditMode } = row;
-    return (
-        <TableCell align="left" className={classes.tableCell}>
-            {isEditMode ? (
-                <Input
-                    value={row[name]}
-                    name={name}
-                    onChange={e => onChange(e, row)}
-                    className={classes.input}
-                />
-            ) : (
-                row[name]
-            )}
-        </TableCell>
-    );
-};
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-export default function App() {
-    const [rows, setRows] = React.useState([
-        createData("NA", 0, 0, 0),
-        createData("NA", 0, 0, 0),
-        createData("NA", 0, 0, 0)
-    ]);
-    const [previous, setPrevious] = React.useState({});
-    const classes = useStyles();
-
-    const onToggleEditMode = id => {
-        setRows(state => {
-            return rows.map(row => {
-                if (row.id === id) {
-                    return { ...row, isEditMode: !row.isEditMode };
-                }
-                return row;
-            });
-        });
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
     };
 
-    const onChange = (e, row) => {
-        if (!previous[row.id]) {
-            setPrevious(state => ({ ...state, [row.id]: row }));
-        }
-        const value = e.target.value;
-        const name = e.target.name;
-        const { id } = row;
-        const newRows = rows.map(row => {
-            if (row.id === id) {
-                return { ...row, [name]: value };
-            }
-            return row;
-        });
-        setRows(newRows);
-    };
-
-    const onRevert = id => {
-        const newRows = rows.map(row => {
-            if (row.id === id) {
-                return previous[id] ? previous[id] : row;
-            }
-            return row;
-        });
-        setRows(newRows);
-        setPrevious(state => {
-            delete state[id];
-            return state;
-        });
-        onToggleEditMode(id);
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
     };
 
     return (
         <Paper className={classes.root}>
-            <Table className={classes.table} aria-label="caption table">
-                <caption style={{textAlign: "center", textTransform: "Uppercase", color: "black",}}>Use the data table to manage all of your subscriptions!</caption>
-                <TableHead>
-                    <TableRow>
-                        <TableCell align="left" />
-                        <TableCell style={{textAlign: "left", textTransform: "Uppercase", color: "black",}}>Subscription Provider</TableCell>
-                        <TableCell style={{textAlign: "left", textTransform: "Uppercase", color: "black",}}>Renew Date</TableCell>
-                        <TableCell style={{textAlign: "left", textTransform: "Uppercase", color: "black",}}>Price</TableCell>
-                        <TableCell style={{textAlign: "left", textTransform: "Uppercase", color: "black",}}>Payment Frequency</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map(row => (
-                        <TableRow key={row.id}>
-                            <TableCell className={classes.selectTableCell}>
-                                {row.isEditMode ? (
-                                    <>
-                                        <IconButton
-                                            aria-label="done"
-                                            onClick={() => onToggleEditMode(row.id)}
-                                        >
-                                            <DoneIcon />
-                                        </IconButton>
-                                        <IconButton
-                                            aria-label="revert"
-                                            onClick={() => onRevert(row.id)}
-                                        >
-                                            <RevertIcon />
-                                        </IconButton>
-                                    </>
-                                ) : (
-                                    <IconButton
-                                        aria-label="delete"
-                                        onClick={() => onToggleEditMode(row.id)}
-                                    >
-                                        <EditIcon />
-                                    </IconButton>
-                                )}
-                            </TableCell>
-                            <CustomTableCell {...{ row, name: "name", onChange }} />
-                            <CustomTableCell {...{ row, name: "renewDate", onChange }} />
-                            <CustomTableCell {...{ row, name: "price", onChange }} />
-                            <CustomTableCell {...{ row, name: "paymentFrequency", onChange }} />
+            <TableContainer className={classes.container}>
+                <Table stickyHeader aria-label="sticky table">
+                    <TableHead>
+                        <TableRow>
+                            {columns.map((column) => (
+                                <TableCell
+                                    key={column.id}
+                                    align={column.align}
+                                    style={{ minWidth: column.minWidth }}
+                                >
+                                    {column.label}
+                                </TableCell>
+                            ))}
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+                    </TableHead>
+                    <TableBody>
+                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                            return (
+                                <TableRow hover role="checkbox" tabIndex={-1} key={row.price}>
+                                    {columns.map((column) => {
+                                        const value = row[column.id];
+                                        return (
+                                            <TableCell key={column.id} align={column.align}>
+                                                {column.format && typeof value === 'number' ? column.format(value) : value}
+                                            </TableCell>
+                                        );
+                                    })}
+                                </TableRow>
+                            );
+                        })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <TablePagination
+                rowsPerPageOptions={[10, 25, 100]}
+                component="div"
+                count={rows.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+            />
         </Paper>
     );
 }
-
-const rootElement = document.getElementById("root");
-ReactDOM.render(<App />, rootElement);
-
-
-
-
-
