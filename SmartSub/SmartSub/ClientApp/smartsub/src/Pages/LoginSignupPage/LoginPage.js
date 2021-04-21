@@ -3,9 +3,10 @@ import {
     Grid, Box, Typography, Container, Avatar, Button,
     FormControlLabel, CssBaseline, TextField, Checkbox, makeStyles, createMuiTheme,
 } from '@material-ui/core';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import axios from 'axios';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -24,41 +25,78 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-let LoginAxiosCall = (username, password) => {
-    console.log(username, password);
-        axios({
-            method: 'post',
-            url: '/Auth/Login',
-            data: {
-                userName: username,
-                passWord: password
-            }
-        })
-        .catch(function (error) {
-            if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-            } else if (error.request) {
-                // The request was made but no response was received
-                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                // http.ClientRequest in node.js
-                console.log(error.request);
-            } else {
-                // Something happened in setting up the request that triggered an Error
-                console.log('Error', error.message);
-            }
-            console.log(error.config);
-        })
-    }
+// let LoginAxiosCall = (username, password) => {
+//     console.log(username, password);
+//         axios({
+//             method: 'post',
+//             url: '/Auth/Login',
+//             data: {
+//                 userName: username,
+//                 passWord: password
+//             }
+//         })
+//         .catch(function (error) {
+//             if (error.response) {
+//                 // The request was made and the server responded with a status code
+//                 // that falls out of the range of 2xx
+//                 console.log(error.response.data);
+//                 console.log(error.response.status);
+//                 console.log(error.response.headers);
+//             } else if (error.request) {
+//                 // The request was made but no response was received
+//                 // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+//                 // http.ClientRequest in node.js
+//                 console.log(error.request);
+//             } else {
+//                 // Something happened in setting up the request that triggered an Error
+//                 console.log('Error', error.message);
+//             }
+//             console.log(error.config);
+//         })
+//     }
 
 export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const classes = useStyles();
-    return (
+
+    const [redirect, setRedirect] = useState(false);
+
+    let LoginAxiosCall = (username, password) => {
+        console.log(username, password);
+            axios({
+                method: 'post',
+                url: '/Auth/Login',
+                data: {
+                    userName: username,
+                    passWord: password
+                }
+            }).then((res) => {
+                if (res.status == 200){
+                    setRedirect(true);
+                }
+            })
+            .catch(function (error) {
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                    // http.ClientRequest in node.js
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            })
+        }
+
+    return !redirect ? (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
@@ -119,5 +157,5 @@ export default function Login() {
             <Box mt={8}>
             </Box>
         </Container>
-    );
+    ):(<Redirect to = '/UserPage/'/>);
 }
