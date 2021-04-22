@@ -97,19 +97,29 @@ export default function StickyHeadTable() {
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Provider</TableCell>
-                            <TableCell align="right">Renew Date</TableCell>
-                            <TableCell align="right">Price</TableCell>
-                            <TableCell align="right">Frequency</TableCell>
+                            {columns.map((column) => (
+                                <TableCell
+                                    key={column.id}
+                                    align={column.align}
+                                    style={{ minWidth: column.minWidth,
+                                        fontWeight: "Bold",
+                                        fontSize: 16,
+                                        background: "black",
+                                        color: "white" }}
+                                >
+                                    {column.label}
+                                </TableCell>
+                            ))}
                         </TableRow>
                     </TableHead>
                     {rows.map((row) => (
                         <TableBody>
                             <TableRow key={row.provider}>
-                                <th component="th" scope="row">{row.provider}</th>
-                                <th align="right">{row.renewDate}</th>
-                                <th align="right">{row.price}</th>
-                                <th align="right">{row.paymentFrequency}</th>
+                                <th align="left" component="th" scope="row">{row.provider}</th>
+                                <th align="center">{row.price}</th>
+                                <th align="center">{row.paymentFrequency}</th>
+                                <th align="center">{row.renewDate}</th>
+                                <th align="right">{row.note}</th>
                             </TableRow>
                         </TableBody>
                     ))}
