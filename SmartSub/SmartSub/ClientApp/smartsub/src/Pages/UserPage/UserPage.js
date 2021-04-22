@@ -1,5 +1,5 @@
 import NavBar from "../../Components/NavBar/NavBar";
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -9,61 +9,38 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import Typography from "@material-ui/core/Typography";
-
+import axios from "axios";
 
 const columns = [
     {
         id: 'sub',
         label: 'Subscription',
-        minWidth: 150 },
+        minWidth: 100 },
     {
         id: 'price',
         label: 'Price',
         align: 'center',
-        minWidth: 300 },
+        minWidth: 100 },
     {
         id: 'freq',
         label: 'Payment Frequency',
-        minWidth: 300,
+        minWidth: 100,
         align: 'center',
     },
     {
         id: 'reDate',
         label: 'Renew Date',
-        minWidth: 150,
-        align: 'right',
-
+        minWidth: 100,
+        align: 'center',
     },
+    {
+        id: 'note',
+        label: 'Note',
+        minWidth: 100,
+        align: 'right',
+    }
 ];
 
-function createData(sub, price, freq, reDate) {
-    return { sub, price, freq, reDate};
-}
-
-const rows = [
-    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
-    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
-    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
-    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
-    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
-    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
-    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
-    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
-    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
-    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
-    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
-    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
-    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
-    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
-    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
-    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
-    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
-    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
-    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
-    createData('Netflix', "$15.00",'Monthly', 'May 1st'),
-
-];
 
 const useStyles = makeStyles({
     root: {
@@ -88,56 +65,56 @@ export default function StickyHeadTable() {
         setPage(0);
     };
 
+    const [tableInfo, setTableInfo] = useState({
+        col: [{
+            id: "Id",
+            provider: "Provider",
+            price: "Price",
+            paymentFrequency: "PaymentFrequency",
+            renewDate: "RenewDate",
+            note: "Note",
+        }],
+        info: [],
+    });
+    useEffect(() => {
+        axios.get('/api/subs/GetAllSubsForCurrentUser')
+            .then((response) => {
+                setTableInfo((table) => {
+                    const infoCall = {...table};
+                    response.data.map((d)=>{
+                        infoCall.info = [...infoCall.info, d];
+                    })
+                    return infoCall;
+                })
+            })
+    },[])
+    const rows = tableInfo.info;
+
 
     return (
-        <Paper className={classes.root}>
-            <TableContainer className={classes.container}>
-                <Table stickyHeader aria-label="sticky table">
+        <div>
+            <TableContainer component={Paper}>
+                <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            {columns.map((column) => (
-                                <TableCell
-                                    key={column.id}
-                                    align={column.align}
-                                    style={{ minWidth: column.minWidth,
-                                        fontWeight: "Bold",
-                                        fontSize: 16,
-                                        background: "black",
-                                        color: "white" }}
-                                >
-                                    {column.label}
-                                </TableCell>
-                            ))}
+                            <TableCell>Provider</TableCell>
+                            <TableCell align="right">Renew Date</TableCell>
+                            <TableCell align="right">Price</TableCell>
+                            <TableCell align="right">Frequency</TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
-                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                            return (
-                                <TableRow
-                                    hover role="checkbox" tabIndex={-1} key={row.price}>
-                                    {columns.map((column) => {
-                                        const value = row[column.id];
-                                        return (
-                                            <TableCell key={column.id} align={column.align}>
-                                                {column.format && typeof value === 'number' ? column.format(value) : value}
-                                            </TableCell>
-                                        );
-                                    })}
-                                </TableRow>
-                            );
-                        })}
-                    </TableBody>
+                    {rows.map((row) => (
+                        <TableBody>
+                            <TableRow key={row.provider}>
+                                <th component="th" scope="row">{row.provider}</th>
+                                <th align="right">{row.renewDate}</th>
+                                <th align="right">{row.price}</th>
+                                <th align="right">{row.paymentFrequency}</th>
+                            </TableRow>
+                        </TableBody>
+                    ))}
                 </Table>
             </TableContainer>
-            <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-            />
-        </Paper>
+        </div>
     );
 }

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace SmartSub.Controllers
 {
 
-    [Route("[controller]")]
+    [Route("api/subs")]
     [ApiController]
     public class SubsController : ControllerBase
     {
@@ -149,10 +149,10 @@ namespace SmartSub.Controllers
             var subscriptions = await dataContext.Set<Subscription>().Where(x => x.userId == user.Id).Select(x =>
                 new GetSubDto{
                     Id = x.Id,
-                    RenewDate = x.RenewDate,
-                    Price = x.Price,
                     Provider = x.Provider,
+                    Price = x.Price,
                     PaymentFrequency = x.paymentFrequency,
+                    RenewDate = x.RenewDate,
                     Note = x.Note}
                 ).ToListAsync();
 
