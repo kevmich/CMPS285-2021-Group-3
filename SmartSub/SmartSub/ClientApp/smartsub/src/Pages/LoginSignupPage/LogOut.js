@@ -27,11 +27,5 @@ let LogOutAxiosCall = () => {
             console.log(error.config);
         })
     }
-    const useStyles = makeStyles((theme) => ({
-        
-        button: {
-            margin: theme.spacing(3, 0, 2)},
-    }));
+    
 
-
-<button>LOGOUT</button>
