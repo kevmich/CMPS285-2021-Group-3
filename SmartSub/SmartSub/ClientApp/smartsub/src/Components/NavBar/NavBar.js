@@ -33,6 +33,7 @@ const navLinks = [
     { title: `user page`, path: `/UserPage` },
     { title: `login`, path: `/LoginPage` },
     { title: `sign up`, path: `/SignupPage` },
+    { title: `log out  `, path: `/LogOut`}
 ];
 
 const NavBar = () => {
