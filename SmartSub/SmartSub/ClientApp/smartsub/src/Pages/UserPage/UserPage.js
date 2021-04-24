@@ -92,20 +92,16 @@ export default function StickyHeadTable() {
 
 
     return (
-        <div>
-            <TableContainer component={Paper}>
-                <Table aria-label="simple table">
+        <Paper className={classes.root}>
+            <TableContainer className={classes.container}>
+                <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
                             {columns.map((column) => (
                                 <TableCell
                                     key={column.id}
                                     align={column.align}
-                                    style={{ minWidth: column.minWidth,
-                                        fontWeight: "Bold",
-                                        fontSize: 16,
-                                        background: "black",
-                                        color: "white" }}
+                                    style={{ minWidth: column.minWidth }}
                                 >
                                     {column.label}
                                 </TableCell>
@@ -125,6 +121,15 @@ export default function StickyHeadTable() {
                     ))}
                 </Table>
             </TableContainer>
-        </div>
+            <TablePagination
+                rowsPerPageOptions={[10, 25, 100]}
+                component="div"
+                count={rows.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+            />
+        </Paper>
     );
 }
