@@ -32,8 +32,7 @@ const useStyles = makeStyles({
 const navLinks = [
     { title: `user page`, path: `/UserPage` },
     { title: `login`, path: `/LoginPage` },
-    { title: `sign up`, path: `/SignupPage` },
-    { title: `log out  `, path: `/`}
+    { title: `sign up`, path: `/SignupPage` }
 ];
 
 const NavBar = () => {
