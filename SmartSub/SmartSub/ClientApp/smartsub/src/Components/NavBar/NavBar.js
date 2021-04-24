@@ -11,6 +11,7 @@ import {
 import { Home } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const useStyles = makeStyles({
     navbarDisplayFlex: {
@@ -29,6 +30,33 @@ const useStyles = makeStyles({
 
 });
 
+let LogOutAxiosCall = () => {
+    axios({
+        method: 'post',
+        url: '/Auth/Logout',
+        data: {
+        }
+    })
+    .catch(function (error) {
+        if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+        } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log(error.request);
+        } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', error.message);
+        }
+        console.log(error.config);
+    })
+}
+
 const navLinks = [
     { title: `user page`, path: `/UserPage` },
     { title: `login`, path: `/LoginPage` },
@@ -41,9 +69,17 @@ const NavBar = () => {
         <AppBar position="static" style={{background:'linear-gradient(45deg, #8e00be 30%, #3100cd 90%)',}}>
             <Toolbar>
                 <Container className={classes.navbarDisplayFlex}>
+
                     <IconButton component={Link} to='/' edge="start" color="inherit" aria-label="home">
                         <Home fontSize="default" />
                     </IconButton>
+                    
+                    <button 
+                        onClick={()=>LogOutAxiosCall()} 
+                        >
+                        LOGOUT
+                    </button>
+                   
                     <List
                         component="nav"
                         aria-labelledby="main navigation"
