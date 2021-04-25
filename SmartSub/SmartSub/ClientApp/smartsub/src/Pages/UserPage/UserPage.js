@@ -21,26 +21,26 @@ const columns = [
     {
         id: 'sub',
         label: 'Subscription',
-        minWidth: 100,
-        align: 'right'
+        minWidth: 0,
+        TextAlign: 'left'
     },
         
     {
         id: 'price',
         label: 'Price',
-        align: 'right',
-        minWidth: 100 },
+        TextAlign: 'left',
+        minWidth: 0 },
     {
         id: 'freq',
         label: 'Payment Frequency',
-        minWidth: 100,
-        align: 'right',
+        minWidth: 0,
+        TextAlign: 'left',
     },
     {
         id: 'reDate',
         label: 'Renew Date',
-        minWidth: 100,
-        align: 'right',
+        minWidth: 0,
+        TextAlign: 'left',
     },
 ];
 
@@ -61,13 +61,16 @@ function Row(props) {
         <React.Fragment>
             <TableRow className={classes.root}>
                 <TableCell>
-                    <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+                    <IconButton aria-label="expand row" size="large" onClick={() => setOpen(!open)}>
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
                 </TableCell>
-                <TableCell component="th" scope="row">
+
+                    {/* NOTE: THIS IS WHAT WAS MESSING UP TABLE FORMATTING */} 
+                {/* <TableCell component="th" scope="row">
                     {row.name}
-                </TableCell>
+                </TableCell> */}
+                
                 <TableCell >{row.provider}</TableCell>
                 <TableCell >{row.price}</TableCell>
                 <TableCell >{row.paymentFrequency}</TableCell>
@@ -143,7 +146,7 @@ export default function CollapsibleTable() {
 
                 <TableHead>
                     <TableRow>
-                        <TableCell style = {{minWidth: 200}} align = {'right'}></TableCell>
+                        <TableCell style = {{minWidth: 100}} align = {'right'}></TableCell>
                         {columns.map((column) => (
 
                             <TableCell
