@@ -89,12 +89,8 @@ const NavBar = () => {
                         <Home fontSize="default" />
                     </IconButton>
 
-                    <Button size={'large'}
-                        onClick={()=>LogOutAxiosCall()} 
-                        >
-                        LOGOUT
-                    </Button>
-                   
+                    
+
                     <List
                         component="nav"
                         aria-labelledby="main navigation"
@@ -109,6 +105,15 @@ const NavBar = () => {
                         ))}
                     </List>
                 </Container>
+
+                 {/* logout button */} 
+                <Button size={'large'}
+                    onClick={()=>LogOutAxiosCall()}
+                    style = {{color: 'white'}} 
+                    >
+                    logout
+                </Button>
+
             </Toolbar>
         </AppBar>
     );
