@@ -17,26 +17,30 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import axios from "axios";
 
 const columns = [
+   
     {
         id: 'sub',
         label: 'Subscription',
-        minWidth: 100 },
+        minWidth: 100,
+        align: 'right'
+    },
+        
     {
         id: 'price',
         label: 'Price',
-        align: 'center',
+        align: 'right',
         minWidth: 100 },
     {
         id: 'freq',
         label: 'Payment Frequency',
         minWidth: 100,
-        align: 'center',
+        align: 'right',
     },
     {
         id: 'reDate',
         label: 'Renew Date',
         minWidth: 100,
-        align: 'center',
+        align: 'right',
     },
 ];
 
@@ -139,7 +143,9 @@ export default function CollapsibleTable() {
 
                 <TableHead>
                     <TableRow>
+                        <TableCell style = {{minWidth: 200}} align = {'right'}></TableCell>
                         {columns.map((column) => (
+
                             <TableCell
                                 key={column.id}
                                 align={column.align}
