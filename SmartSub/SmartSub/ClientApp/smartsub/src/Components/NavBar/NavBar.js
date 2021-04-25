@@ -6,12 +6,15 @@ import {
     List,
     ListItem,
     ListItemText,
-    Container
+    Container,
+    Button
 } from "@material-ui/core";
 import { Home } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link } from 'react-router-dom';
+import { Link, Redirect} from 'react-router-dom';
 import axios from 'axios';
+
+
 
 const useStyles = makeStyles({
     navbarDisplayFlex: {
@@ -30,6 +33,8 @@ const useStyles = makeStyles({
 
 });
 
+
+
 let LogOutAxiosCall = () => {
     axios({
         method: 'post',
@@ -37,7 +42,7 @@ let LogOutAxiosCall = () => {
         data: {
         }
     })
-    .catch(function (error) {
+    .catch(function (error) {// Error case
         if (error.response) {
             // The request was made and the server responded with a status code
             // that falls out of the range of 2xx
@@ -55,6 +60,16 @@ let LogOutAxiosCall = () => {
         }
         console.log(error.config);
     })
+    .then(res => {// Success case
+
+        return <Redirect to={'/'}/>
+        // console.log('REEEEEEEEEEEEEEr ' + res)
+        // if(res.response.status === 200){
+        //     console.log("Logout was successful")
+        //     console.log(res);
+        //
+        // }
+    });
 }
 
 const navLinks = [
@@ -73,12 +88,12 @@ const NavBar = () => {
                     <IconButton component={Link} to='/' edge="start" color="inherit" aria-label="home">
                         <Home fontSize="default" />
                     </IconButton>
-                    
-                    <button 
+
+                    <Button size={'large'}
                         onClick={()=>LogOutAxiosCall()} 
                         >
                         LOGOUT
-                    </button>
+                    </Button>
                    
                     <List
                         component="nav"
