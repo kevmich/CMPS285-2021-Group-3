@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {
-    Grid, Box, Typography, Container, Avatar, Button,
-    FormControlLabel, CssBaseline, TextField, Checkbox, makeStyles, createMuiTheme,
+    Grid, Box, Typography, Container, Avatar, Button,CssBaseline, TextField, makeStyles,
 } from '@material-ui/core';
 import {Link, Redirect} from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
