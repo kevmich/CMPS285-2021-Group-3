@@ -44,6 +44,7 @@ export default function Login() {
             }).then((res) => {
                 if (res.status == 200){
                     setRedirect(true);
+                    alert("Welcome "+ username +"!")
                 }
             })
             .catch(function (error) {
@@ -53,11 +54,13 @@ export default function Login() {
                     console.log(error.response.data);
                     console.log(error.response.status);
                     console.log(error.response.headers);
+                    alert("Invalid Login")
                 } else if (error.request) {
                     // The request was made but no response was received
                     // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
                     // http.ClientRequest in node.js
                     console.log(error.request);
+                    alert("Request made but not received please try again")
                 } else {
                     // Something happened in setting up the request that triggered an Error
                     console.log('Error', error.message);
