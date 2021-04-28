@@ -38,6 +38,7 @@ namespace SmartSub.Controllers
 
                 User user = await GetCurrentUserAsync();
 
+
                 if (dto.Price < 0)
                 {
                     return BadRequest("Price must be non negative");

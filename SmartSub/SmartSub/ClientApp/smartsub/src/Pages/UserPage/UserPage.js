@@ -146,7 +146,7 @@ export default function CollapsibleTable() {
 
                 <TableHead>
                     <TableRow>
-                        <TableCell style = {{minWidth: 100}} align = {'right'}></TableCell>
+                        <TableCell style = {{minWidth: 100}} align = {'right'}/>
                         {columns.map((column) => (
 
                             <TableCell
