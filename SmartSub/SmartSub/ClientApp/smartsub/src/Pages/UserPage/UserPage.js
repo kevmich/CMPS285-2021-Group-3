@@ -20,7 +20,6 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import axios from "axios";
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
 import {AppBar, Container, Toolbar} from "@material-ui/core";
 import {BrowserRouter as Router, useHistory} from 'react-router-dom'
 
@@ -134,7 +133,6 @@ export default function CollapsibleTable() {
             price: "Price",
             paymentFrequency: "PaymentFrequency",
             renewDate: "RenewDate",
-            delete: <DeleteForeverIcon/>
         }],
         info: [],
     });

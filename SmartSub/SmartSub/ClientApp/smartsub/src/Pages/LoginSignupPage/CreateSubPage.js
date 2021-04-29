@@ -40,6 +40,10 @@ let CreateSubAxiosCall = (provider, paymentFrequency, price, renewDate, note) =>
                 renewDate: '2021-04-29T05:02:55.443Z',
                 note: note
             }
+        }).then((res) => {
+            if (res.status == 200){
+                alert("Subscription successfully added")
+            }
         })
         .catch(function (error) {
             if (error.response) {

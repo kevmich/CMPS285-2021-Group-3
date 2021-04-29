@@ -106,7 +106,7 @@ const NavBar = () => {
                     </List>
                 </Container>
 
-                 {/* logout button */} 
+                 {/* logout button */}
                 <Button size={'large'}
                     onClick={()=>LogOutAxiosCall()}
                     style = {{color: 'white'}} 
