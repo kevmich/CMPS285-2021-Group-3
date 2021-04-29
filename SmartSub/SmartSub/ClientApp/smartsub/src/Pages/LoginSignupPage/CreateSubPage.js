@@ -28,13 +28,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 let CreateSubAxiosCall = (provider, paymentFrequency, price, renewDate, note) => {
-    console.log(provider, paymentFrequency, price, /*renewDate,*/ note);
+    console.log(provider, paymentFrequency, price, renewDate, note);
     if (provider != null && paymentFrequency != null && price != null && note != null) {
         axios({
             method: 'post',
             url: '/subs/CreateSub',
             data: {
-                //renewDate: '2021-04-29T05:02:55.443Z"',
+                renewDate: '2021-04-29T05:02:55.443Z"',
                 provider: provider,
                 price: price,
                 paymentFrequency: paymentFrequency,
@@ -79,7 +79,7 @@ let CreateSubAxiosCall = (provider, paymentFrequency, price, renewDate, note) =>
         const classes = useStyles();
         const [provider, setProvider] = useState("");
         const [paymentFrequency, setPaymentFrequency] = useState("");
-        //const [renewDate, setRenewDate] = useState("");
+        const [renewDate, setRenewDate] = useState("");
         const [price, setPrice] = useState("");
         const [note, setNote] = useState("");
         return (
@@ -128,17 +128,19 @@ let CreateSubAxiosCall = (provider, paymentFrequency, price, renewDate, note) =>
                             id="paymentFrequency"
                             onChange={(e) => setPaymentFrequency(e.target.value)}
                         />
-                        {/* <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="RenewDate"
-                            label="Renew Date"
-                            type="renewDate"
-                            id="renewDate"
-                            onChange={(e) => setRenewDate(e.target.value)}
-                        /> */}
+                        <form className={classes.container} noValidate>
+                            <TextField
+                                id="date"
+                                label="Renew Date"
+                                type="date"
+                                defaultValue="2021-01-24"
+                                className={classes.textField}
+                                InputLabelProps={{
+                                shrink: true,
+                                }}
+                                onChange={(e) => setRenewDate(e.target.value)}
+                            />
+                        </form>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -154,7 +156,7 @@ let CreateSubAxiosCall = (provider, paymentFrequency, price, renewDate, note) =>
                             * Denotes required field
                         </Typography>
                         <Button
-                            onClick={()=>CreateSubAxiosCall(/*renewDate,*/ provider, price, paymentFrequency, note)}
+                            onClick={()=>CreateSubAxiosCall(renewDate, provider, price, paymentFrequency, note)}
                             onSubmit={e => e.preventDefault()}
                             type="submit"
                             fullWidth
