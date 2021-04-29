@@ -21,8 +21,8 @@ import axios from "axios";
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {AppBar, Container, Toolbar} from "@material-ui/core";
+import {Checkbox} from '@material-ui/core';
 import {BrowserRouter as Router, useHistory} from 'react-router-dom';
-
 
 const columns = [
    
@@ -64,13 +64,26 @@ const useRowStyles = makeStyles({
 function Row(props) {
     
     const { row } = props;
+    const [state, setState] = React.useState({checked:false});
     const [open, setOpen] = React.useState(false);
     const classes = useRowStyles();
+    const handleChange = (event) => {
+        setState({ ...state, [event.target.name]: event.target.checked });
+    };
     
     return (
         <React.Fragment>
             <TableRow className={classes.root}>
                 <TableCell>
+                    <Checkbox
+                        color = "black"
+                        style={{background:'linear-gradient(45deg, #8e00be 30%, #3100cd 90%)',}}
+                        checked={state.checked}
+                        onChange={handleChange}
+                        name="checked"
+                    >
+
+                    </Checkbox>
                     <IconButton aria-label="expand row" size="large" onClick={() => setOpen(!open)}>
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
@@ -148,11 +161,22 @@ export default function CollapsibleTable() {
                 })
             })
     },[])
+
+    function DeleteSubAxios() {
+
+    }
+
+    DeleteSubAxios(() => {
+        axios.get('/api/subs/GetSubById')
+            .then((response) => {
+
+            })
+    },[])
     const rows = tableInfo.info;
 
     const history = useHistory();
 
-    const routeChange = () =>{  
+    const routeChange = () => {
         history.push('/CreateSubPage');
   };
 
@@ -164,8 +188,7 @@ export default function CollapsibleTable() {
                     <IconButton onClick={routeChange}>
                         <AddIcon></AddIcon>
                     </IconButton>
-                
-                    <IconButton>
+                    <IconButton onClick={DeleteSubAxios()}>
                         <DeleteIcon></DeleteIcon>
                     </IconButton>
                     <IconButton>

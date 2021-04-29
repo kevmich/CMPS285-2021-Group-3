@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {Grid, Box, Typography, Container, Avatar, Button,
     FormControlLabel, CssBaseline, TextField, Checkbox, makeStyles} from '@material-ui/core';
 import {Link, Redirect} from 'react-router-dom';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import axios from "axios";
 import { Alert, AlertTitle } from '@material-ui/lab';
 
