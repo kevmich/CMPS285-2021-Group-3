@@ -15,6 +15,11 @@ import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import axios from "axios";
+import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import {AppBar, Container, Toolbar} from "@material-ui/core";
+
 
 const columns = [
    
@@ -24,7 +29,6 @@ const columns = [
         minWidth: 0,
         TextAlign: 'left'
     },
-        
     {
         id: 'price',
         label: 'Price',
@@ -97,23 +101,23 @@ function Row(props) {
     );
 }
 
-Row.propTypes = {
-    row: PropTypes.shape({
-        calories: PropTypes.number.isRequired,
-        carbs: PropTypes.number.isRequired,
-        fat: PropTypes.number.isRequired,
-        history: PropTypes.arrayOf(
-            PropTypes.shape({
-                amount: PropTypes.number.isRequired,
-                customerId: PropTypes.string.isRequired,
-                date: PropTypes.string.isRequired,
-            }),
-        ).isRequired,
-        name: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        protein: PropTypes.number.isRequired,
-    }).isRequired,
-};
+// Row.propTypes = {
+//     row: PropTypes.shape({
+//         calories: PropTypes.number.isRequired,
+//         carbs: PropTypes.number.isRequired,
+//         fat: PropTypes.number.isRequired,
+//         history: PropTypes.arrayOf(
+//             PropTypes.shape({
+//                 amount: PropTypes.number.isRequired,
+//                 customerId: PropTypes.string.isRequired,
+//                 date: PropTypes.string.isRequired,
+//             }),
+//         ).isRequired,
+//         name: PropTypes.string.isRequired,
+//         price: PropTypes.number.isRequired,
+//         protein: PropTypes.number.isRequired,
+//     }).isRequired,
+// };
 
 export default function CollapsibleTable() {
     const [tableInfo, setTableInfo] = useState({
@@ -143,12 +147,19 @@ export default function CollapsibleTable() {
     return (
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table">
-
-                <TableHead>
+                <TableHead style={{textTransform: "uppercase"}}>
+                    <IconButton>
+                        <AddIcon></AddIcon>
+                    </IconButton>
+                    <IconButton>
+                        <DeleteIcon></DeleteIcon>
+                    </IconButton>
+                    <IconButton>
+                        <EditIcon></EditIcon>
+                    </IconButton>
                     <TableRow>
                         <TableCell style = {{minWidth: 100}} align = {'right'}></TableCell>
                         {columns.map((column) => (
-
                             <TableCell
                                 key={column.id}
                                 align={column.align}
