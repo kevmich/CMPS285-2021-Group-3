@@ -32,12 +32,12 @@ let CreateSubAxiosCall = (provider, paymentFrequency, price, renewDate, note) =>
     if (provider != null && paymentFrequency != null && price != null && note != null) {
         axios({
             method: 'post',
-            url: '/subs/CreateSub',
+            url: 'api/subs/CreateSub',
             data: {
                 renewDate: '2021-04-29T05:02:55.443Z',
                 provider: provider,
                 price: price,
-                paymentFrequency: paymentFrequency,
+                paymentFrequency: "monthly",
                 note: note
             }
         })
