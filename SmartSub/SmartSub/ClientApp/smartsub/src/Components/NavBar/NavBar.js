@@ -107,15 +107,14 @@ const NavBar = () => {
                         ))}
                     </List>
                 </Container>
-
                  {/* logout button */}
                 <Button size={'large'}
                     onClick={()=>LogOutAxiosCall()}
-                    style = {{color: 'white'}} 
+                    style = {{color: 'white', fontSize: 16}}
+                        className={classes.linkText}
                     >
                     logout
                 </Button>
-
             </Toolbar>
         </AppBar>
     ):(<Redirect to = '/'/>);

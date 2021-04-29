@@ -23,6 +23,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import {AppBar, Container, Toolbar} from "@material-ui/core";
 import {Checkbox} from '@material-ui/core';
 import {BrowserRouter as Router, useHistory} from 'react-router-dom';
+import moment from 'moment';
 
 const columns = [
    
@@ -97,7 +98,7 @@ function Row(props) {
                 <TableCell >{row.provider}</TableCell>
                 <TableCell >{row.price}</TableCell>
                 <TableCell >{row.paymentFrequency}</TableCell>
-                <TableCell >{row.renewDate}</TableCell>
+                <TableCell >{moment(row.renewDate).format('MMM Do YYYY')}</TableCell>
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -120,23 +121,6 @@ function Row(props) {
     );
 }
 
-// Row.propTypes = {
-//     row: PropTypes.shape({
-//         calories: PropTypes.number.isRequired,
-//         carbs: PropTypes.number.isRequired,
-//         fat: PropTypes.number.isRequired,
-//         history: PropTypes.arrayOf(
-//             PropTypes.shape({
-//                 amount: PropTypes.number.isRequired,
-//                 customerId: PropTypes.string.isRequired,
-//                 date: PropTypes.string.isRequired,
-//             }),
-//         ).isRequired,
-//         name: PropTypes.string.isRequired,
-//         price: PropTypes.number.isRequired,
-//         protein: PropTypes.number.isRequired,
-//     }).isRequired,
-// };
 
 export default function CollapsibleTable() {
     const [tableInfo, setTableInfo] = useState({
