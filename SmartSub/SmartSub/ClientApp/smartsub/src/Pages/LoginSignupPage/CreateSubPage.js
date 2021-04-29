@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Grid, Box, Typography, Container, Avatar, Button,
     FormControlLabel, CssBaseline, TextField, Checkbox, makeStyles} from '@material-ui/core';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import axios from "axios";
 import { Alert, AlertTitle } from '@material-ui/lab';
@@ -27,66 +27,69 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-let CreateSubAxiosCall = (provider, paymentFrequency, price, renewDate, note) => {
-    console.log(provider, paymentFrequency, price, renewDate, note);
-    if (provider != null && paymentFrequency != null && price != null && note != null) {
-        axios({
-            method: 'post',
-            url: 'api/subs/CreateSub',
-            data: {
-                provider: provider,
-                price: price,
-                paymentFrequency: paymentFrequency,
-                renewDate: '2021-04-29T05:02:55.443Z',
-                note: note
-            }
-        }).then((res) => {
-            if (res.status == 200){
-                alert("Subscription successfully added")
-            }
-        })
-        .catch(function (error) {
-            if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-            } else if (error.request) {
-                // The request was made but no response was received
-                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                // http.ClientRequest in node.js
-                console.log(error.request);
-            } else {
-                // Something happened in setting up the request that triggered an Error
-                console.log('Error', error.message);
-            }
-            console.log(error.config);
-        })
-
-
-    } else {
-        const useStyles = makeStyles((theme) => ({
-            root: {
-                width: '100%',
-                '& > * + *': {
-                    marginTop: theme.spacing(2),
-                },
-            },
-        }));
-        alert("Your passwords dont match")
-        
-    }
-}
-
-    const CreateSub = () => {
+    export default function CreateSub() {
         const classes = useStyles();
         const [provider, setProvider] = useState("");
         const [paymentFrequency, setPaymentFrequency] = useState("");
         const [renewDate, setRenewDate] = useState("");
         const [price, setPrice] = useState("");
         const [note, setNote] = useState("");
-        return (
+        const [redirect, setRedirect] = useState(false);
+
+        let CreateSubAxiosCall = (provider, paymentFrequency, price, renewDate, note) => {
+            console.log(provider, paymentFrequency, price, renewDate, note);
+            if (provider != null && paymentFrequency != null && price != null && note != null) {
+                axios({
+                    method: 'post',
+                    url: 'api/subs/CreateSub',
+                    data: {
+                        provider: provider,
+                        price: price,
+                        paymentFrequency: paymentFrequency,
+                        renewDate: '2021-04-29T05:02:55.443Z',
+                        note: note
+                    }
+                }).then((res) => {
+                    if (res.status == 200){
+                        setRedirect(true);
+                        alert("Subscription successfully added")
+                    }
+                })
+                    .catch(function (error) {
+                        if (error.response) {
+                            // The request was made and the server responded with a status code
+                            // that falls out of the range of 2xx
+                            console.log(error.response.data);
+                            console.log(error.response.status);
+                            console.log(error.response.headers);
+                        } else if (error.request) {
+                            // The request was made but no response was received
+                            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                            // http.ClientRequest in node.js
+                            console.log(error.request);
+                        } else {
+                            // Something happened in setting up the request that triggered an Error
+                            console.log('Error', error.message);
+                        }
+                        console.log(error.config);
+                    })
+
+
+            } else {
+                const useStyles = makeStyles((theme) => ({
+                    root: {
+                        width: '100%',
+                        '& > * + *': {
+                            marginTop: theme.spacing(2),
+                        },
+                    },
+                }));
+                alert("Your passwords dont match")
+
+            }
+        }
+
+        return !redirect ? (
             <Container component="main" maxWidth="xs">
                 <CssBaseline/>
                 <div className={classes.paper}>
@@ -184,7 +187,7 @@ let CreateSubAxiosCall = (provider, paymentFrequency, price, renewDate, note) =>
 
                 </Box>
             </Container>
-        );
+        ):(<Redirect to = '/UserPage/'/>);
 }
-export default CreateSub
+
 
