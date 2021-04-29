@@ -18,6 +18,12 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import axios from "axios";
+import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import {AppBar, Container, Toolbar} from "@material-ui/core";
+import {BrowserRouter as Router, useHistory} from 'react-router-dom'
+
 
 const columns = [
    
@@ -27,7 +33,6 @@ const columns = [
         minWidth: 0,
         TextAlign: 'left'
     },
-        
     {
         id: 'price',
         label: 'Price',
@@ -55,11 +60,14 @@ const useRowStyles = makeStyles({
     },
 });
 
+
+
 function Row(props) {
+    
     const { row } = props;
     const [open, setOpen] = React.useState(false);
     const classes = useRowStyles();
-
+    
     return (
         <React.Fragment>
             <TableRow className={classes.root}>
@@ -100,23 +108,23 @@ function Row(props) {
     );
 }
 
-Row.propTypes = {
-    row: PropTypes.shape({
-        calories: PropTypes.number.isRequired,
-        carbs: PropTypes.number.isRequired,
-        fat: PropTypes.number.isRequired,
-        history: PropTypes.arrayOf(
-            PropTypes.shape({
-                amount: PropTypes.number.isRequired,
-                customerId: PropTypes.string.isRequired,
-                date: PropTypes.string.isRequired,
-            }),
-        ).isRequired,
-        name: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        protein: PropTypes.number.isRequired,
-    }).isRequired,
-};
+// Row.propTypes = {
+//     row: PropTypes.shape({
+//         calories: PropTypes.number.isRequired,
+//         carbs: PropTypes.number.isRequired,
+//         fat: PropTypes.number.isRequired,
+//         history: PropTypes.arrayOf(
+//             PropTypes.shape({
+//                 amount: PropTypes.number.isRequired,
+//                 customerId: PropTypes.string.isRequired,
+//                 date: PropTypes.string.isRequired,
+//             }),
+//         ).isRequired,
+//         name: PropTypes.string.isRequired,
+//         price: PropTypes.number.isRequired,
+//         protein: PropTypes.number.isRequired,
+//     }).isRequired,
+// };
 
 export default function CollapsibleTable() {
     const [tableInfo, setTableInfo] = useState({
@@ -144,15 +152,30 @@ export default function CollapsibleTable() {
     },[])
     const rows = tableInfo.info;
 
+    const history = useHistory();
+
+    const routeChange = () =>{  
+        history.push('/CreateSubPage');
+  };
+
     return (
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table">
-
-                <TableHead>
+                <TableHead style={{textTransform: "uppercase"}}>
+                   
+                    <IconButton onClick={routeChange}>
+                        <AddIcon></AddIcon>
+                    </IconButton>
+                
+                    <IconButton>
+                        <DeleteIcon></DeleteIcon>
+                    </IconButton>
+                    <IconButton>
+                        <EditIcon></EditIcon>
+                    </IconButton>
                     <TableRow>
                         <TableCell style = {{minWidth: 100}} align = {'right'}/>
                         {columns.map((column) => (
-
                             <TableCell
                                 key={column.id}
                                 align={column.align}
