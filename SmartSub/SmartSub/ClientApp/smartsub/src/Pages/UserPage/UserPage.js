@@ -19,6 +19,7 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import {AppBar, Container, Toolbar} from "@material-ui/core";
+import {BrowserRouter as Router, useHistory} from 'react-router-dom'
 
 
 const columns = [
@@ -56,11 +57,14 @@ const useRowStyles = makeStyles({
     },
 });
 
+
+
 function Row(props) {
+    
     const { row } = props;
     const [open, setOpen] = React.useState(false);
     const classes = useRowStyles();
-
+    
     return (
         <React.Fragment>
             <TableRow className={classes.root}>
@@ -144,13 +148,21 @@ export default function CollapsibleTable() {
     },[])
     const rows = tableInfo.info;
 
+    const history = useHistory();
+
+    const routeChange = () =>{  
+        history.push('/CreateSubPage');
+  };
+
     return (
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table">
                 <TableHead style={{textTransform: "uppercase"}}>
-                    <IconButton>
+                   
+                    <IconButton onClick={routeChange}>
                         <AddIcon></AddIcon>
                     </IconButton>
+                
                     <IconButton>
                         <DeleteIcon></DeleteIcon>
                     </IconButton>

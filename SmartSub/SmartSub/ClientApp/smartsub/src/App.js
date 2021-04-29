@@ -12,6 +12,7 @@ import HomePage from './Pages/HomePage/HomePage';
 import UserPage from './Pages/UserPage/UserPage';
 import LoginPage from './Pages/LoginSignupPage/LoginPage';
 import SignupPage from './Pages/LoginSignupPage/SignupPage';
+import CreateSubPage from './Pages/LoginSignupPage/CreateSubPage';
 
 
 
@@ -24,6 +25,7 @@ function App() {
               <Route exact path='/UserPage/'> <UserPage/> </Route>
               <Route exact path='/LoginPage/'> <LoginPage/> </Route>
               <Route exact path='/SignupPage/'> <SignupPage/> </Route>
+              <Route exact path='/CreateSubPage/'> <CreateSubPage/> </Route>
 
           </Switch>
       </BrowserRouter>
