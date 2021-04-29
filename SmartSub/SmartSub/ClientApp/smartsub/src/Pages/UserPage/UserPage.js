@@ -178,6 +178,7 @@ export default function CollapsibleTable() {
                                 key={column.id}
                                 align={column.align}
                                 style={{ minWidth: column.minWidth }}
+                                checkboxSelection
                             >
                                 {column.label}
                             </TableCell>

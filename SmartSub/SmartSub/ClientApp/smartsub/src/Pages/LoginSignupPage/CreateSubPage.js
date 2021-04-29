@@ -91,7 +91,6 @@ let CreateSubAxiosCall = (provider, paymentFrequency, price, renewDate, note) =>
                 <CssBaseline/>
                 <div className={classes.paper}>
                     <Avatar className={classes.avatar} style={{backgroundColor: "black"}}>
-                        <LockOutlinedIcon style={{color: "white"}}/>
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Create Subscription
