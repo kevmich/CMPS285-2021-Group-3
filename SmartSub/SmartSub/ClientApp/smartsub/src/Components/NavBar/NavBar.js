@@ -1,4 +1,3 @@
-
 import React, {useState} from 'react';
 import {
     AppBar,
@@ -14,8 +13,6 @@ import { Home } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link, Redirect} from 'react-router-dom';
 import axios from 'axios';
-
-
 
 const useStyles = makeStyles({
     navbarDisplayFlex: {
@@ -33,10 +30,6 @@ const useStyles = makeStyles({
     }
 
 });
-
-
-
-
 
 const navLinks = [
     { title: `user page`, path: `/UserPage` },
@@ -99,8 +92,6 @@ const NavBar = () => {
                     <IconButton component={Link} to='/' edge="start" color="inherit" aria-label="home">
                         <Home fontSize="default" />
                     </IconButton>
-
-                    
 
                     <List
                         component="nav"
