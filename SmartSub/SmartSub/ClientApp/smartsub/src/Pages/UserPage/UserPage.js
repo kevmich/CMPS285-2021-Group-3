@@ -156,6 +156,7 @@ export default function CollapsibleTable() {
 
             })
     },[])
+
     const rows = tableInfo.info;
 
     const history = useHistory();

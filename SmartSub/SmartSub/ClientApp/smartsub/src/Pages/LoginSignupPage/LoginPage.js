@@ -4,6 +4,7 @@ import {
 } from '@material-ui/core';
 import {Link, Redirect} from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import {Alert} from '@material-ui/lab';
 import axios from 'axios';
 
 
@@ -43,7 +44,7 @@ export default function Login() {
             }).then((res) => {
                 if (res.status == 200){
                     setRedirect(true);
-                    alert("Welcome "+ username +"!")
+                    <Alert severity={"success"}>Welcome!</Alert>
                 }
             })
             .catch(function (error) {
