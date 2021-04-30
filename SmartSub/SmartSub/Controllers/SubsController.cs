@@ -75,7 +75,7 @@ namespace SmartSub.Controllers
         }
 
         [Authorize]
-        [HttpDelete("DeleteSub")]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteSub(int id)
         {
             using (var transaction = dataContext.Database.BeginTransaction())
@@ -162,7 +162,7 @@ namespace SmartSub.Controllers
         }
 
         [Authorize]
-        [HttpGet("GetSubById")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Subscription>> GetById(int id)
         {
             if (userManager.FindByIdAsync(id.ToString()) == null)

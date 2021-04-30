@@ -19,9 +19,11 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {Container} from "@material-ui/core";
 import {Checkbox} from '@material-ui/core';
-import {BrowserRouter as Router, useHistory} from 'react-router-dom';
+import {BrowserRouter as Router, useHistory, useParams} from 'react-router-dom';
 import moment from 'moment';
 import Button from "@material-ui/core/Button";
+
+
 
 const columns = [
    
@@ -59,10 +61,40 @@ const useRowStyles = makeStyles({
         },
     },
 });
-
-
-
+    
 function Row(props) {
+
+    const { id } = useParams()
+
+//    DELETE SUBSCRIPTION AXIOS CALL
+   let DeleteSubAxios = (subId) => {
+    console.log(subId);
+        axios.delete(`/api/subs/${subId}`).then((res) => {
+            if (res.status == 200){
+                console.log('Subscription Deleted')
+            }
+        })
+        .catch(function (error) {
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+                alert(error.response.data)
+            } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                // http.ClientRequest in node.js
+                console.log(error.request);
+                alert("Request made but not received please try again")
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+            }
+            console.log(error.config);
+        })
+    }
     
     const { row } = props;
     const [state, setState] = React.useState({checked:false});
@@ -71,18 +103,21 @@ function Row(props) {
     const handleChange = (event) => {
         setState({ ...state, [event.target.name]: event.target.checked });
     };
-    
+        
     return (
         <React.Fragment>
             <TableRow className={classes.root}>
                 <TableCell>
-                    <Checkbox style={{color: "white"}}
+                    <Button style={{color: 'white'}}>
+                    <DeleteIcon onClick={()=>DeleteSubAxios(row.id)} style={{color: "white"}}
                         checked={state.checked}
                         onChange={handleChange}
                         name="checked"
                     >
+                       
 
-                    </Checkbox>
+                    </DeleteIcon>
+                    </Button>
                     <IconButton aria-label="expand row" size="large" style={{color: "white"}} onClick={() => setOpen(!open)}>
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
@@ -92,7 +127,7 @@ function Row(props) {
                 {/* <TableCell component="th" scope="row">
                     {row.name}
                 </TableCell> */}
-                
+                {/* <TableCell >{row.id}</TableCell> */}
                 <TableCell >{row.provider}</TableCell>
                 <TableCell >{row.price}</TableCell>
                 <TableCell >{row.paymentFrequency}</TableCell>
@@ -120,6 +155,7 @@ function Row(props) {
 }
 
 export default function CollapsibleTable() {
+    // const { row } = props;
     const [tableInfo, setTableInfo] = useState({
         col: [{
             id: "Id",
@@ -143,16 +179,8 @@ export default function CollapsibleTable() {
             })
     },[])
 
-    function DeleteSubAxios() {
-
-    }
-
-    DeleteSubAxios(() => {
-        axios.get('/api/subs/GetSubById')
-            .then((response) => {
-
-            })
-    },[])
+    
+    
     const rows = tableInfo.info;
 
     const history = useHistory();
@@ -165,12 +193,6 @@ export default function CollapsibleTable() {
         <Container>
             <Button onClick={routeChange} variant="outlined" style={{borderColor: "white", marginRight: 0, color: "white", background: "black"}}>
                 <AddIcon></AddIcon>
-            </Button>
-            <Button onClick={DeleteSubAxios()} variant="outlined" style={{borderColor: "white", marginRight: 0, color: "white", background: "black"}}>
-                <DeleteIcon></DeleteIcon>
-            </Button>
-            <Button variant="outlined" style={{borderColor: "white", marginRight: 0, color: "white", background: "black"}}>
-                <EditIcon></EditIcon>
             </Button>
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table">
