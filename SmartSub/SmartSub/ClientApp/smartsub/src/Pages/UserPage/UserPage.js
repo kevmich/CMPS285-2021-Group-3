@@ -54,8 +54,8 @@ const useRowStyles = makeStyles({
     root: {
         '& > *': {
             borderBottom: 'unset',
-            color: "white",
-            background: "black"
+            color: "black",
+            background: "white",
         },
     },
 });
@@ -76,14 +76,13 @@ function Row(props) {
         <React.Fragment>
             <TableRow className={classes.root}>
                 <TableCell>
-                    <Checkbox style={{color: "white"}}
+                    <Checkbox style={{color: "black"}}
                         checked={state.checked}
                         onChange={handleChange}
                         name="checked"
                     >
-
                     </Checkbox>
-                    <IconButton aria-label="expand row" size="large" style={{color: "white"}} onClick={() => setOpen(!open)}>
+                    <IconButton aria-label="expand row" size="large" style={{color: "black"}} onClick={() => setOpen(!open)}>
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
                 </TableCell>
@@ -99,10 +98,10 @@ function Row(props) {
                 <TableCell >{moment(row.renewDate).format('MMM Do YYYY')}</TableCell>
             </TableRow>
             <TableRow>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0, background: "black" }} colSpan={6}>
+                <TableCell style={{ paddingBottom: 0, paddingTop: 0, background: "white" }} colSpan={6}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box margin={1}>
-                            <Typography variant="b1" gutterBottom component="div" style={{color: "white"}}>
+                            <Typography variant="b1" gutterBottom component="div" style={{color: "black"}}>
                                 {row.note}
                             </Typography>
                             <Table size="small" aria-label="purchases">
@@ -163,25 +162,31 @@ export default function CollapsibleTable() {
 
     return (
         <Container>
-            <Button onClick={routeChange} variant="outlined" style={{borderColor: "white", marginRight: 0, color: "white", background: "black"}}>
-                <AddIcon></AddIcon>
+            <Button onClick={routeChange} variant="outlined"
+                    style={{borderColor: "white", color: "white", background: "black",}} startIcon={<AddIcon />}
+            >
+                Create
             </Button>
-            <Button onClick={DeleteSubAxios()} variant="outlined" style={{borderColor: "white", marginRight: 0, color: "white", background: "black"}}>
-                <DeleteIcon></DeleteIcon>
+            <Button onClick={DeleteSubAxios()} variant="outlined"
+                    style={{borderColor: "white", color: "white", background: "black"}}startIcon={<DeleteIcon />}
+            >
+                Delete
             </Button>
-            <Button variant="outlined" style={{borderColor: "white", marginRight: 0, color: "white", background: "black"}}>
-                <EditIcon></EditIcon>
+            <Button variant="outlined"
+                    style={{borderColor: "white", color: "white", background: "black"}} startIcon={<EditIcon />}
+                    >
+                Edit
             </Button>
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} >
             <Table aria-label="collapsible table">
-                <TableHead style={{textTransform: "uppercase", background: "black"}}>
+                <TableHead style={{textTransform: "uppercase", background: "black",}}>
                     <TableRow>
-                        <TableCell style = {{minWidth: 100}} align = {'right'}/>
+                        <TableCell style = {{minWidth: 100,}} align = {'right'}/>
                         {columns.map((column) => (
                             <TableCell
                                 key={column.id}
                                 align={column.align}
-                                style={{ minWidth: column.minWidth, color: "white" }}
+                                style={{ minWidth: column.minWidth, color: "white",}}
                                 checkboxSelection
                             >
                                 {column.label}
