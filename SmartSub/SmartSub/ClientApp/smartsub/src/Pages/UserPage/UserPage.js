@@ -56,8 +56,8 @@ const useRowStyles = makeStyles({
     root: {
         '& > *': {
             borderBottom: 'unset',
-            color: "white",
-            background: "black"
+            color: "black",
+            background: "white"
         },
     },
 });
@@ -108,17 +108,15 @@ function Row(props) {
         <React.Fragment>
             <TableRow className={classes.root}>
                 <TableCell>
-                    <Button style={{color: 'white'}}>
-                    <DeleteIcon onClick={()=>DeleteSubAxios(row.id)} style={{color: "white"}}
+                    <Button>
+                    <DeleteIcon onClick={()=>DeleteSubAxios(row.id)} style={{color: "black"}}
                         checked={state.checked}
                         onChange={handleChange}
                         name="checked"
                     >
-                       
-
                     </DeleteIcon>
                     </Button>
-                    <IconButton aria-label="expand row" size="large" style={{color: "white"}} onClick={() => setOpen(!open)}>
+                    <IconButton aria-label="expand row" size="large" style={{color: "black"}} onClick={() => setOpen(!open)}>
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
                 </TableCell>
@@ -134,10 +132,10 @@ function Row(props) {
                 <TableCell >{moment(row.renewDate).format('MMM Do YYYY')}</TableCell>
             </TableRow>
             <TableRow>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0, background: "black" }} colSpan={6}>
+                <TableCell style={{ paddingBottom: 0, paddingTop: 0, background: "white" }} colSpan={6}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box margin={1}>
-                            <Typography variant="b1" gutterBottom component="div" style={{color: "white"}}>
+                            <Typography variant="b1" gutterBottom component="div" style={{color: "black"}}>
                                 {row.note}
                             </Typography>
                             <Table size="small" aria-label="purchases">
@@ -178,8 +176,6 @@ export default function CollapsibleTable() {
                 })
             })
     },[])
-
-    
     
     const rows = tableInfo.info;
 
@@ -191,8 +187,10 @@ export default function CollapsibleTable() {
 
     return (
         <Container>
-            <Button onClick={routeChange} variant="outlined" style={{borderColor: "white", marginRight: 0, color: "white", background: "black"}}>
-                <AddIcon></AddIcon>
+            <Button onClick={routeChange} variant="outlined" startIcon={<AddIcon></AddIcon>}
+                    style={{borderColor: "white", marginRight: 0, color: "white", background: "black"}}
+            >
+                Create
             </Button>
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table">
@@ -213,7 +211,7 @@ export default function CollapsibleTable() {
                 </TableHead>
                 <TableBody>
                     {rows.map((row) => (
-                        <Row key={row.name} row={row} />
+                        <Row key={row.name} row={row}  />
                     ))}
                 </TableBody>
             </Table>
