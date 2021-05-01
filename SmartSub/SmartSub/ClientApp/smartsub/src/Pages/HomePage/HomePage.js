@@ -5,6 +5,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import worldVideo from './Video/planetVid.mov';
 
 const useStyles = makeStyles({
     root: {
@@ -35,6 +36,7 @@ export default function HomeCard() {
     const bull = <span className={classes.bullet}>•</span>;
 
     return (
+
         <Card className={classes.root} variant="outlined">
             <CardContent>
                 <Typography className={classes.title}>
