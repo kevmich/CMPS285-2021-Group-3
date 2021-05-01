@@ -37,6 +37,8 @@ const navLinks = [
     { title: `sign up`, path: `/SignupPage` }
 ];
 
+
+
 const NavBar = () => {
 
     const classes = useStyles();
@@ -73,7 +75,7 @@ const NavBar = () => {
                 }
             })
         .then(res => {// Success case
-    
+
             return <Redirect to={'/'}/>
             // console.log('REEEEEEEEEEEEEEr ' + res)
             // if(res.response.status === 200){
@@ -84,39 +86,45 @@ const NavBar = () => {
         });
     }
 
-    return !redirect ? (
-        <AppBar position="static" style={{background:'linear-gradient(45deg, #8e00be 30%, #3100cd 90%)',}}>
-            <Toolbar>
-                <Container className={classes.navbarDisplayFlex}>
 
-                    <IconButton component={Link} to='/' edge="start" color="inherit" aria-label="home">
-                        <Home fontSize="default" />
-                    </IconButton>
+            const isLoggedIn = this.state.isLoggedIn;
 
-                    <List
-                        component="nav"
-                        aria-labelledby="main navigation"
-                        className={classes.navDisplayFlex}
-                    >
-                        {navLinks.map(({ title, path }) => (
-                            <a href={path} key={title} className={classes.linkText}>
-                                <ListItem button>
-                                    <ListItemText primary={title}/>
-                                </ListItem>
-                            </a>
-                        ))}
-                    </List>
-                </Container>
-                 {/* logout button */}
-                <Button size={'large'}
-                    onClick={()=>LogOutAxiosCall()}
-                    style = {{color: 'white', fontSize: 16}}
-                        className={classes.linkText}
-                    >
-                    logout
-                </Button>
-            </Toolbar>
-        </AppBar>
-    ):(<Redirect to = '/'/>);
+            return !redirect ? (
+                <div>
+                    <AppBar position="static" style={{background: 'linear-gradient(45deg, #8e00be 30%, #3100cd 90%)',}}>
+                        <Toolbar>
+                            <Container className={classes.navbarDisplayFlex}>
+
+                                <IconButton component={Link} to='/' edge="start" color="inherit" aria-label="home">
+                                    <Home fontSize="default"/>
+                                </IconButton>
+
+                                <List
+                                    component="nav"
+                                    aria-labelledby="main navigation"
+                                    className={classes.navDisplayFlex}
+                                >
+                                    {navLinks.map(({title, path}) => (
+                                        <a href={path} key={title} className={classes.linkText}>
+                                            <ListItem button>
+                                                <ListItemText primary={title}/>
+                                            </ListItem>
+                                        </a>
+                                    ))}
+                                </List>
+                            </Container>
+                            {/* logout button */}
+                            <Button size={'large'} onClick={() => LogOutAxiosCall()}
+                                    style={{color: 'white', fontSize: 16}}
+                                    className={classes.linkText}>
+                                logout
+                            </Button>
+
+                        </Toolbar>
+                    </AppBar>
+                </div>
+            ) : (<Redirect to='/'/>);
 };
+
+
 export default NavBar;
