@@ -1,9 +1,12 @@
 import React, {useState} from 'react';
-import {Grid, Box, Typography, Container, Avatar, Button,
-    FormControlLabel, CssBaseline, TextField, Checkbox, makeStyles} from '@material-ui/core';
+import {
+    Grid, Box, Typography, Container, Avatar, Button,
+    FormControlLabel, CssBaseline, TextField, Checkbox, makeStyles, Snackbar
+} from '@material-ui/core';
 import {Link, Redirect} from 'react-router-dom';
 import axios from "axios";
 import { Alert, AlertTitle } from '@material-ui/lab';
+import {render} from "@testing-library/react";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -35,6 +38,17 @@ const useStyles = makeStyles((theme) => ({
         const [note, setNote] = useState("");
         const [redirect, setRedirect] = useState(false);
 
+        const [open, setOpen] = React.useState(false);
+        const handleClick = () => {
+            setOpen(true);
+        };
+        const handleClose = (event, reason) => {
+            if (reason === 'clickaway') {
+                return;
+            }
+            setOpen(false);
+        };
+
         let CreateSubAxiosCall = (provider, paymentFrequency, price, renewDate, note) => {
             console.log(provider, paymentFrequency, price, renewDate, note);
             if (provider != null && paymentFrequency != null && price != null && note != null) {
@@ -50,8 +64,14 @@ const useStyles = makeStyles((theme) => ({
                     }
                 }).then((res) => {
                     if (res.status == 200){
+                        render(
+                            <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
+                                <Alert onClose={handleClose} severity="success" variant="filled">
+                                    Subscription Added Successfully!
+                                </Alert>
+                            </Snackbar>
+                        )
                         setRedirect(true);
-                        alert("Subscription successfully added")
                     }
                 })
                     .catch(function (error) {
@@ -83,8 +103,6 @@ const useStyles = makeStyles((theme) => ({
                         },
                     },
                 }));
-                alert("Your passwords dont match")
-
             }
         }
 
@@ -161,7 +179,10 @@ const useStyles = makeStyles((theme) => ({
                             * Denotes required field
                         </Typography>
                         <Button
-                            onClick={()=>CreateSubAxiosCall(provider, paymentFrequency, price, renewDate, note)}
+                            onClick={() => {
+                                CreateSubAxiosCall(provider,paymentFrequency, price, renewDate, note);
+                                handleClick()
+                            }}
                             onSubmit={e => e.preventDefault()}
                             type="submit"
                             fullWidth
@@ -183,7 +204,6 @@ const useStyles = makeStyles((theme) => ({
                     </form>
                 </div>
                 <Box mt={8}>
-
                 </Box>
             </Container>
         ):(<Redirect to = '/UserPage/'/>);

@@ -1,10 +1,13 @@
 import React, {useState} from 'react';
-import {Grid, Box, Typography, Container, Avatar, Button,
-    FormControlLabel, CssBaseline, TextField, Checkbox, makeStyles} from '@material-ui/core';
+import {
+    Grid, Box, Typography, Container, Avatar, Button,
+    FormControlLabel, CssBaseline, TextField, Checkbox, makeStyles, Snackbar
+} from '@material-ui/core';
 import {Link, Redirect } from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import axios from "axios";
 import { Alert, AlertTitle } from '@material-ui/lab';
+import {render} from "@testing-library/react";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -35,6 +38,15 @@ const useStyles = makeStyles((theme) => ({
         const [email, setEmail] = useState("");
         const [redirect, setRedirect] = useState(false);
 
+        const [open, setOpen] = React.useState(false);
+        const handleClick = () => {
+            setOpen(true);
+        };
+        const handleClose = () => {
+            
+            setOpen(false);
+        };
+
         let AxiosCall = (username, password, password2, email) => {
             console.log(username, password, password2, email);
             if (password === password2) {
@@ -58,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
                             console.log(error.response.data);
                             console.log(error.response.status);
                             console.log(error.response.headers);
+                            
                         } else if (error.request) {
                             // The request was made but no response was received
                             // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
@@ -69,9 +82,6 @@ const useStyles = makeStyles((theme) => ({
                         }
                         console.log(error.config);
                     })
-
-
-
             } else {
                 const useStyles = makeStyles((theme) => ({
                     root: {
@@ -80,9 +90,8 @@ const useStyles = makeStyles((theme) => ({
                             marginTop: theme.spacing(2),
                         },
                     },
-                }));
-                alert("Your passwords dont match")
-
+                })); 
+                handleClick();
             }
         }
 
@@ -145,9 +154,15 @@ const useStyles = makeStyles((theme) => ({
                         <Typography component="h1" variant="subtitle2">
                             * Denotes required field
                         </Typography>
+
+                       
+
                         <Button
-                            onClick={()=>AxiosCall(username, password, password2, email)}
-                            onSubmit={e => e.preventDefault()}
+                             onClick={() => {
+                                AxiosCall(username,password, password2, email);
+                                
+                            }}
+                            // onSubmit={e => e.preventDefault()}
                             type="submit"
                             fullWidth
                             variant="contained"
@@ -157,6 +172,12 @@ const useStyles = makeStyles((theme) => ({
                         >
                             Sign Up
                         </Button>
+
+                        <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
+                        <Alert onClose={handleClose} severity="error" variant="filled">
+                            Passwords do not match!
+                        </Alert>
+                    </Snackbar>
 
                         <Grid container>
                             <Grid item>

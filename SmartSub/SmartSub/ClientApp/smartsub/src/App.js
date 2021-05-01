@@ -26,6 +26,7 @@ function App() {
               <Route exact path='/LoginPage/'> <LoginPage/> </Route>
               <Route exact path='/SignupPage/'> <SignupPage/> </Route>
               <Route exact path='/CreateSubPage/'> <CreateSubPage/> </Route>
+              <Route exact path='/UserPage/:id'> render={(props) => <UserPage {...props} />} </Route>
 
           </Switch>
       </BrowserRouter>
