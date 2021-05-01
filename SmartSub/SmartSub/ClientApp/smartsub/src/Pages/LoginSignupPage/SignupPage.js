@@ -42,10 +42,8 @@ const useStyles = makeStyles((theme) => ({
         const handleClick = () => {
             setOpen(true);
         };
-        const handleClose = (event, reason) => {
-            if (reason === 'clickaway') {
-                return;
-            }
+        const handleClose = () => {
+            
             setOpen(false);
         };
 
@@ -72,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
                             console.log(error.response.data);
                             console.log(error.response.status);
                             console.log(error.response.headers);
+                            
                         } else if (error.request) {
                             // The request was made but no response was received
                             // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
@@ -91,14 +90,8 @@ const useStyles = makeStyles((theme) => ({
                             marginTop: theme.spacing(2),
                         },
                     },
-                }));
-                render(
-                    <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
-                        <Alert onClose={handleClose} severity="error" variant="filled">
-                            Passwords Don't Match!
-                        </Alert>
-                    </Snackbar>
-                )
+                })); 
+                handleClick();
             }
         }
 
@@ -161,12 +154,15 @@ const useStyles = makeStyles((theme) => ({
                         <Typography component="h1" variant="subtitle2">
                             * Denotes required field
                         </Typography>
+
+                       
+
                         <Button
-                            onClick={() => {
+                             onClick={() => {
                                 AxiosCall(username,password, password2, email);
-                                handleClick()
+                                
                             }}
-                            onSubmit={e => e.preventDefault()}
+                            // onSubmit={e => e.preventDefault()}
                             type="submit"
                             fullWidth
                             variant="contained"
@@ -176,6 +172,12 @@ const useStyles = makeStyles((theme) => ({
                         >
                             Sign Up
                         </Button>
+
+                        <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
+                        <Alert onClose={handleClose} severity="error" variant="filled">
+                            Passwords do not match!
+                        </Alert>
+                    </Snackbar>
 
                         <Grid container>
                             <Grid item>
