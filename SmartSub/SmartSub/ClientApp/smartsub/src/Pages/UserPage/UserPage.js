@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Collapse from '@material-ui/core/Collapse';
@@ -7,7 +6,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
@@ -16,14 +14,16 @@ import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import EditIcon from '@material-ui/icons/Edit';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import axios from "axios";
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
-import {AppBar, Container, Toolbar} from "@material-ui/core";
+import {Container} from "@material-ui/core";
 import {Checkbox} from '@material-ui/core';
-import {BrowserRouter as Router, useHistory} from 'react-router-dom';
+import {BrowserRouter as Router, useHistory, useParams} from 'react-router-dom';
 import moment from 'moment';
+import Button from "@material-ui/core/Button";
+
+
 
 const columns = [
    
@@ -56,13 +56,45 @@ const useRowStyles = makeStyles({
     root: {
         '& > *': {
             borderBottom: 'unset',
+            color: "black",
+            background: "white"
         },
     },
 });
-
-
-
+    
 function Row(props) {
+
+    const { id } = useParams()
+
+//    DELETE SUBSCRIPTION AXIOS CALL
+   let DeleteSubAxios = (subId) => {
+    console.log(subId);
+        axios.delete(`/api/subs/${subId}`).then((res) => {
+            if (res.status == 200){
+                console.log('Subscription Deleted')
+            }
+        })
+        .catch(function (error) {
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+                alert(error.response.data)
+            } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                // http.ClientRequest in node.js
+                console.log(error.request);
+                alert("Request made but not received please try again")
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+            }
+            console.log(error.config);
+        })
+    }
     
     const { row } = props;
     const [state, setState] = React.useState({checked:false});
@@ -71,21 +103,20 @@ function Row(props) {
     const handleChange = (event) => {
         setState({ ...state, [event.target.name]: event.target.checked });
     };
-    
+        
     return (
         <React.Fragment>
             <TableRow className={classes.root}>
                 <TableCell>
-                    <Checkbox
-                        color = "black"
-                        style={{background:'linear-gradient(45deg, #8e00be 30%, #3100cd 90%)',}}
+                    <Button>
+                    <DeleteIcon onClick={()=>DeleteSubAxios(row.id)} style={{color: "black"}}
                         checked={state.checked}
                         onChange={handleChange}
                         name="checked"
                     >
-
-                    </Checkbox>
-                    <IconButton aria-label="expand row" size="large" onClick={() => setOpen(!open)}>
+                    </DeleteIcon>
+                    </Button>
+                    <IconButton aria-label="expand row" size="large" style={{color: "black"}} onClick={() => setOpen(!open)}>
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
                 </TableCell>
@@ -94,17 +125,18 @@ function Row(props) {
                 {/* <TableCell component="th" scope="row">
                     {row.name}
                 </TableCell> */}
-                
+                {/* <TableCell >{row.id}</TableCell> */}
                 <TableCell >{row.provider}</TableCell>
                 <TableCell >{row.price}</TableCell>
                 <TableCell >{row.paymentFrequency}</TableCell>
                 <TableCell >{moment(row.renewDate).format('MMM Do YYYY')}</TableCell>
+        
             </TableRow>
             <TableRow>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                <TableCell style={{ paddingBottom: 0, paddingTop: 0, background: "white" }} colSpan={6}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box margin={1}>
-                            <Typography variant="h6" gutterBottom component="div">
+                            <Typography variant="b1" gutterBottom component="div" style={{color: "black"}}>
                                 {row.note}
                             </Typography>
                             <Table size="small" aria-label="purchases">
@@ -121,8 +153,8 @@ function Row(props) {
     );
 }
 
-
 export default function CollapsibleTable() {
+    // const { row } = props;
     const [tableInfo, setTableInfo] = useState({
         col: [{
             id: "Id",
@@ -145,17 +177,7 @@ export default function CollapsibleTable() {
                 })
             })
     },[])
-
-    function DeleteSubAxios() {
-
-    }
-
-    DeleteSubAxios(() => {
-        axios.get('/api/subs/GetSubById')
-            .then((response) => {
-
-            })
-    },[])
+    
     const rows = tableInfo.info;
 
     const history = useHistory();
@@ -165,26 +187,22 @@ export default function CollapsibleTable() {
   };
 
     return (
+        <Container>
+            <Button onClick={routeChange} variant="outlined" startIcon={<AddIcon></AddIcon>}
+                    style={{borderColor: "white", marginRight: 0, color: "white", background: "black"}}
+            >
+                Create
+            </Button>
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table">
-                <TableHead style={{textTransform: "uppercase"}}>
-                   
-                    <IconButton onClick={routeChange}>
-                        <AddIcon></AddIcon>
-                    </IconButton>
-                    <IconButton onClick={DeleteSubAxios()}>
-                        <DeleteIcon></DeleteIcon>
-                    </IconButton>
-                    <IconButton>
-                        <EditIcon></EditIcon>
-                    </IconButton>
+                <TableHead style={{textTransform: "uppercase", background: "black"}}>
                     <TableRow>
                         <TableCell style = {{minWidth: 100}} align = {'right'}/>
                         {columns.map((column) => (
                             <TableCell
                                 key={column.id}
                                 align={column.align}
-                                style={{ minWidth: column.minWidth }}
+                                style={{ minWidth: column.minWidth, color: "white" }}
                                 checkboxSelection
                             >
                                 {column.label}
@@ -194,11 +212,11 @@ export default function CollapsibleTable() {
                 </TableHead>
                 <TableBody>
                     {rows.map((row) => (
-                        <Row key={row.name} row={row} />
+                        <Row key={row.name} row={row}  />
                     ))}
                 </TableBody>
-
             </Table>
         </TableContainer>
+        </Container>
     );
 }
