@@ -33,12 +33,11 @@ export default function Login() {
 
     const [open, setOpen] = React.useState(false);
     const handleClick = () => {
+        
         setOpen(true);
     };
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
+    const handleClose = (reason) => {
+        
         setOpen(false);
     };
 
@@ -63,6 +62,8 @@ export default function Login() {
                     console.log(error.response.data);
                     console.log(error.response.status);
                     console.log(error.response.headers);
+
+                    handleClick();
 
                 } else if (error.request) {
                     // The request was made but no response was received
@@ -116,15 +117,18 @@ export default function Login() {
                     <Typography component="h1" variant="subtitle2">
                         * Denotes required field
                     </Typography>
+
                     <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
-                        <Alert severity="error" variant="filled">
+                        <Alert onClose={handleClose} severity="error" variant="filled">
                             Invalid Login!
                         </Alert>
                     </Snackbar>
+                    
+                
                     <Button
                         onClick={() => {
                             LoginAxiosCall(username,password);
-                            handleClick();
+                            
                         }}
                         style={{backgroundColor: "black"}}
                         type="submit"
@@ -135,6 +139,9 @@ export default function Login() {
                     >
                         Sign In
                     </Button>
+
+                    
+
                     <Grid container>
                         <Grid item>
                             <Link to="/SignupPage" variant="body2" >
