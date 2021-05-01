@@ -36,7 +36,6 @@ const bull = <span className={classes.bullet}>•</span>;
 
     return(
         <div>
-
             <video
                 autoPlay
                 loop
@@ -49,19 +48,18 @@ const bull = <span className={classes.bullet}>•</span>;
                     height: "100%",
                     objectFit: "cover",
                     transform: "translate(-50%, -50%)",
-                    zIndex: "1"
+                    zIndex: "-1"
                 }}
             >
                 <source src={boom} type="video/mp4"/>
             </video>
-
             <Card className={classes.root} variant="outlined">
                 <CardContent>
                     <Typography className={classes.title}>
                         Smart Sub
                     </Typography>
                     <Typography variant="h6" component="h6" style={{color:'white'}}>
-                        About Us`
+                        About Us
                     </Typography>
                     <Typography className={classes.pos} style={{color:'white'}}>
                         <i>Smart Subscription Tracker</i>
@@ -81,7 +79,6 @@ const bull = <span className={classes.bullet}>•</span>;
                     </Button>
                 </CardActions>
             </Card>
-
         </div>
     )
 }
