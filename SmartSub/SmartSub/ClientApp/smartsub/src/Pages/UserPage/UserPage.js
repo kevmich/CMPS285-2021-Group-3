@@ -130,6 +130,9 @@ function Row(props) {
                 <TableCell >{row.price}</TableCell>
                 <TableCell >{row.paymentFrequency}</TableCell>
                 <TableCell >{moment(row.renewDate).format('MMM Do YYYY')}</TableCell>
+                <Button>
+                    <EditIcon></EditIcon>
+                </Button>
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0, background: "white" }} colSpan={6}>
