@@ -65,7 +65,7 @@ export default function Login() {
                     console.log(error.response.status);
                     console.log(error.response.headers);
                     render(
-                        <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
+                        <Snackbar open={open} autoHideDuration={1} onClose={handleClose}>
                             <Alert onClose={handleClose} severity="error" variant="filled">
                                 Invalid Login!
                             </Alert>
@@ -126,7 +126,6 @@ export default function Login() {
                     <Button
                         onClick={() => {
                             LoginAxiosCall(username,password);
-                            handleClick()
                         }}
                         style={{backgroundColor: "black"}}
                         type="submit"

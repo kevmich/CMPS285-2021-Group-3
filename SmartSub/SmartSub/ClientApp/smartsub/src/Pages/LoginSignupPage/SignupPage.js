@@ -1,10 +1,13 @@
 import React, {useState} from 'react';
-import {Grid, Box, Typography, Container, Avatar, Button,
-    FormControlLabel, CssBaseline, TextField, Checkbox, makeStyles} from '@material-ui/core';
+import {
+    Grid, Box, Typography, Container, Avatar, Button,
+    FormControlLabel, CssBaseline, TextField, Checkbox, makeStyles, Snackbar
+} from '@material-ui/core';
 import {Link, Redirect } from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import axios from "axios";
 import { Alert, AlertTitle } from '@material-ui/lab';
+import {render} from "@testing-library/react";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -34,6 +37,17 @@ const useStyles = makeStyles((theme) => ({
         const [password2, setPassword2] = useState("");
         const [email, setEmail] = useState("");
         const [redirect, setRedirect] = useState(false);
+
+        const [open, setOpen] = React.useState(false);
+        const handleClick = () => {
+            setOpen(true);
+        };
+        const handleClose = (event, reason) => {
+            if (reason === 'clickaway') {
+                return;
+            }
+            setOpen(false);
+        };
 
         let AxiosCall = (username, password, password2, email) => {
             console.log(username, password, password2, email);
@@ -69,9 +83,6 @@ const useStyles = makeStyles((theme) => ({
                         }
                         console.log(error.config);
                     })
-
-
-
             } else {
                 const useStyles = makeStyles((theme) => ({
                     root: {
@@ -81,8 +92,13 @@ const useStyles = makeStyles((theme) => ({
                         },
                     },
                 }));
-                alert("Your passwords dont match")
-
+                render(
+                    <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
+                        <Alert onClose={handleClose} severity="error" variant="filled">
+                            Passwords Don't Match!
+                        </Alert>
+                    </Snackbar>
+                )
             }
         }
 
@@ -146,7 +162,10 @@ const useStyles = makeStyles((theme) => ({
                             * Denotes required field
                         </Typography>
                         <Button
-                            onClick={()=>AxiosCall(username, password, password2, email)}
+                            onClick={() => {
+                                AxiosCall(username,password, password2, email);
+                                handleClick()
+                            }}
                             onSubmit={e => e.preventDefault()}
                             type="submit"
                             fullWidth
