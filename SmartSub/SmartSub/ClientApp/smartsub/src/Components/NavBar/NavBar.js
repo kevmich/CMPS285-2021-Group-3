@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, Component } from 'react';
 import {
     AppBar,
     Toolbar,
@@ -36,8 +36,6 @@ const navLinks = [
     { title: `login`, path: `/LoginPage` },
     { title: `sign up`, path: `/SignupPage` }
 ];
-
-
 
 const NavBar = () => {
 
@@ -77,17 +75,24 @@ const NavBar = () => {
         .then(res => {// Success case
 
             return <Redirect to={'/'}/>
-            // console.log('REEEEEEEEEEEEEEr ' + res)
-            // if(res.response.status === 200){
-            //     console.log("Logout was successful")
-            //     console.log(res);
-            //
-            // }
+            console.log('REEEEEEEEEEEEEEr ' + res)
+            if(res.response.status === 200){
+                console.log("Logout was successful")
+                console.log(res);
+
+            }
         });
     }
 
+    const [buttonThere, setButtonThere] = React.useState(false);
+    const handleLogin = () => {
+        setButtonThere(true);
+    };
+    const handleLogout = () => {
+        setButtonThere(false);
 
-            const isLoggedIn = this.state.isLoggedIn;
+    };
+
 
             return !redirect ? (
                 <div>
@@ -113,13 +118,23 @@ const NavBar = () => {
                                     ))}
                                 </List>
                             </Container>
+                            {
+                                buttonThere
+                                    ?
+                                    handleLogout():
+                                    <Button size={'large'}
+                                            onClick={() => LogOutAxiosCall()}
+                                            style={{color: 'white', fontSize: 16}}
+                                            className={classes.linkText}>
+                                        logout
+                                    </Button>
+                            }
                             {/* logout button */}
-                            <Button size={'large'} onClick={() => LogOutAxiosCall()}
-                                    style={{color: 'white', fontSize: 16}}
-                                    className={classes.linkText}>
-                                logout
-                            </Button>
-
+                            {/*<Button size={'large'} onClick={() => LogOutAxiosCall()}*/}
+                            {/*        style={{color: 'white', fontSize: 16}}*/}
+                            {/*        className={classes.linkText}>*/}
+                            {/*    logout*/}
+                            {/*</Button>*/}
                         </Toolbar>
                     </AppBar>
                 </div>
