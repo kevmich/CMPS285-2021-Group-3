@@ -138,6 +138,7 @@ const useStyles = makeStyles((theme) => ({
                             label="Password"
                             type="password"
                             id="password"
+                            helperText="Must include one capital letter, number, and special character"
                             onChange={(e) => setPassword(e.target.value)}
                         />
                         <TextField
@@ -155,14 +156,13 @@ const useStyles = makeStyles((theme) => ({
                             * Denotes required field
                         </Typography>
 
-                       
 
                         <Button
                              onClick={() => {
                                 AxiosCall(username,password, password2, email);
                                 
                             }}
-                            // onSubmit={e => e.preventDefault()}
+                            onSubmit={e => e.preventDefault()}
                             type="submit"
                             fullWidth
                             variant="contained"
