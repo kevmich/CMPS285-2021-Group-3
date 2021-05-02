@@ -13,15 +13,16 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import EditIcon from '@material-ui/icons/Edit';
 import axios from "axios";
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
-import {Container} from "@material-ui/core";
+import {Container, Snackbar} from "@material-ui/core";
 import {Checkbox} from '@material-ui/core';
 import {BrowserRouter as Router, useHistory, useParams} from 'react-router-dom';
 import moment from 'moment';
 import Button from "@material-ui/core/Button";
+import {Alert} from "@material-ui/lab";
+
 
 
 
@@ -66,12 +67,24 @@ function Row(props) {
 
     const { id } = useParams()
 
+    const [Delete, setDelete] = React.useState(false);
+    const handleClickDelete = () => {
+        
+        setDelete(true);
+    };
+    const handleCloseDelete = () => {
+        
+        setDelete(false);
+    };
+
 //    DELETE SUBSCRIPTION AXIOS CALL
    let DeleteSubAxios = (subId) => {
     console.log(subId);
         axios.delete(`/api/subs/${subId}`).then((res) => {
             if (res.status == 200){
                 console.log('Subscription Deleted')
+                handleClickDelete();
+                window.location.reload();
             }
         })
         .catch(function (error) {
@@ -103,13 +116,26 @@ function Row(props) {
     const handleChange = (event) => {
         setState({ ...state, [event.target.name]: event.target.checked });
     };
-        
+
+
+    // onClick={()=>DeleteSubAxios(row.id)} THIS IS THE AXIOS CALL TO DELETE
     return (
+
+
         <React.Fragment>
             <TableRow className={classes.root}>
                 <TableCell>
-                    <Button>
-                    <DeleteIcon onClick={()=>DeleteSubAxios(row.id)} style={{color: "black"}}
+                <Snackbar open={Delete} autoHideDuration={4000} onClose={handleCloseDelete}>
+                    
+                    <Alert onClose={handleCloseDelete} severity="success" variant="filled">
+                        Subscription Deleted!
+                    </Alert>
+
+                </Snackbar>
+
+                    <Button onClick={() => DeleteSubAxios(row.id)}>
+                    <DeleteIcon  
+                        style={{color: "black"}}
                         checked={state.checked}
                         onChange={handleChange}
                         name="checked"
@@ -154,7 +180,7 @@ function Row(props) {
 }
 
 export default function CollapsibleTable() {
-    // const { row } = props;
+    
     const [tableInfo, setTableInfo] = useState({
         col: [{
             id: "Id",
