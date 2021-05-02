@@ -26,18 +26,20 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function Login() {
+    const classes = useStyles();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const classes = useStyles();
     const [redirect, setRedirect] = useState(false);
-
+    // const [isLoggedIn] = useState(false);
+    // const setCookieFunction = (isLoggedIn) => {
+    //     window.localStorage.setItem(true, isLoggedIn)
+    // }
     const [open, setOpen] = React.useState(false);
     const handleClick = () => {
-        
         setOpen(true);
     };
     const handleClose = () => {
-        
+
         setOpen(false);
     };
 
@@ -64,6 +66,7 @@ export default function Login() {
                     console.log(error.response.headers);
 
                     handleClick();
+
 
                 } else if (error.request) {
                     // The request was made but no response was received

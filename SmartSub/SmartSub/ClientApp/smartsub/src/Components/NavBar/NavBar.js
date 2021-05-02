@@ -12,6 +12,7 @@ import {
 import { Home } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link, Redirect} from 'react-router-dom';
+
 import axios from 'axios';
 
 const useStyles = makeStyles({
@@ -42,7 +43,8 @@ const NavBar = () => {
     const classes = useStyles();
 
     const [redirect, setRedirect] = useState(false);
-
+    // const [isLoggedIn] = useState(window.localStorage.getItem(isLoggedIn));
+    //
     let LogOutAxiosCall = () => {
         axios({
             method: 'post',
@@ -69,6 +71,7 @@ const NavBar = () => {
             console.log(error.config);
         }).then((res) => {
                 if (res.status == 200){
+                   // setIsLoggedIn(false);
                     setRedirect(true);
                 }
             })
@@ -83,16 +86,15 @@ const NavBar = () => {
             }
         });
     }
-
-    const [buttonThere, setButtonThere] = React.useState(false);
-    const handleLogin = () => {
-        setButtonThere(true);
-    };
-    const handleLogout = () => {
-        setButtonThere(false);
-
-    };
-
+    //
+    // const [buttonThere, setButtonThere] = React.useState(false);
+    // const handleLogin = () => {
+    //     setButtonThere(true);
+    // };
+    // const handleLogout = () => {
+    //     setButtonThere(false);
+    //
+    // };
 
             return !redirect ? (
                 <div>
@@ -118,23 +120,22 @@ const NavBar = () => {
                                     ))}
                                 </List>
                             </Container>
-                            {
-                                buttonThere
-                                    ?
-                                    handleLogout():
-                                    <Button size={'large'}
-                                            onClick={() => LogOutAxiosCall()}
-                                            style={{color: 'white', fontSize: 16}}
-                                            className={classes.linkText}>
-                                        logout
-                                    </Button>
-                            }
-                            {/* logout button */}
-                            {/*<Button size={'large'} onClick={() => LogOutAxiosCall()}*/}
-                            {/*        style={{color: 'white', fontSize: 16}}*/}
-                            {/*        className={classes.linkText}>*/}
-                            {/*    logout*/}
-                            {/*</Button>*/}
+                            {/*{*/}
+                            {/*    localStorage.isLoggedIn*/}
+                            {/*        ?*/}
+                            {/*        handleLogout():*/}
+                            {/*        <Button size={'large'}*/}
+                            {/*                onClick={() => LogOutAxiosCall()}*/}
+                            {/*                style={{color: 'white', fontSize: 16}}*/}
+                            {/*                className={classes.linkText}>*/}
+                            {/*            logout*/}
+                            {/*        </Button>*/}
+                            {/*}*/}
+                            <Button size={'large'} onClick={() => LogOutAxiosCall()}
+                                    style={{color: 'white', fontSize: 16}}
+                                    className={classes.linkText}>
+                                logout
+                            </Button>
                         </Toolbar>
                     </AppBar>
                 </div>
