@@ -7,6 +7,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import {Link} from "react-router-dom";
 
 const useStyles = makeStyles({
     root: {
@@ -74,8 +75,8 @@ const bull = <span className={classes.bullet}>•</span>;
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button variant="outlined" style={{color:'white', background:'linear-gradient(45deg, #8e00be 30%, #3100cd 90%)',}}>
-                        Learn More
+                    <Button component={Link} to='/SignUpPage'variant="outlined" style={{color:'white', background:'linear-gradient(45deg, #8e00be 30%, #3100cd 90%)',}}>
+                        SIGN UP
                     </Button>
                 </CardActions>
             </Card>

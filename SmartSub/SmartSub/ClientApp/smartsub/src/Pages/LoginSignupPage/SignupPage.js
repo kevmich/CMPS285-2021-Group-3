@@ -1,13 +1,12 @@
 import React, {useState} from 'react';
 import {
     Grid, Box, Typography, Container, Avatar, Button,
-    FormControlLabel, CssBaseline, TextField, Checkbox, makeStyles, Snackbar
+    FormControlLabel, CssBaseline, TextField, makeStyles, Snackbar
 } from '@material-ui/core';
 import {Link, Redirect } from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import axios from "axios";
-import { Alert, AlertTitle } from '@material-ui/lab';
-import {render} from "@testing-library/react";
+import { Alert } from '@material-ui/lab';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -138,6 +137,7 @@ const useStyles = makeStyles((theme) => ({
                             label="Password"
                             type="password"
                             id="password"
+                            helperText="Must include one capital letter, number, and special character"
                             onChange={(e) => setPassword(e.target.value)}
                         />
                         <TextField
@@ -155,14 +155,13 @@ const useStyles = makeStyles((theme) => ({
                             * Denotes required field
                         </Typography>
 
-                       
 
                         <Button
                              onClick={() => {
                                 AxiosCall(username,password, password2, email);
                                 
                             }}
-                            // onSubmit={e => e.preventDefault()}
+                            onSubmit={e => e.preventDefault()}
                             type="submit"
                             fullWidth
                             variant="contained"
