@@ -1,4 +1,3 @@
-
 import React from 'react';
 import boom from "./video/boom.mp4";
 import { makeStyles } from '@material-ui/core/styles';
@@ -66,11 +65,12 @@ const bull = <span className={classes.bullet}>•</span>;
                         <i>Smart Subscription Tracker</i>
                     </Typography>
                     <Typography variant="body1" component="p" style={{color:'white'}}>
-                        SmartSub is a website designed to help people manage their subscriptions. The average number of
+                        SmartSub is a website designed to help people manage all of their subscriptions. The average number of
                         services people are subscribed to is becoming far too cumbersome for any one person to reasonably manage.
-                        SmartSub allows for a very simple user interface that creates and easy, streamlined experience for any user
-                        to add a subscription to their personalized list, manage the price of each sub, and view a calender showing
-                        their upcoming charges for the next month. If you are a new user, please click the sign up button to begin simplifying the management of your subscriptions!
+                        SmartSub allows for a simple user interface that creates an easy, streamlined experience for any user
+                        to add a subscription to their personalized list, manage the price of each, as well as view the date of
+                        their upcoming charges for the next month. If you are a new user, please click the sign up button
+                        to begin the effortless management of your subscriptions!
                         <br />
                     </Typography>
                 </CardContent>
