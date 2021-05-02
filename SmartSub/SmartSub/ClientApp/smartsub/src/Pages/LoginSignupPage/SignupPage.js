@@ -1,13 +1,12 @@
 import React, {useState} from 'react';
 import {
     Grid, Box, Typography, Container, Avatar, Button,
-    FormControlLabel, CssBaseline, TextField, Checkbox, makeStyles, Snackbar
+    FormControlLabel, CssBaseline, TextField, makeStyles, Snackbar
 } from '@material-ui/core';
 import {Link, Redirect } from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import axios from "axios";
-import { Alert, AlertTitle } from '@material-ui/lab';
-import {render} from "@testing-library/react";
+import { Alert } from '@material-ui/lab';
 
 
 const useStyles = makeStyles((theme) => ({
