@@ -196,8 +196,8 @@ const useStyles = makeStyles((theme) => ({
 
                         <Grid container>
                             <Grid item>
-                                <Link to="/" variant="body2">
-                                    {"Back to home page?"}
+                                <Link to="/UserPage/" variant="body2">
+                                    {"Back to user page?"}
                                 </Link>
                             </Grid>
                         </Grid>

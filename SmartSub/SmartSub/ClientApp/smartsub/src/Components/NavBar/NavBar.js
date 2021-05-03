@@ -120,17 +120,7 @@ const NavBar = () => {
                                     ))}
                                 </List>
                             </Container>
-                            {/*{*/}
-                            {/*    localStorage.isLoggedIn*/}
-                            {/*        ?*/}
-                            {/*        handleLogout():*/}
-                            {/*        <Button size={'large'}*/}
-                            {/*                onClick={() => LogOutAxiosCall()}*/}
-                            {/*                style={{color: 'white', fontSize: 16}}*/}
-                            {/*                className={classes.linkText}>*/}
-                            {/*            logout*/}
-                            {/*        </Button>*/}
-                            {/*}*/}
+
                             <Button size={'large'} onClick={() => LogOutAxiosCall()}
                                     style={{color: 'white', fontSize: 16}}
                                     className={classes.linkText}>
