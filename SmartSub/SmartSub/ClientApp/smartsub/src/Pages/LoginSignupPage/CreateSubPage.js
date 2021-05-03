@@ -150,6 +150,7 @@ const useStyles = makeStyles((theme) => ({
                             type="paymentFrequency"
                             id="paymentFrequency"
                             onChange={(e) => setPaymentFrequency(e.target.value)}
+                            helperText={"Weekly, Monthly, or Annually"}
                         />
                         <form className={classes.container} noValidate>
                             <TextField
