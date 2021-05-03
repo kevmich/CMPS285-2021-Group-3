@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
 import {
-    Grid, Box, Typography, Container, Avatar, Button,
-    FormControlLabel, CssBaseline, TextField, Checkbox, makeStyles, createMuiTheme,
+    Grid, Box, Typography, Container, Avatar, Button, CssBaseline, TextField, makeStyles, Snackbar,
 } from '@material-ui/core';
 import {Link, Redirect} from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import axios from 'axios';
-
+import {Alert} from "@material-ui/lab";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -25,12 +24,24 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
 export default function Login() {
+    const classes = useStyles();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const classes = useStyles();
-
     const [redirect, setRedirect] = useState(false);
+    // const [isLoggedIn] = useState(false);
+    // const setCookieFunction = (isLoggedIn) => {
+    //     window.localStorage.setItem(true, isLoggedIn)
+    // }
+    const [open, setOpen] = React.useState(false);
+    const handleClick = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+
+        setOpen(false);
+    };
 
     let LoginAxiosCall = (username, password) => {
         console.log(username, password);
@@ -53,11 +64,16 @@ export default function Login() {
                     console.log(error.response.data);
                     console.log(error.response.status);
                     console.log(error.response.headers);
+
+                    handleClick();
+
+
                 } else if (error.request) {
                     // The request was made but no response was received
                     // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
                     // http.ClientRequest in node.js
                     console.log(error.request);
+                    alert("Request made but not received please try again")
                 } else {
                     // Something happened in setting up the request that triggered an Error
                     console.log('Error', error.message);
@@ -104,8 +120,18 @@ export default function Login() {
                     <Typography component="h1" variant="subtitle2">
                         * Denotes required field
                     </Typography>
-                    <Button 
-                        onClick={()=>LoginAxiosCall(username, password)}
+
+                    <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
+                        <Alert onClose={handleClose} severity="error" variant="filled">
+                            Invalid Login!
+                        </Alert>
+                    </Snackbar>
+                    
+                
+                    <Button
+                        onClick={() => {
+                            LoginAxiosCall(username,password);
+                        }}
                         style={{backgroundColor: "black"}}
                         type="submit"
                         fullWidth
@@ -115,6 +141,9 @@ export default function Login() {
                     >
                         Sign In
                     </Button>
+
+                    
+
                     <Grid container>
                         <Grid item>
                             <Link to="/SignupPage" variant="body2" >

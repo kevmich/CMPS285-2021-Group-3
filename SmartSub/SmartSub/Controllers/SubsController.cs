@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace SmartSub.Controllers
 {
 
-    [Route("[controller]")]
+    [Route("api/subs")]
     [ApiController]
     public class SubsController : ControllerBase
     {
@@ -37,6 +37,7 @@ namespace SmartSub.Controllers
             {
 
                 User user = await GetCurrentUserAsync();
+
 
                 if (dto.Price < 0)
                 {
@@ -74,7 +75,7 @@ namespace SmartSub.Controllers
         }
 
         [Authorize]
-        [HttpDelete("DeleteSub")]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteSub(int id)
         {
             using (var transaction = dataContext.Database.BeginTransaction())
@@ -149,10 +150,10 @@ namespace SmartSub.Controllers
             var subscriptions = await dataContext.Set<Subscription>().Where(x => x.userId == user.Id).Select(x =>
                 new GetSubDto{
                     Id = x.Id,
-                    RenewDate = x.RenewDate,
-                    Price = x.Price,
                     Provider = x.Provider,
+                    Price = x.Price,
                     PaymentFrequency = x.paymentFrequency,
+                    RenewDate = x.RenewDate,
                     Note = x.Note}
                 ).ToListAsync();
 
@@ -161,7 +162,7 @@ namespace SmartSub.Controllers
         }
 
         [Authorize]
-        [HttpGet("GetSubById")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Subscription>> GetById(int id)
         {
             if (userManager.FindByIdAsync(id.ToString()) == null)
