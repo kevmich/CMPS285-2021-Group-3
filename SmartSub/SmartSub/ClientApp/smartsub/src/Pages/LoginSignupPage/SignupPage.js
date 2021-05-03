@@ -137,7 +137,7 @@ const useStyles = makeStyles((theme) => ({
                             label="Password"
                             type="password"
                             id="password"
-                            helperText="Must include one capital letter, number, and special character"
+                            helperText="Must be at least 8 characters and include one capital letter, number, and special character"
                             onChange={(e) => setPassword(e.target.value)}
                         />
                         <TextField
