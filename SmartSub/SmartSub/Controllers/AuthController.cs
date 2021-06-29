@@ -140,7 +140,8 @@ namespace SmartSub.Controllers
 
             User user = await GetCurrentUserAsync();
 
-            return Ok(user);
+
+           return Ok(user);
         }
 
     }
