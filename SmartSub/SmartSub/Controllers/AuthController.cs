@@ -134,5 +134,14 @@ namespace SmartSub.Controllers
             return Ok();
         }
 
+        [HttpPost("UserLogInStatus")]
+        public async Task<ActionResult> IsLoggedIn()
+        {
+
+            User user = await GetCurrentUserAsync();
+
+            return Ok(user);
+        }
+
     }
 }
