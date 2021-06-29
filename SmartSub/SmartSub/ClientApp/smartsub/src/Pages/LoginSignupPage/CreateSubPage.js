@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
                         provider: provider,
                         price: price,
                         paymentFrequency: paymentFrequency,
-                        renewDate: '2021-04-29T05:02:55.443Z',
+                        renewDate: renewDate,
                         note: note
                     }
                 }).then((res) => {

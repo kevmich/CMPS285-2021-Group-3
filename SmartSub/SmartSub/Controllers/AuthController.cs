@@ -138,9 +138,7 @@ namespace SmartSub.Controllers
         public async Task<ActionResult> IsLoggedIn()
         {
 
-            User user = await GetCurrentUserAsync();
-
-
+           User user = await GetCurrentUserAsync();
            return Ok(user);
         }
 
