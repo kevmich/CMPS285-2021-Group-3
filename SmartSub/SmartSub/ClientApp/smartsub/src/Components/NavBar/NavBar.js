@@ -34,7 +34,7 @@ const useStyles = makeStyles({
 
 const navLinks = [
     { title: `user page`, path: `/UserPage` },
-    { title: `login`, path: `/LoginPage` },
+    // { title: `login`, path: `/LoginPage` },
     { title: `sign up`, path: `/SignupPage` }
 ];
 
@@ -43,8 +43,10 @@ const NavBar = () => {
     const classes = useStyles();
 
     const [redirect, setRedirect] = useState(false);
-    // const [isLoggedIn] = useState(window.localStorage.getItem(isLoggedIn));
-    //
+    
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    
+
     let LogOutAxiosCall = () => {
         axios({
             method: 'post',
@@ -71,8 +73,9 @@ const NavBar = () => {
             console.log(error.config);
         }).then((res) => {
                 if (res.status == 200){
-                   // setIsLoggedIn(false);
+                    
                     setRedirect(true);
+                    setIsLoggedIn(false);
                 }
             })
         .then(res => {// Success case
@@ -86,15 +89,7 @@ const NavBar = () => {
             }
         });
     }
-    //
-    // const [buttonThere, setButtonThere] = React.useState(false);
-    // const handleLogin = () => {
-    //     setButtonThere(true);
-    // };
-    // const handleLogout = () => {
-    //     setButtonThere(false);
-    //
-    // };
+
 
             return !redirect ? (
                 <div>
@@ -121,11 +116,23 @@ const NavBar = () => {
                                 </List>
                             </Container>
 
-                            <Button size={'large'} onClick={() => LogOutAxiosCall()}
+                            {/* THIS IS WHERE YOU MOVED THE LOGIN BUTTON TO ATTEMPT TO CONDITIONALLY RENDER */}
+                            <Button size={'large'} onClick={() => setIsLoggedIn(true)}
+                                    style={{color: 'white', fontSize: 16}}
+                                    className={classes.linkText}>
+                                login
+                            </Button> 
+                            
+                           { isLoggedIn? <Button size={'large'} onClick={() => LogOutAxiosCall()}
                                     style={{color: 'white', fontSize: 16}}
                                     className={classes.linkText}>
                                 logout
-                            </Button>
+                            </Button> : null
+                            }   
+
+                            
+                            
+
                         </Toolbar>
                     </AppBar>
                 </div>
